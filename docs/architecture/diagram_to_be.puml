@@ -39,4 +39,7 @@ Rel_Neighbor(billing_service, event_broker, "Публикует", "bill.(created
 Rel(payment_system, billing_service, "Подтверждает оплату")
 
 Rel(admin, billing_service, "Контролирует оплату подписок")
+
+Lay_R(notification_service, billing_service)
+Lay_R(notification_service, billing_service)
 @enduml
