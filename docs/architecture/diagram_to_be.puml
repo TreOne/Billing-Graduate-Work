@@ -1,0 +1,41 @@
+@startuml
+!include diagram_stuff/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define DEVICONSTWO https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!define SPRITESURL https://raw.githubusercontent.com/rabelenda/cicon-plantuml-sprites/v1.0/sprites
+!include DEVICONSTWO/flask_original.puml
+!include DEVICONSTWO/django.puml
+!include FONTAWESOME/credit_card.puml
+!include SPRITESURL/kafka.puml
+!include FONTAWESOME/envelope.puml
+
+'LAYOUT_AS_SKETCH()
+HIDE_STEREOTYPE()
+
+title Диаграмма системы Биллинга для PractixMovies
+
+Person(user, Пользователь, "Оплачивает подписку, чтобы получить роль subscriber.")
+Person(admin, Администратор, "Контроль оплаты подписок.")
+
+System_Boundary(c1, "Биллинговая система") {
+    Container(auth_api, "Auth API", "Flask, PostgreSQL", "Выдает токены с ролями пользователя.", "flask_original")
+    Container(notification_service, "Notification Service", "Django, Celery", "Формирует и отправляет уведомления пользователям.", "envelope")
+    Container(billing_service, "Billing Service", "Django, Celery, PostgreSQL", "Контроль за созданием и оплатой счетов.", "django")
+    ContainerDb(event_broker, "Брокер Событий", "Apache Kafka", "Обмен событиями о создании счетов, оплате подписки и т.д.", "kafka")
+}
+
+System_Ext(payment_system, "Платежная система", "Прием денежных средств от пользователя.", "credit_card")
+
+Rel_U(auth_api, user, "Обновляет роль", "JWT")
+Rel_Neighbor(user, payment_system, "Оплачивает счет")
+Rel_U(notification_service, user, "Отправляет уведомление")
+
+Rel_U(event_broker, auth_api, "Потребляет", "bill.(paid/refunded)")
+Rel_U(event_broker, notification_service, "Потребляет", "bill.(created/paid/refunded)")
+Rel_Neighbor(billing_service, event_broker, "Публикует", "bill.(created/paid/refused/refunded)")
+
+Rel(payment_system, billing_service, "Подтверждает оплату")
+
+Rel(admin, billing_service, "Контролирует оплату подписок")
+@enduml
