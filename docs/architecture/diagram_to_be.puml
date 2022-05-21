@@ -29,7 +29,8 @@ System_Ext(payment_system, "Платежная система", "Прием де
 
 Rel_U(auth_api, user, "Обновляет роль", "JWT")
 Rel_Neighbor(user, payment_system, "Оплачивает счет")
-Rel_U(notification_service, user, "Отправляет уведомление")
+Rel_Neighbor(user, billing_service, "Запрашивает услугу (подписка/покупка/возврат)", "REST API")
+Rel_U(notification_service, user, "Отправляет уведомление", "STMT")
 
 Rel_U(event_broker, auth_api, "Потребляет", "bill.(paid/refunded)")
 Rel_U(event_broker, notification_service, "Потребляет", "bill.(created/paid/refunded)")
