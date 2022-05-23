@@ -1,0 +1,138 @@
+version: '3.8'
+
+services:
+  notification_api:
+    build: api
+    environment:
+      RABBITMQ_USER: admin
+      RABBITMQ_PASS: admin
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    volumes:
+      - notification_api_logs:/home/app/logs
+    expose:
+      - 8000
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - external_movie_network
+
+  email_sender:
+    build: email_sender
+    environment:
+      rabbitmq__user: admin
+      rabbitmq__password: admin
+      rabbitmq__host: rabbitmq
+      rabbitmq__port: 5672
+      redis__host: redis
+      redis__port: 6379
+    volumes:
+      - email_sender_logs:/home/app/logs
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - external_movie_network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
+    expose:
+      - 5672  # amqp
+      - 15672  # http
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+    networks:
+      - external_movie_network
+
+  redis:
+    image: redis:6.2.6-alpine
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
+    expose:
+      - 6379
+    ports:
+      - "26379:6379"
+    networks:
+      - external_movie_network
+
+  filebeat:
+    # Образ filebeat удален с DockerHUB, а "docker.elastic.co" недоступен из России. Используйте VPN =(
+    image: docker.elastic.co/beats/filebeat:7.12.0
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elastic_logging:9200"
+      KIBANA_HOST: "http://kibana_logging"
+    volumes:
+      - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+      - notification_api_logs:/var/harvested_logs/api:ro
+      - email_sender_logs:/var/harvested_logs/email_sender:ro
+    entrypoint: filebeat -e -strict.perms=false
+    depends_on:
+      elastic_logging:
+        condition: service_healthy
+    networks:
+      - external_movie_network
+
+  elastic_logging:
+    image: elasticsearch:7.12.0
+    environment:
+      xpack.security.enabled: "false"
+      bootstrap.memory_lock: "true"
+      network.host: 0.0.0.0
+      discovery.type: single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: curl -s http://elastic_logging:9200/_cat/health >/dev/null || exit 1
+      interval: 5s
+      timeout: 20s
+      retries: 100
+    expose:
+      - 9200
+    volumes:
+      - elastic_logging_data:/tmp/elasticsearch/data
+    networks:
+      - external_movie_network
+
+  kibana_logging:
+    image: kibana:7.12.0
+    environment:
+      ELASTICSEARCH_URL: http://elastic_logging:9200
+      ELASTICSEARCH_HOSTS: '["http://elastic_logging:9200"]'
+    expose:
+      - 5601
+    depends_on:
+      elastic_logging:
+        condition: service_healthy
+    networks:
+      - external_movie_network
+
+volumes:
+  notification_api_logs:
+  email_sender_logs:
+  rabbitmq_data:
+  elastic_logging_data:
+
+
+networks:
+  external_movie_network:
+    name: movie_network
