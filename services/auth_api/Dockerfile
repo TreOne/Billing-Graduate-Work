@@ -60,14 +60,11 @@ RUN pip install --no-cache /wheels/*
 COPY --from=python-build-stage /usr/src/app/entrypoint.sh $HOME
 
 # Копируем файлы проекта
-COPY /src $APP_HOME/auth_api
-COPY /src/migrations $APP_HOME/migrations
+COPY /src/auth_api $APP_HOME/auth_api
+COPY /src/auth_api/migrations $APP_HOME/migrations
 
 # Изменяем владельца файлов на app
 RUN chown -R app:app $APP_HOME
 
 # Переключаемся на пользователя app
 USER app
-
-# Запускаем точку входа
-ENTRYPOINT ["/home/app/entrypoint.sh"]

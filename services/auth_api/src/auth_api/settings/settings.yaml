@@ -15,7 +15,7 @@ alchemy:
   track_modifications: False
 
 redis:
-  host: authredis
+  host: redis
   port: 6379
 
 jaeger:
