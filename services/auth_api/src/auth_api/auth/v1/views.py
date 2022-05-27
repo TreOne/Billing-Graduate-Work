@@ -1,14 +1,11 @@
-from http.client import BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN
+from http.client import BAD_REQUEST, CREATED
 
-import pyotp
 from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify, request
 from flask_jwt_extended import get_jwt, jwt_required
 from marshmallow import ValidationError
-from sqlalchemy import or_
 
-from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import (
     create_tokens,
     deactivate_access_token,
@@ -18,12 +15,12 @@ from auth_api.commons.jwt_utils import (
     get_user_uuid_from_token,
     is_active_token,
 )
-from auth_api.commons.utils import get_device_type
-from auth_api.extensions import apispec, db, jwt, pwd_context
-from auth_api.models import User
-from auth_api.models.user import AuthHistory
+from auth_api.exeptions import AuthServiceException
+from auth_api.extensions import apispec, jwt
+from auth_api.services.auth_service import AuthService
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth/v1')
+auth_service = AuthService()
 
 
 @blueprint.route('/signup', methods=['POST'])
@@ -77,20 +74,13 @@ def signup():
     """
     if not request.is_json:
         return jsonify({'msg': 'Missing JSON in request.'}), BAD_REQUEST
+    user_data = request.json
 
-    schema = UserSchema()
-    user = schema.load(request.json)
-
-    existing_user = User.query.filter(
-        or_(User.username == user.username, User.email == user.email),
-    ).first()
-    if existing_user:
-        return {'msg': 'Username or email is already taken!'}, CONFLICT
-
-    db.session.add(user)
-    db.session.commit()
-
-    return {'msg': 'User created.', 'user': schema.dump(user)}, CREATED
+    try:
+        user = auth_service.register_user(user_data)
+        return {'msg': 'User created.', 'user': user}, CREATED
+    except AuthServiceException as e:
+        return {'msg': str(e)}, e.http_code
 
 
 @blueprint.route('/login', methods=['POST'])

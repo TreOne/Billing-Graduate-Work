@@ -1,6 +1,5 @@
-from http.client import BAD_REQUEST, CONFLICT
+from http.client import BAD_REQUEST, METHOD_NOT_ALLOWED
 
-import pyotp
 from flask import Blueprint, current_app, jsonify, request
 from flask_jwt_extended import get_jwt, jwt_required
 from flask_restful import Api
@@ -14,12 +13,13 @@ from auth_api.api.v1.schemas.totp_request import TOTPRequestSchema
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import get_user_uuid_from_token, user_has_role
 from auth_api.commons.pagination import paginate
-from auth_api.extensions import apispec, db
-from auth_api.models.user import AuthHistory, Role, User
+from auth_api.exeptions import UserServiceException
+from auth_api.extensions import apispec
+from auth_api.services.user_service import UserService
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 api = Api(blueprint)
-
+user_service = UserService()
 
 api.add_resource(MeResource, '/users/me', endpoint='current_user')
 api.add_resource(UserResource, '/users/<uuid:user_uuid>', endpoint='user_by_uuid')
@@ -58,9 +58,8 @@ def get_self_history():
     """
     token = get_jwt()
     user_uuid = token['user_uuid']
-    auth_history = AuthHistory.query.filter_by(user_uuid=user_uuid).order_by(
-        AuthHistory.created_at.desc(),
-    )
+    auth_history = user_service.get_auth_history(user_uuid)
+
     schema = AuthHistorySchema(many=True)
 
     return paginate(auth_history, schema)
@@ -96,16 +95,7 @@ def get_totp_link():
     token = get_jwt()
     user_uuid = get_user_uuid_from_token(token)
 
-    user = User.query.filter_by(uuid=user_uuid).first()
-    if user.two_factor_secret is None:
-        secret = pyotp.random_base32()
-        user.two_factor_secret = secret
-        db.session.commit()
-    else:
-        secret = user.two_factor_secret
-
-    totp = pyotp.TOTP(secret)
-    provisioning_url = totp.provisioning_uri(name=user.username, issuer_name='PractixMovie')
+    provisioning_url = user_service.get_user_totp_link(user_uuid)
 
     return {'totp_link': provisioning_url}
 
@@ -162,26 +152,14 @@ def change_totp_status():
     """
     token = get_jwt()
     user_uuid = get_user_uuid_from_token(token)
-
-    user = User.query.filter_by(uuid=user_uuid).first()
     schema = TOTPRequestSchema()
     totp_request = schema.load(request.json)
-    totp_status = totp_request.get('totp_status')
-    totp_code = totp_request.get('totp_code')
 
-    if totp_status == user.is_totp_enabled:
-        return {'msg': 'This status has already been established.'}, CONFLICT
-
-    secret = user.two_factor_secret
-    totp = pyotp.TOTP(secret)
-
-    if not totp.verify(totp_code):
-        return {'msg': 'Wrong totp code.'}, BAD_REQUEST
-
-    user.is_totp_enabled = totp_status
-    db.session.commit()
-
-    return {'msg': f'Totp status changed to: {totp_status}'}
+    try:
+        totp_status = user_service.change_user_totp_status(user_uuid, totp_request)
+        return {'msg': f'Totp status changed to: {totp_status}'}
+    except UserServiceException as e:
+        return {'msg': str(e)}, e.http_code
 
 
 @blueprint.route('/users/<uuid:user_uuid>/history', methods=['GET'])
@@ -222,7 +200,7 @@ def get_user_history(user_uuid):
         429:
           $ref: '#/components/responses/TooManyRequests'
     """
-    auth_history = AuthHistory.query.filter_by(user_uuid=user_uuid)
+    auth_history = user_service.get_auth_history(user_uuid)
     schema = AuthHistorySchema(many=True)
 
     return paginate(auth_history, schema)
@@ -296,10 +274,11 @@ def get_user_roles(user_uuid):
         429:
           $ref: '#/components/responses/TooManyRequests'
     """
-    user = User.query.get_or_404(user_uuid)
+
+    roles = user_service.get_roles(user_uuid)
     schema = RoleSchema(many=True)
 
-    return {'roles': schema.dump(user.roles)}
+    return {'roles': schema.dump(roles)}
 
 
 @blueprint.route('/users/<uuid:user_uuid>/roles/<uuid:role_uuid>', methods=['PUT', 'DELETE'])
@@ -386,22 +365,15 @@ def user_roles(user_uuid, role_uuid):
           $ref: '#/components/responses/TooManyRequests'
     """
 
-    user = User.query.get_or_404(user_uuid)
-    role = Role.query.get_or_404(role_uuid)
-
     if request.method == 'PUT':
-        user.roles.append(role)
+        roles = user_service.add_role(user_uuid, role_uuid)
     elif request.method == 'DELETE':
-        if role in user.roles:
-            user.roles.remove(role)
-        else:
-            return {'msg': 'The user does not have this role.'}, CONFLICT
-
-    db.session.add(user)
-    db.session.commit()
+        roles = user_service.remove_role(user_uuid, role_uuid)
+    else:
+        return jsonify({'msg': 'Method not allowed.'}), METHOD_NOT_ALLOWED
 
     schema = RoleSchema(many=True)
-    return {'roles': schema.dump(user.roles)}
+    return {'roles': schema.dump(roles)}
 
 
 @blueprint.errorhandler(ValidationError)

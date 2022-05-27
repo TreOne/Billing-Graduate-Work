@@ -87,3 +87,7 @@ class AuthHistory(db.Model):
     device = db.Column(db.String(40), nullable=False)
     ip_address = db.Column(db.String(40), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+
+    __mapper_args__ = {
+        "order_by": created_at.desc(),
+    }
