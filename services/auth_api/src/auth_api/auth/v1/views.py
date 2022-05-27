@@ -128,41 +128,19 @@ def login():
     """
     if not request.is_json:
         return jsonify({'msg': 'Missing JSON in request'}), BAD_REQUEST
-
     username = request.json.get('username', None)
     password = request.json.get('password', None)
-    if not username or not password:
-        return jsonify({'msg': 'Missing username or password'}), BAD_REQUEST
+    totp_code = request.json.get('totp_code', '')
 
-    user = User.query.filter_by(username=username).first()
-
-    if user is None or not pwd_context.verify(password, user.password):
-        return jsonify({'msg': 'Bad credentials.'}), BAD_REQUEST
-
-    if not user.is_active:
-        return jsonify({'msg': 'Your account is blocked.'}), FORBIDDEN
-
-    if user.is_totp_enabled:
-        totp_code = request.json.get('totp_code', '')
-        secret = user.two_factor_secret
-        totp = pyotp.TOTP(secret)
-
-        if not totp.verify(totp_code):
-            return {'msg': 'Wrong totp code.'}, BAD_REQUEST
-
-    db.session.add(
-        AuthHistory(
-            user_uuid=user.uuid,
-            user_agent=request.user_agent.string,
-            ip_address=request.remote_addr,
-            device=get_device_type(request.user_agent.string),
-        ),
-    )
-    db.session.commit()
-
-    access_token, refresh_token = create_tokens(user.uuid)
-    ret = {'access_token': access_token, 'refresh_token': refresh_token}
-    return jsonify(ret)
+    try:
+        access_token, refresh_token = auth_service.get_tokens(username, password, totp_code)
+        user_uuid = get_user_uuid_from_token(refresh_token)
+        user_agent = request.user_agent.string
+        ip_address = request.remote_addr
+        auth_service.add_to_history(user_uuid, user_agent, ip_address)
+        return jsonify({'access_token': access_token, 'refresh_token': refresh_token})
+    except AuthServiceException as e:
+        return {'msg': str(e)}, e.http_code
 
 
 @blueprint.route('/refresh', methods=['POST'])
