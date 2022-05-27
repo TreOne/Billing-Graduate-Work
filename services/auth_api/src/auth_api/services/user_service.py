@@ -2,7 +2,7 @@ from http.client import CONFLICT, BAD_REQUEST
 
 import pyotp
 
-from auth_api.exeptions import ServiceException
+from auth_api.exceptions import UserServiceException
 from auth_api.extensions import db
 from auth_api.models.user import Role, User, AuthHistory
 
@@ -49,13 +49,13 @@ class UserService:
         totp_code = totp_request.get('totp_code')
 
         if totp_status == user.is_totp_enabled:
-            raise ServiceException('This status has already been established.', http_code=CONFLICT)
+            raise UserServiceException('This status has already been established.', http_code=CONFLICT)
 
         secret = user.two_factor_secret
         totp = pyotp.TOTP(secret)
 
         if not totp.verify(totp_code):
-            raise ServiceException('Wrong totp code.', http_code=BAD_REQUEST)
+            raise UserServiceException('Wrong totp code.', http_code=BAD_REQUEST)
 
         user.is_totp_enabled = totp_status
         db.session.commit()

@@ -6,7 +6,7 @@ from flask import jsonify, request
 from marshmallow import ValidationError
 
 from auth_api.commons.jwt_utils import create_tokens
-from auth_api.exeptions import OAuthServiceException
+from auth_api.exceptions import OAuthServiceException
 from auth_api.extensions import apispec
 from auth_api.services.auth_service import AuthService
 from auth_api.services.oauth_service import OAuthService

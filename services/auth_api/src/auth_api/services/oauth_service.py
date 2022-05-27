@@ -3,7 +3,7 @@ from http.client import FORBIDDEN, NOT_FOUND
 
 from auth_api.commons.oauth.clients import OAuthClient
 from auth_api.commons.utils import generate_password
-from auth_api.exeptions import ServiceException
+from auth_api.exceptions import OAuthServiceException
 from auth_api.extensions import db
 from auth_api.models.user import User
 
@@ -11,7 +11,6 @@ from auth_api.models.user import User
 class OAuthService:
 
     def login_user_oauth(self, social_id: str, email: str):
-        """Регистрирует пользователя через социальную сеть."""
         user = User.query.filter_by(social_id=social_id).first()
         if user is None:
             email_exist = User.query.filter_by(email=email).first()
@@ -28,18 +27,17 @@ class OAuthService:
             db.session.commit()
 
         if not user.is_active:
-            raise ServiceException('Your account is blocked.', http_code=FORBIDDEN)
+            raise OAuthServiceException('Your account is blocked.', http_code=FORBIDDEN)
         return user.uuid
 
     def get_user_info_from_oauth(self, provider: str):
-        """Возвращает данные о пользователе из социального сервиса"""
         provider_oauth = OAuthClient.get_provider(provider)
         if not provider_oauth:
-            raise ServiceException('OAuth provider not found.', http_code=NOT_FOUND)
+            raise OAuthServiceException('OAuth provider not found.', http_code=NOT_FOUND)
 
         user_info = provider_oauth.get_user_info()
         if not user_info:
-            raise ServiceException('Authentication failed.', http_code=FORBIDDEN)
+            raise OAuthServiceException('Authentication failed.', http_code=FORBIDDEN)
 
         social_id = user_info['social_id']
         email = user_info['email']

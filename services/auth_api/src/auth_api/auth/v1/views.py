@@ -15,7 +15,7 @@ from auth_api.commons.jwt_utils import (
     get_user_uuid_from_token,
     is_active_token,
 )
-from auth_api.exeptions import AuthServiceException
+from auth_api.exceptions import AuthServiceException
 from auth_api.extensions import apispec, jwt
 from auth_api.services.auth_service import AuthService
 
