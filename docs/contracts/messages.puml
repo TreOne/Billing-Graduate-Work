@@ -1,0 +1,33 @@
+@startuml
+class bill_msg as "Сообщение" <JSON> <<(M,#FFCA86) bill.*>> {
+    + bill_uuid: string
+    + status: BillStatus
+    + user_uuid: string
+    + type: BillType
+    + item_uuid: string
+    + amount: number
+}
+
+note right of bill_msg::item_uuid
+    UUID объекта покупки (фильма или подписки)
+end note
+
+note right of bill_msg::amount
+    Сумма счета в рублях (с дробной частью в виде копеек)
+end note
+
+enum BillStatus {
+  created
+  cancelled
+  paid
+  refunded
+}
+
+enum BillType {
+  subscription
+  movie
+}
+
+BillStatus -up-o bill_msg
+BillType -up-o bill_msg
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+node kafka as "Брокер событий" {
+  queue bills
+}
+
+note right of bills
+    **Счета**
+    Возможные заголовки:
+      - bill.created
+      - bill.cancelled
+      - bill.paid
+      - bill.refunded
+end note
+@enduml
