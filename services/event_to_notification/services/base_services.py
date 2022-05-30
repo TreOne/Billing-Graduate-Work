@@ -13,4 +13,9 @@ class AbstractConsumer(ABC):
 class Consumer(AbstractConsumer, ConsumerKafka):
     configs = settings.kafka
 
-
+    def consume(self):
+        self.start_consumer()
+        while True:
+            for message in self.conn:
+                print(message.key)
+            self.conn.commit()
