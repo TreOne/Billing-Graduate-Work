@@ -13,9 +13,8 @@ from auth_api.api.v1.schemas.totp_request import TOTPRequestSchema
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import get_user_uuid_from_token, user_has_role
 from auth_api.commons.pagination import paginate
-from auth_api.exceptions import UserServiceException
 from auth_api.extensions import apispec
-from auth_api.services.user_service import UserService
+from auth_api.services.user_service import UserService, UserServiceException
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 api = Api(blueprint)
@@ -154,9 +153,11 @@ def change_totp_status():
     user_uuid = get_user_uuid_from_token(token)
     schema = TOTPRequestSchema()
     totp_request = schema.load(request.json)
+    totp_status = totp_request.get('totp_status')
+    totp_code = totp_request.get('totp_code')
 
     try:
-        totp_status = user_service.change_user_totp_status(user_uuid, totp_request)
+        totp_status = user_service.change_user_totp_status(user_uuid, totp_status, totp_code)
         return {'msg': f'Totp status changed to: {totp_status}'}
     except UserServiceException as e:
         return {'msg': str(e)}, e.http_code

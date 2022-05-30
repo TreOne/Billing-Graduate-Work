@@ -3,9 +3,14 @@ from http.client import FORBIDDEN, NOT_FOUND
 
 from auth_api.commons.oauth.clients import OAuthClient
 from auth_api.commons.utils import generate_password
-from auth_api.exceptions import OAuthServiceException
 from auth_api.extensions import db
 from auth_api.models.user import User
+
+
+class OAuthServiceException(Exception):
+    def __init__(self, message, http_code=None):
+        super().__init__(message)
+        self.http_code = http_code
 
 
 class OAuthService:

@@ -2,9 +2,14 @@ from http.client import CONFLICT, BAD_REQUEST
 
 import pyotp
 
-from auth_api.exceptions import UserServiceException
 from auth_api.extensions import db
 from auth_api.models.user import Role, User, AuthHistory
+
+
+class UserServiceException(Exception):
+    def __init__(self, message, http_code=None):
+        super().__init__(message)
+        self.http_code = http_code
 
 
 class UserService:
@@ -26,7 +31,7 @@ class UserService:
         if role in user.roles:
             user.roles.remove(role)
         else:
-            return {'msg': 'The user does not have this role.'}, CONFLICT
+            raise UserServiceException('The user does not have this role.', http_code=CONFLICT)
 
         db.session.add(user)
         db.session.commit()
@@ -41,12 +46,9 @@ class UserService:
         auth_history = AuthHistory.query.filter_by(user_uuid=user_uuid)
         return auth_history
 
-    def change_user_totp_status(self, user_uuid: str, totp_request):
+    def change_user_totp_status(self, user_uuid,  totp_status: bool, totp_code: str):
 
         user = User.query.filter_by(uuid=user_uuid).first()
-
-        totp_status = totp_request.get('totp_status')
-        totp_code = totp_request.get('totp_code')
 
         if totp_status == user.is_totp_enabled:
             raise UserServiceException('This status has already been established.', http_code=CONFLICT)

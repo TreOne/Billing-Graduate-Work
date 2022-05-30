@@ -6,16 +6,19 @@ from sqlalchemy import or_
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import create_tokens
 from auth_api.commons.utils import get_device_type
-from auth_api.exceptions import AuthServiceException
 from auth_api.extensions import db, pwd_context
 from auth_api.models.user import User, AuthHistory
 
 
+class AuthServiceException(Exception):
+    def __init__(self, message, http_code=None):
+        super().__init__(message)
+        self.http_code = http_code
+
+
 class AuthService:
 
-    def register_user(self, user_data: dict):
-        schema = UserSchema()
-        user = schema.load(user_data)
+    def register_user(self, user: UserSchema):
 
         existing_user = User.query.filter(
             or_(User.username == user.username, User.email == user.email),
@@ -26,7 +29,7 @@ class AuthService:
         db.session.add(user)
         db.session.commit()
 
-        return schema.dump(user)
+        return user
 
     def get_tokens(self, username: str, password: str, totp_code: str = ''):
         if not username or not password:

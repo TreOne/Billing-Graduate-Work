@@ -6,10 +6,9 @@ from flask import jsonify, request
 from marshmallow import ValidationError
 
 from auth_api.commons.jwt_utils import create_tokens
-from auth_api.exceptions import OAuthServiceException
 from auth_api.extensions import apispec
 from auth_api.services.auth_service import AuthService
-from auth_api.services.oauth_service import OAuthService
+from auth_api.services.oauth_service import OAuthService, OAuthServiceException
 
 blueprint = Blueprint('oauth', __name__, url_prefix='/oauth/v1')
 auth_service = AuthService()

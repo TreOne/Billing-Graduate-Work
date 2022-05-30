@@ -6,6 +6,7 @@ from flask import jsonify, request
 from flask_jwt_extended import get_jwt, jwt_required
 from marshmallow import ValidationError
 
+from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import (
     create_tokens,
     deactivate_access_token,
@@ -15,9 +16,8 @@ from auth_api.commons.jwt_utils import (
     get_user_uuid_from_token,
     is_active_token,
 )
-from auth_api.exceptions import AuthServiceException
 from auth_api.extensions import apispec, jwt
-from auth_api.services.auth_service import AuthService
+from auth_api.services.auth_service import AuthService, AuthServiceException
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth/v1')
 auth_service = AuthService()
@@ -74,11 +74,12 @@ def signup():
     """
     if not request.is_json:
         return jsonify({'msg': 'Missing JSON in request.'}), BAD_REQUEST
-    user_data = request.json
 
+    schema = UserSchema()
+    user = schema.load(request.json)
     try:
-        user = auth_service.register_user(user_data)
-        return {'msg': 'User created.', 'user': user}, CREATED
+        registered_user = auth_service.register_user(user)
+        return {'msg': 'User created.', 'user': schema.dump(registered_user)}, CREATED
     except AuthServiceException as e:
         return {'msg': str(e)}, e.http_code
 
