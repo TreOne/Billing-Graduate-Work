@@ -77,8 +77,11 @@ def signup():
 
     schema = UserSchema()
     user = schema.load(request.json)
+    username = user.username
+    email = user.email
+    password = user.password
     try:
-        registered_user = auth_service.register_user(user)
+        registered_user = auth_service.register_user(username, email, password)
         return {'msg': 'User created.', 'user': schema.dump(registered_user)}, CREATED
     except AuthServiceException as e:
         return {'msg': str(e)}, e.http_code

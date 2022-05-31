@@ -18,13 +18,14 @@ class AuthServiceException(Exception):
 
 class AuthService:
 
-    def register_user(self, user: UserSchema):
+    def register_user(self, username: str, email: str, password: str):
 
         existing_user = User.query.filter(
-            or_(User.username == user.username, User.email == user.email),
+            or_(User.username == username, User.email == email),
         ).first()
         if existing_user:
             raise AuthServiceException('Username or email is already taken!', http_code=CONFLICT)
+        user = User(username=username, email=email, password=password)
 
         db.session.add(user)
         db.session.commit()
