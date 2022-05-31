@@ -1,12 +1,10 @@
-from http.client import BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN
+from http.client import BAD_REQUEST, CREATED
 
-import pyotp
 from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify, request
 from flask_jwt_extended import get_jwt, jwt_required
 from marshmallow import ValidationError
-from sqlalchemy import or_
 
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import (
@@ -18,12 +16,11 @@ from auth_api.commons.jwt_utils import (
     get_user_uuid_from_token,
     is_active_token,
 )
-from auth_api.commons.utils import get_device_type
-from auth_api.extensions import apispec, db, jwt, pwd_context
-from auth_api.models import User
-from auth_api.models.user import AuthHistory
+from auth_api.extensions import apispec, jwt
+from auth_api.services.auth_service import AuthService, AuthServiceException
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth/v1')
+auth_service = AuthService()
 
 
 @blueprint.route('/signup', methods=['POST'])
@@ -80,17 +77,14 @@ def signup():
 
     schema = UserSchema()
     user = schema.load(request.json)
-
-    existing_user = User.query.filter(
-        or_(User.username == user.username, User.email == user.email),
-    ).first()
-    if existing_user:
-        return {'msg': 'Username or email is already taken!'}, CONFLICT
-
-    db.session.add(user)
-    db.session.commit()
-
-    return {'msg': 'User created.', 'user': schema.dump(user)}, CREATED
+    username = user.username
+    email = user.email
+    password = user.password
+    try:
+        registered_user = auth_service.register_user(username, email, password)
+        return {'msg': 'User created.', 'user': schema.dump(registered_user)}, CREATED
+    except AuthServiceException as e:
+        return {'msg': str(e)}, e.http_code
 
 
 @blueprint.route('/login', methods=['POST'])
@@ -138,41 +132,19 @@ def login():
     """
     if not request.is_json:
         return jsonify({'msg': 'Missing JSON in request'}), BAD_REQUEST
-
     username = request.json.get('username', None)
     password = request.json.get('password', None)
-    if not username or not password:
-        return jsonify({'msg': 'Missing username or password'}), BAD_REQUEST
+    totp_code = request.json.get('totp_code', '')
 
-    user = User.query.filter_by(username=username).first()
-
-    if user is None or not pwd_context.verify(password, user.password):
-        return jsonify({'msg': 'Bad credentials.'}), BAD_REQUEST
-
-    if not user.is_active:
-        return jsonify({'msg': 'Your account is blocked.'}), FORBIDDEN
-
-    if user.is_totp_enabled:
-        totp_code = request.json.get('totp_code', '')
-        secret = user.two_factor_secret
-        totp = pyotp.TOTP(secret)
-
-        if not totp.verify(totp_code):
-            return {'msg': 'Wrong totp code.'}, BAD_REQUEST
-
-    db.session.add(
-        AuthHistory(
-            user_uuid=user.uuid,
-            user_agent=request.user_agent.string,
-            ip_address=request.remote_addr,
-            device=get_device_type(request.user_agent.string),
-        ),
-    )
-    db.session.commit()
-
-    access_token, refresh_token = create_tokens(user.uuid)
-    ret = {'access_token': access_token, 'refresh_token': refresh_token}
-    return jsonify(ret)
+    try:
+        access_token, refresh_token = auth_service.get_tokens(username, password, totp_code)
+        user_uuid = get_user_uuid_from_token(refresh_token)
+        user_agent = request.user_agent.string
+        ip_address = request.remote_addr
+        auth_service.add_to_history(user_uuid, user_agent, ip_address)
+        return jsonify({'access_token': access_token, 'refresh_token': refresh_token})
+    except AuthServiceException as e:
+        return {'msg': str(e)}, e.http_code
 
 
 @blueprint.route('/refresh', methods=['POST'])
