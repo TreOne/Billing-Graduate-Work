@@ -1,0 +1,41 @@
+[
+  {
+    "model": "billing.subscription",
+    "pk": "5933beb6-383a-4de0-bca5-836493024c71",
+    "fields": {
+      "title": "Базовый",
+      "description": "Базовый",
+      "price": 480,
+      "position": 1,
+      "is_active": true,
+      "created_at": "2022-06-02T18:59:41.775558+03:00",
+      "updated_at": "2022-06-02T18:59:41.775558+03:00"
+    }
+  },
+  {
+    "model": "billing.subscription",
+    "pk": "fc5c4d65-439a-4bb9-989d-3267ff5b9634",
+    "fields": {
+      "title": "Стандартный",
+      "description": "Стандартный",
+      "price": 600,
+      "position": 2,
+      "is_active": true,
+      "created_at": "2022-06-02T18:59:41.775558+03:00",
+      "updated_at": "2022-06-02T18:59:41.775558+03:00"
+    }
+  },
+  {
+    "model": "billing.subscription",
+    "pk": "3226c490-d99a-4596-b2ec-1dd2f823adba",
+    "fields": {
+      "title": "Премиум",
+      "description": "Премиум",
+      "price": 900,
+      "position": 3,
+      "is_active": true,
+      "created_at": "2022-06-02T18:59:41.775558+03:00",
+      "updated_at": "2022-06-02T18:59:41.775558+03:00"
+    }
+  }
+]
