@@ -7,8 +7,7 @@ def orjson_dumps(v, *, default):
 
 
 class FastJsonModel(BaseModel):
-    """Модель с быстрым json-сериализатором."""
-
+    """Model with fast json serializer."""
     class Config:
         json_loads = orjson.loads
         json_dumps = orjson_dumps
