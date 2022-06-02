@@ -1,21 +1,26 @@
 from abc import abstractmethod, ABC
+from functools import lru_cache
 
-from core.settings import settings
-from services.kafka_consumer import ConsumerKafka
+from services.auth_service import AUTH_API_URL, AuthAPI
 
 
 class AbstractConsumer(ABC):
     @abstractmethod
     def consume(self):
-        ...
+        raise NotImplementedError
 
 
-class Consumer(AbstractConsumer, ConsumerKafka):
-    configs = settings.kafka
+class AbstractAuth(ABC):
+    @abstractmethod
+    def login(self, username: str, password: str) -> None:
+        raise NotImplementedError
 
-    def consume(self):
-        self.start_consumer()
-        while True:
-            for message in self.conn:
-                print(message.key)
-            self.conn.commit()
+    @abstractmethod
+    def get_user_info(self, user_uuid: str):
+        raise NotImplementedError
+
+
+@lru_cache
+def get_auth_api():
+    return AuthAPI(AUTH_API_URL)
+
