@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: nginx
+    volumes:
+      - nginx_logs:/var/log/nginx
+      - static_volume:/home/app/billing/static
+    ports:
+      - "80:80"
+    depends_on:
+      - django_app
+    networks:
+      - billing_network
+
+  redis:
+    image: redis:6.2.6-alpine
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"
+    networks:
+      - billing_network
+
+  postgres_db:
+    image: postgres:12.0-alpine
+    volumes:
+      - billing_postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=billing
+      - POSTGRES_USER=billing
+      - POSTGRES_PASSWORD=billing
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready -U notification_planning" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - billing_network
+
+  django_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c 'python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000'
+    volumes:
+      - static_volume:/home/app/billing/static
+    expose:
+      - 8000
+    env_file:
+      - example.env
+    depends_on:
+      postgres_db:
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - billing_network
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "celery -A config worker -l info"
+    env_file:
+      - example.env
+    depends_on:
+      django_app:
+        condition: service_started
+    networks:
+      - billing_network
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    env_file:
+      - example.env
+    depends_on:
+      django_app:
+        condition: service_started
+    networks:
+      - billing_network
+
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "celery -A config flower"
+    ports:
+      - "5555:5555"
+    env_file:
+      - example.env
+    networks:
+      - billing_network
+
+volumes:
+  nginx_logs:
+  static_volume:
+  billing_postgres_data:
+
+networks:
+  billing_network:
+    driver: bridge
