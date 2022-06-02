@@ -1,7 +1,6 @@
-__all__ = ["render_template", "shorten_url", "get_data"]
+__all__ = ["render_template", "shorten_url",]
 
 import os
-from urllib.parse import urljoin
 
 import bitly_api
 import requests
@@ -26,6 +25,6 @@ def shorten_url(url: str) -> str:
     return short_url["url"]
 
 
-def get_data(url: str, user_id: str) -> dict[str, any]:
-    response = requests.get(urljoin(url, user_id))
+def send_message(url: str, message: dict[str, any]) -> dict[str, any]:
+    response = requests.post(url, json=message)
     return response.json()
