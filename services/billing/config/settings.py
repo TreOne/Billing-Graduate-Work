@@ -192,3 +192,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Yookassa
+YOOKASSA_SHOP_ID: int = int(os.environ.get("YOOKASSA_SHOP_ID"))
+YOOKASSA_SECRET_KEY: str = os.environ.get("YOOKASSA_SECRET_KEY")

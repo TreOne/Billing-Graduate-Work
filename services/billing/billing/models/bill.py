@@ -14,17 +14,11 @@ class Bill(UUIDMixin, UpdateTimeMixin):
     status = models.CharField(
         verbose_name="Статус оплаты", choices=BillStatus.choices, max_length=50
     )
-    user_uuid = models.UUIDField(
-        verbose_name="uuid Пользователя",
-        default=uuid.uuid4,
-    )
+    user_uuid = models.UUIDField(verbose_name="uuid Пользователя")
     type = models.CharField(
         verbose_name="Канал уведомления", choices=BillType.choices, max_length=50
     )
-    item_uuid = models.UUIDField(
-        verbose_name="uuid Объекта",
-        default=uuid.uuid4,
-    )
+    item_uuid = models.UUIDField(verbose_name="uuid Объекта")
     amount = models.DecimalField(
         verbose_name="Сумма оплаты",
         max_digits=16,
