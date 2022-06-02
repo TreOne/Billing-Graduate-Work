@@ -1,13 +1,11 @@
 __all__ = ['settings', 'KafkaTaskSettings']
 
-from functools import lru_cache
+
 from pathlib import Path
-from typing import Any, List, Type
+from typing import Any, Callable
 
 import yaml
 from pydantic import BaseModel, BaseSettings
-
-from services.event_to_notification.models.abc_data_stucture import TransferClass
 
 
 class KafkaTaskSettings(BaseModel):
@@ -15,11 +13,12 @@ class KafkaTaskSettings(BaseModel):
     auto_offset_reset: str
     enable_auto_commit: str
     group_id: str
-    topics: List[str]
+    topic: list[str]
 
 
 class TaskSettings(BaseModel):
-    task_name: str
+    title: str
+    method: Callable
 
     class Config:
         arbitrary_types_allowed = True
