@@ -1,14 +1,17 @@
 cycles_delay: 60
 
 kafka:
-  bootstrap_servers: kafka:9092
+  bootstrap_servers: localhost:9092
   auto_offset_reset: earliest
   enable_auto_commit: false
   group_id: etl_service
   topics:
-    - register_messages
+    - bill
 
 
 tasks:
-  - task_name: First Payment
-#    data_class: !!python/name:etl_tasks.movie_watch.data_structures.MovieWatch
+  - title: bill.created
+    method: !!python/name:services.nottification_handlers.send_created_notification_to_user
+  - title : bill.paid
+    method : !!python/name:services.nottification_handlers.send_paid_notification_to_user
+
