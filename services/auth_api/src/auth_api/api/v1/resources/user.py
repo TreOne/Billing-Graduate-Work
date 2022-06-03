@@ -1,21 +1,15 @@
-from http.client import CONFLICT, CREATED
+from http.client import CREATED
 
 from flask import request
 from flask_jwt_extended import get_jwt, jwt_required
 from flask_restful import Resource
-from sqlalchemy import or_
 
-from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import (
-    create_extended_access_token,
-    deactivate_access_token,
-    deactivate_all_refresh_tokens,
-    get_user_uuid_from_token,
     user_has_role,
 )
-from auth_api.commons.pagination import paginate
-from auth_api.extensions import db
-from auth_api.models import User
+from auth_api.services.user_service import UserService, UserServiceException
+
+user_service = UserService()
 
 
 class MeResource(Resource):
@@ -111,32 +105,18 @@ class MeResource(Resource):
 
     def put(self):
         access_token = get_jwt()
-        user_uuid = get_user_uuid_from_token(access_token)
-        schema = UserSchema(partial=True)
-        user = User.query.get_or_404(user_uuid)
-        user = schema.load(request.json, instance=user)
-
-        db.session.commit()
-
-        deactivate_access_token(access_token)
-        refresh_uuid = access_token['refresh_uuid']
-        new_access_token = create_extended_access_token(user_uuid, refresh_uuid)
-
+        # ToDo говорили, что так делать не надо, но тут непонятно, что будет обновляться
+        user_data = request.json
+        user, new_access_token = user_service.update_current_user(access_token, user_data)
         return {
             'msg': 'Update is successful. Please use new access_token.',
-            'user': schema.dump(user),
+            'user': user,
             'access_token': new_access_token,
         }
 
     def delete(self):
         access_token = get_jwt()
-        user_uuid = get_user_uuid_from_token(access_token)
-        user = User.query.get(user_uuid)
-        user.is_active = False
-        db.session.commit()
-
-        deactivate_access_token(access_token)
-        deactivate_all_refresh_tokens(user_uuid)
+        user_service.delete_user(access_token)
         return {'msg': 'Your account has been blocked.'}
 
 
@@ -255,31 +235,25 @@ class UserResource(Resource):
 
     @user_has_role('administrator', 'editor')
     def get(self, user_uuid):
-        schema = UserSchema()
-        user = User.query.get_or_404(user_uuid)
-        return {'user': schema.dump(user)}
+        user = user_service.get_user(user_uuid)
+        return {'user': user}
 
     @user_has_role('administrator')
     def put(self, user_uuid):
-        schema = UserSchema(partial=True)
-        user = User.query.get_or_404(user_uuid)
-        user = schema.load(request.json, instance=user)
+        # ToDO посмотреть на user_data
+        user_data = request.json
+        email = request.json.get("email", None)
+        user = user_service.update_user(user_uuid, user_data)
 
-        db.session.commit()
-
-        return {'msg': 'Update is successful.', 'user': schema.dump(user)}
+        return {'msg': 'Update is successful.', 'user': user}
 
     @user_has_role('administrator')
     def delete(self, user_uuid):
-        user = User.query.get_or_404(user_uuid)
-        if not user.is_active:
-            return {'msg': 'The user is already blocked.'}, CONFLICT
-
-        user.is_active = False
-        db.session.commit()
-
-        deactivate_all_refresh_tokens(user_uuid)
-        return {'msg': 'User has been blocked.'}
+        try:
+            user_service.delete_user(user_uuid)
+            return {'msg': 'User has been blocked.'}
+        except UserServiceException as e:
+            return {'msg': str(e)}, e.http_code
 
 
 class UserList(Resource):
@@ -355,22 +329,15 @@ class UserList(Resource):
 
     @user_has_role('administrator', 'editor')
     def get(self):
-        schema = UserSchema(many=True)
-        query = User.query.filter_by(is_active=True)
-        return paginate(query, schema)
+        users_list = user_service.get_users_list()
+        return users_list
 
     @user_has_role('administrator')
     def post(self):
-        schema = UserSchema()
-        user = schema.load(request.json)
-
-        existing_user = User.query.filter(
-            or_(User.username == user.username, User.email == user.email),
-        ).first()
-        if existing_user:
-            return {'msg': 'Username or email is already taken!'}, CONFLICT
-
-        db.session.add(user)
-        db.session.commit()
-
-        return {'msg': 'User created.', 'user': schema.dump(user)}, CREATED
+        # ToDO подумать над передачей в функцию request.json
+        user_data = request.json
+        try:
+            user = user_service.create_user(user_data)
+            return {'msg': 'User created.', 'user': user}, CREATED
+        except UserServiceException as e:
+            return {'msg': str(e)}, e.http_code

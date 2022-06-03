@@ -1,12 +1,12 @@
-from http.client import CONFLICT, CREATED
+from http.client import CREATED
 
 from flask import request
 from flask_restful import Resource
 
-from auth_api.api.v1.schemas.role import RoleSchema
 from auth_api.commons.jwt_utils import user_has_role
-from auth_api.extensions import db
-from auth_api.models.user import Role
+from auth_api.services.role_service import RoleService, RoleServiceException
+
+role_service = RoleService()
 
 
 class RoleResource(Resource):
@@ -112,25 +112,20 @@ class RoleResource(Resource):
 
     @user_has_role('administrator', 'editor')
     def get(self, name):
-        schema = RoleSchema()
-        role = Role.query.filter_by(name=name).first()
-        return {'role': schema.dump(role)}
+        role = role_service.get_role(name)
+        return {'role': role}
 
     @user_has_role('administrator')
     def put(self, name):
-        schema = RoleSchema(partial=True)
-        role = Role.query.filter_by(name=name).first()
-        role = schema.load(request.json, instance=role)
+        # ToDO проверить строку ниже
+        new_name = request.json
+        role = role_service.update_role(new_name)
 
-        db.session.commit()
-
-        return {'msg': 'Role updated.', 'role': schema.dump(role)}
+        return {'msg': 'Role updated.', 'role': role}
 
     @user_has_role('administrator')
     def delete(self, name):
-        role = Role.query.filter_by(name=name).first()
-        db.session.delete(role)
-        db.session.commit()
+        role_service.delete_role(name)
 
         return {'msg': 'Role deleted.'}
 
@@ -206,20 +201,15 @@ class RoleList(Resource):
 
     @user_has_role('administrator', 'editor')
     def get(self):
-        schema = RoleSchema(many=True)
-        roles = Role.query.all()
-        return {'roles': schema.dump(roles)}
+        roles = role_service.get_roles()
+        return {'roles': roles}
 
     @user_has_role('administrator')
     def post(self):
-        schema = RoleSchema()
-        role = schema.load(request.json)
-
-        existing_role = Role.query.filter_by(name=role.name).first()
-        if existing_role:
-            return {'msg': 'Role already exist!'}, CONFLICT
-
-        db.session.add(role)
-        db.session.commit()
-
-        return {'msg': 'Role created.', 'role': schema.dump(role)}, CREATED
+        # TODO проверить строку ниже
+        new_role = request.json
+        try:
+            role = role_service.create_role(new_role)
+            return {'msg': 'Role created.', 'role': role}, CREATED
+        except RoleServiceException as e:
+            return {'msg': str(e)}, e.http_code

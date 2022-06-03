@@ -14,11 +14,13 @@ from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import get_user_uuid_from_token, user_has_role
 from auth_api.commons.pagination import paginate
 from auth_api.extensions import apispec
+from auth_api.services.role_service import RoleService
 from auth_api.services.user_service import UserService, UserServiceException
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 api = Api(blueprint)
 user_service = UserService()
+role_service = RoleService()
 
 api.add_resource(MeResource, '/users/me', endpoint='current_user')
 api.add_resource(UserResource, '/users/<uuid:user_uuid>', endpoint='user_by_uuid')
@@ -276,7 +278,7 @@ def get_user_roles(user_uuid):
           $ref: '#/components/responses/TooManyRequests'
     """
 
-    roles = user_service.get_roles(user_uuid)
+    roles = role_service.get_user_roles(user_uuid)
     schema = RoleSchema(many=True)
 
     return {'roles': schema.dump(roles)}
@@ -367,9 +369,9 @@ def user_roles(user_uuid, role_uuid):
     """
 
     if request.method == 'PUT':
-        roles = user_service.add_role(user_uuid, role_uuid)
+        roles = role_service.add_role_to_user(user_uuid, role_uuid)
     elif request.method == 'DELETE':
-        roles = user_service.remove_role(user_uuid, role_uuid)
+        roles = role_service.remove_user_role(user_uuid, role_uuid)
     else:
         return jsonify({'msg': 'Method not allowed.'}), METHOD_NOT_ALLOWED
 
