@@ -1,4 +1,4 @@
-__all__ = ["render_template", "shorten_url",]
+__all__ = ["render_template", "shorten_url", 'send_message']
 
 import os
 
