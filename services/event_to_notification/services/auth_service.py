@@ -3,8 +3,6 @@ from requests import request
 
 from services.base_services import AbstractAuth
 
-AUTH_API_URL = 'http://localhost/auth/'
-
 
 class AuthAPI(AbstractAuth):
     def __init__(self, api_url):
@@ -13,13 +11,16 @@ class AuthAPI(AbstractAuth):
         self.__password = ''
         self.__refresh_token = ''
         self.__access_token = ''
+        self.__get_user_url = 'api/v1/users/'
+        self.__refresh_token_url = 'auth/v1/refresh'
+        self.__login_url = 'auth/v1/login'
 
     def login(self, username, password) -> None:
         self.__username = username
         self.__password = password
 
     def get_user_info(self, user_uuid: str) -> dict[str, any] or int or None:
-        response = self._get(f'api/v1/users/{user_uuid}')
+        response = self._get(f'{self.__get_user_url}{user_uuid}')
         return response.json().get('user') if response.status_code == 200 else None
 
     def _abs_url(self, path: str) -> str:
@@ -46,7 +47,7 @@ class AuthAPI(AbstractAuth):
             'Content-type': 'application/json',
             'Authorization': f'Bearer {self.__refresh_token}',
         }
-        url = self._abs_url('auth/v1/refresh')
+        url = self._abs_url(self.__refresh_token_url)
         response = requests.post(url, headers=header)
         if response.status_code == 200:
             tokens = response.json()
@@ -56,7 +57,7 @@ class AuthAPI(AbstractAuth):
         return False
 
     def _login(self):
-        url = self._abs_url('auth/v1/login')
+        url = self._abs_url(self.__login_url)
         data = {
             'username': self.__username,
             'password': self.__password,
@@ -75,4 +76,3 @@ class AuthAPI(AbstractAuth):
             'Authorization': f"Bearer {self.__access_token}",
         }
         return header
-
