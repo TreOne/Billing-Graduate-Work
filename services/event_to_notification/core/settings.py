@@ -1,6 +1,5 @@
 __all__ = ['settings', 'KafkaTaskSettings']
 
-
 from pathlib import Path
 from typing import Any, Callable
 
@@ -25,6 +24,10 @@ class TaskSettings(BaseModel):
 
 
 class Settings(BaseSettings):
+    auth_api_url: str = 'http://localhost/auth/'
+    notification_api_url = 'http://localhost/api/v1/send/email'
+    auth_login: str
+    auth_password:str
     backoff_timeout: int = 30
     kafka: KafkaTaskSettings
     cycles_delay: int
