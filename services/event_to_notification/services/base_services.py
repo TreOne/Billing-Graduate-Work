@@ -1,7 +1,10 @@
 from abc import abstractmethod, ABC
 from functools import lru_cache
 
-from services.auth_service import AUTH_API_URL, AuthAPI
+from core.settings import settings
+from services.auth_service import AuthAPI
+
+AUTH_API_URL = settings.auth_api_url
 
 
 class AbstractConsumer(ABC):
@@ -23,4 +26,3 @@ class AbstractAuth(ABC):
 @lru_cache
 def get_auth_api():
     return AuthAPI(AUTH_API_URL)
-
