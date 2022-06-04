@@ -81,20 +81,20 @@ def configure_app(app, app_settings: Settings):
 def before_request():
     # Для логирования в Jaeger нам требуется $request_id,
     #  это простая защита, чтобы nginx не забыли настроить правильно.
-    request_id = request.headers.get('X-Request-Id')
-    if not request_id:
-        raise RuntimeError('Header "X-Request-Id" is required!')
-
-    # Ограничение количества запросов
-    if is_rate_limit_exceeded():
-        return jsonify({'msg': 'Too many requests.'}), TOO_MANY_REQUESTS
-
+    # request_id = request.headers.get('X-Request-Id')
+    # if not request_id:
+    #     raise RuntimeError('Header "X-Request-Id" is required!')
+    #
+    # # Ограничение количества запросов
+    # if is_rate_limit_exceeded():
+    #     return jsonify({'msg': 'Too many requests.'}), TOO_MANY_REQUESTS
+    pass
 
 def configure_extensions(app):
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db)
-    tracing.init_app(app)
+    # tracing.init_app(app)
 
     jsonrpc.init_app(app)
     jsonrpc.register_blueprint(
@@ -214,3 +214,4 @@ def register_blueprints(app):
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(oauth_blueprint)
     app.register_blueprint(api_blueprint)
+

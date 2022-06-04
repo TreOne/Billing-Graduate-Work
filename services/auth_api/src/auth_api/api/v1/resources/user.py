@@ -1,4 +1,4 @@
-from http.client import CREATED
+from http.client import CREATED, BAD_REQUEST
 
 from flask import request
 from flask_jwt_extended import get_jwt, jwt_required
@@ -105,9 +105,14 @@ class MeResource(Resource):
 
     def put(self):
         access_token = get_jwt()
-        # ToDo говорили, что так делать не надо, но тут непонятно, что будет обновляться
-        user_data = request.json
-        user, new_access_token = user_service.update_current_user(access_token, user_data)
+
+        user_data = {'email': request.json.get('email', None),
+                     'username': request.json.get('username', None),
+                     'password': request.json.get('password', None)}
+        data_to_update = {k: v for k, v in user_data.items() if v is not None}
+        if not data_to_update:
+            return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
+        user, new_access_token = user_service.update_current_user(access_token, data_to_update)
         return {
             'msg': 'Update is successful. Please use new access_token.',
             'user': user,
@@ -116,7 +121,7 @@ class MeResource(Resource):
 
     def delete(self):
         access_token = get_jwt()
-        user_service.delete_user(access_token)
+        user_service.delete_current_user(access_token)
         return {'msg': 'Your account has been blocked.'}
 
 
@@ -241,9 +246,13 @@ class UserResource(Resource):
     @user_has_role('administrator')
     def put(self, user_uuid):
         # ToDO посмотреть на user_data
-        user_data = request.json
-        email = request.json.get("email", None)
-        user = user_service.update_user(user_uuid, user_data)
+        user_data = {'email': request.json.get('email', None),
+                     'username': request.json.get('username', None),
+                     'password': request.json.get('password', None)}
+        data_to_update = {k: v for k, v in user_data.items() if v is not None}
+        if not data_to_update:
+            return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
+        user = user_service.update_user(user_uuid, data_to_update)
 
         return {'msg': 'Update is successful.', 'user': user}
 
@@ -334,10 +343,14 @@ class UserList(Resource):
 
     @user_has_role('administrator')
     def post(self):
-        # ToDO подумать над передачей в функцию request.json
-        user_data = request.json
+        user_data = {'email': request.json.get('email', None),
+                     'username': request.json.get('username', None),
+                     'password': request.json.get('password', None)}
+        data_to_update = {k: v for k, v in user_data.items() if v is not None}
+        if not data_to_update:
+            return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
         try:
-            user = user_service.create_user(user_data)
+            user = user_service.create_user(data_to_update)
             return {'msg': 'User created.', 'user': user}, CREATED
         except UserServiceException as e:
             return {'msg': str(e)}, e.http_code

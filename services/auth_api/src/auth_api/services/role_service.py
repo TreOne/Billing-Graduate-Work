@@ -13,21 +13,21 @@ class RoleServiceException(Exception):
 
 class RoleService:
 
-    def get_role(self, name):
+    def get_role(self, role_uuid):
         schema = RoleSchema()
-        role = Role.query.filter_by(name=name).first()
+        role = Role.query.filter_by(uuid=role_uuid).first()
         return {'role': schema.dump(role)}
 
-    def update_role(self, name):
+    def update_role(self, role_uuid, new_name):
         schema = RoleSchema(partial=True)
-        role = Role.query.filter_by(name=name).first()
-        role = schema.load(name, instance=role)
+        role = Role.query.filter_by(uuid=role_uuid).first()
+        role = schema.load({"name": new_name}, instance=role)
 
         db.session.commit()
         return schema.dump(role)
 
-    def delete_role(self, name):
-        role = Role.query.filter_by(name=name).first()
+    def delete_role(self, role_uuid):
+        role = Role.query.filter_by(uuid=role_uuid).first()
         db.session.delete(role)
         db.session.commit()
 
@@ -59,7 +59,7 @@ class RoleService:
 
         return user.roles
 
-    def remove_user_role(self, user_uuid: str, role_uuid: str):
+    def delete_user_role(self, user_uuid: str, role_uuid: str):
         user = User.query.get_or_404(user_uuid)
         role = Role.query.get_or_404(role_uuid)
 

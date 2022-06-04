@@ -371,7 +371,7 @@ def user_roles(user_uuid, role_uuid):
     if request.method == 'PUT':
         roles = role_service.add_role_to_user(user_uuid, role_uuid)
     elif request.method == 'DELETE':
-        roles = role_service.remove_user_role(user_uuid, role_uuid)
+        roles = role_service.delete_user_role(user_uuid, role_uuid)
     else:
         return jsonify({'msg': 'Method not allowed.'}), METHOD_NOT_ALLOWED
 

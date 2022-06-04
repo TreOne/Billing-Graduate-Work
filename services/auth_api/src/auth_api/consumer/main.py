@@ -1,18 +1,16 @@
 from auth_api.consumer.kafka_consumer import KafkaConnector
 from auth_api.consumer.models import Message
-from handlers import print_congratulations, send_notification_to_admin, send_notification_to_user
+from handlers import add_role_to_user, delete_user_role
 from message_handler import MessageHandler
+from auth_api.settings.settings import Settings
 
+settings = Settings()
 
 message_handler = MessageHandler()
+message_handler.register('bill.paid', add_role_to_user)
+message_handler.register('bill.cancelled', delete_user_role)
 
-message_handler.register('paid', send_notification_to_user)
-message_handler.register('cancelled', send_notification_to_admin)
-
-kafka_url = "localhost:9092"
-topic = "bill"
-
-consumer = KafkaConnector(kafka_url, topic).init_consumer()
+consumer = KafkaConnector(settings.kafka.kafka_url, settings.kafka.topic).init_consumer()
 
 
 def main():

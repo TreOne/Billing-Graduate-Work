@@ -22,6 +22,10 @@ class RedisSettings(BaseModel):
     port: int
 
 
+class KafkaSettings(BaseModel):
+    kafka_url: str
+    topic: str
+
 class JaegerSettings(BaseModel):
     host: str
     port: int
@@ -58,6 +62,7 @@ class Settings(BaseSettings):
     flask: FlaskSettings
     alchemy: AlchemySettings
     redis: RedisSettings
+    kafka: KafkaSettings
     jaeger: JaegerSettings
     jwt: JWTSettings
     oauth: OAuthSettings

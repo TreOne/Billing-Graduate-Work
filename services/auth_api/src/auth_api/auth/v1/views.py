@@ -1,10 +1,12 @@
-from http.client import BAD_REQUEST, CREATED
+from http.client import BAD_REQUEST, CREATED, FORBIDDEN, CONFLICT
 
+import pyotp
 from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify, request
-from flask_jwt_extended import get_jwt, jwt_required
+from flask_jwt_extended import get_jwt, jwt_required, decode_token
 from marshmallow import ValidationError
+from sqlalchemy import or_
 
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import (
@@ -14,9 +16,11 @@ from auth_api.commons.jwt_utils import (
     deactivate_refresh_token,
     deactivate_refresh_token_by_access_token,
     get_user_uuid_from_token,
-    is_active_token,
+    is_active_token, get_token_uuid_from_token, get_uuid_from_encoded_refresh_token,
 )
-from auth_api.extensions import apispec, jwt
+from auth_api.commons.utils import get_device_type
+from auth_api.extensions import apispec, jwt, pwd_context, db
+from auth_api.models import User
 from auth_api.services.auth_service import AuthService, AuthServiceException
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth/v1')
@@ -74,17 +78,15 @@ def signup():
     """
     if not request.is_json:
         return jsonify({'msg': 'Missing JSON in request.'}), BAD_REQUEST
-
-    schema = UserSchema()
-    user = schema.load(request.json)
-    username = user.username
-    email = user.email
-    password = user.password
+    username = request.json.get("username")
+    email = request.json.get("email")
+    password = request.json.get("password")
     try:
         registered_user = auth_service.register_user(username, email, password)
-        return {'msg': 'User created.', 'user': schema.dump(registered_user)}, CREATED
+        return {'msg': 'User created.', 'user': registered_user}, CREATED
     except AuthServiceException as e:
         return {'msg': str(e)}, e.http_code
+
 
 
 @blueprint.route('/login', methods=['POST'])
@@ -138,7 +140,7 @@ def login():
 
     try:
         access_token, refresh_token = auth_service.get_tokens(username, password, totp_code)
-        user_uuid = get_user_uuid_from_token(refresh_token)
+        user_uuid = decode_token(refresh_token).get("user_uuid")
         user_agent = request.user_agent.string
         ip_address = request.remote_addr
         auth_service.add_to_history(user_uuid, user_agent, ip_address)

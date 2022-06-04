@@ -19,18 +19,21 @@ class AuthServiceException(Exception):
 class AuthService:
 
     def register_user(self, username: str, email: str, password: str):
-
+        schema = UserSchema()
+        user = schema.load({"username": username,
+                           "email": email,
+                           "password": password})
         existing_user = User.query.filter(
-            or_(User.username == username, User.email == email),
+            or_(User.username == user.username, User.email == user.email),
         ).first()
         if existing_user:
             raise AuthServiceException('Username or email is already taken!', http_code=CONFLICT)
-        user = User(username=username, email=email, password=password)
+        # user = User(username=username, email=email)
 
         db.session.add(user)
         db.session.commit()
 
-        return user
+        return schema.dump(user)
 
     def get_tokens(self, username: str, password: str, totp_code: str = ''):
         if not username or not password:

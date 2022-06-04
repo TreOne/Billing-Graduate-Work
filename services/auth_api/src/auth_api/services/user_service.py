@@ -20,7 +20,7 @@ class UserServiceException(Exception):
 class UserService:
 
     def get_auth_history(self, user_uuid: str):
-        auth_history = AuthHistory.query.filter_by(user_uuid=user_uuid)
+        auth_history = AuthHistory.query.filter_by(user_uuid=user_uuid).order_by(AuthHistory.created_at.desc())
         return auth_history
 
     def change_user_totp_status(self, user_uuid, totp_status: bool, totp_code: str):

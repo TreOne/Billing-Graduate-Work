@@ -25,6 +25,7 @@ class User(db.Model):
     is_totp_enabled = db.Column(db.Boolean, default=False, nullable=False)
     two_factor_secret = db.Column(db.String(255))
     social_id = db.Column(db.String(255))
+    # subscriptions = db.relationship('UserSubscriptions', secondary='subscriptions')
 
     @hybrid_property
     def password(self):
@@ -88,6 +89,15 @@ class AuthHistory(db.Model):
     ip_address = db.Column(db.String(40), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
-    __mapper_args__ = {
-        "order_by": created_at.desc(),
-    }
+
+# class UserSubscriptions(db.Model):
+#     __tablename__ = 'subscriptions'
+#
+#     uuid = db.Column(GUID(), primary_key=True, default=uuid_.uuid4)
+#     user_uuid = db.Column(GUID(), db.ForeignKey('users.uuid'))
+#     name = db.Column(db.String(80))
+#     data_expiration = db.Column(db.DateTime)
+#
+#
+#     def __repr__(self):
+#         return '<Subscription %s>' % self.name

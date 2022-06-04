@@ -111,21 +111,20 @@ class RoleResource(Resource):
     """
 
     @user_has_role('administrator', 'editor')
-    def get(self, name):
-        role = role_service.get_role(name)
+    def get(self, role_uuid):
+        role = role_service.get_role(role_uuid)
         return {'role': role}
 
     @user_has_role('administrator')
-    def put(self, name):
-        # ToDO проверить строку ниже
-        new_name = request.json
-        role = role_service.update_role(new_name)
+    def put(self, role_uuid):
+        new_name = request.json.get("name")
+        role = role_service.update_role(role_uuid, new_name)
 
         return {'msg': 'Role updated.', 'role': role}
 
     @user_has_role('administrator')
-    def delete(self, name):
-        role_service.delete_role(name)
+    def delete(self, role_uuid):
+        role_service.delete_role(role_uuid)
 
         return {'msg': 'Role deleted.'}
 
@@ -206,8 +205,7 @@ class RoleList(Resource):
 
     @user_has_role('administrator')
     def post(self):
-        # TODO проверить строку ниже
-        new_role = request.json
+        new_role = {"name": request.json.get("name")}
         try:
             role = role_service.create_role(new_role)
             return {'msg': 'Role created.', 'role': role}, CREATED
