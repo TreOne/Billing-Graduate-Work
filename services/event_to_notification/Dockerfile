@@ -35,11 +35,9 @@ RUN mkdir $APP_LOGS
 WORKDIR $APP_HOME
 
 # Устанавливаем зависимости
-COPY --from=builder-image /usr/src/app/wheels /wheels
+COPY --from=python-base /usr/src/app/wheels /wheels
 RUN pip install --no-cache /wheels/*
 
-# Копируем файлы проекта
-COPY /src/ $APP_HOME
 
 # Изменяем владельца файлов на app
 RUN chown -R app:app $APP_HOME
