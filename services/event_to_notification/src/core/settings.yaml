@@ -17,7 +17,11 @@ kafka:
 
 tasks:
   - title: bill.created
-    method: !!python/name:services.nottification_handlers.send_created_notification_to_user
-  - title : bill.paid
-    method : !!python/name:services.nottification_handlers.send_paid_notification_to_user
+    handler: !Func
+      module: services.notification_handlers
+      name: send_paid_notification_to_user
 
+  - title : bill.paid
+    handler: !Func
+      module: services.notification_handlers
+      name: send_paid_notification_to_user

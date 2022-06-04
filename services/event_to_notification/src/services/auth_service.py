@@ -1,7 +1,15 @@
+from functools import lru_cache
+
 import requests
 from requests import request
 
 from services.base_services import AbstractAuth
+from core.settings import get_settings
+
+
+settings = get_settings()
+
+AUTH_API_URL = settings.auth_api_url
 
 
 class AuthAPI(AbstractAuth):
@@ -76,3 +84,8 @@ class AuthAPI(AbstractAuth):
             'Authorization': f"Bearer {self.__access_token}",
         }
         return header
+
+
+@lru_cache
+def get_auth_api():
+    return AuthAPI(AUTH_API_URL)

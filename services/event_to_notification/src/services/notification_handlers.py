@@ -1,13 +1,19 @@
+__all__ = ["send_bill_notification_to_user"]
+
 import logging
 
 from orjson import orjson
 
-from core.settings import settings
+from core.settings import get_settings
+
 from models.bill import IncomingBill
 from models.message import TemplateBodySchema, NotificationSchema
 from models.user import UserSchema
-from services.base_services import get_auth_api
+from services.auth_service import get_auth_api
+
 from services.base_utils import render_template, send_message
+
+settings = get_settings()
 
 user_auth_service = get_auth_api()
 user_auth_service.login(username=settings.auth_login,
@@ -41,3 +47,6 @@ def send_bill_notification_to_user(message: dict[str, any]) -> None:
 def send_paid_notification_to_user(message: str):
     logger = logging.getLogger(__name__)
     logger.error(message)
+
+
+

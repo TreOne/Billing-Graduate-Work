@@ -6,10 +6,11 @@ from typing import Optional, NamedTuple
 import backoff
 from kafka import KafkaConsumer
 
-from core.settings import settings, KafkaTaskSettings
+from core.settings import get_settings, KafkaTaskSettings
 from services.base_services import AbstractConsumer
 
 logger = logging.getLogger(__name__)
+settings = get_settings()
 
 
 class ConsumerKafka(AbstractConsumer):
@@ -33,7 +34,7 @@ class ConsumerKafka(AbstractConsumer):
                 group_id=self.configs.group_id,
                 reconnect_backoff_ms=100,
             )
-            self.consumer.subscribe(topics=self.configs.topic)
+            self.consumer.subscribe(topics=self.configs.topics)
 
     def stop_consumer(self) -> None:
         self.consumer.close()

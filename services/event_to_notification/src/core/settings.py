@@ -1,10 +1,12 @@
-__all__ = ['settings', 'KafkaTaskSettings']
+__all__ = ['get_settings', 'KafkaTaskSettings']
 
-from pathlib import Path
-from typing import Any, Callable
+from functools import lru_cache
 
-import yaml
+from typing import Callable
+
 from pydantic import BaseModel, BaseSettings
+
+from core.yaml_loader import yaml_settings_source
 
 
 class KafkaTaskSettings(BaseModel):
@@ -12,12 +14,12 @@ class KafkaTaskSettings(BaseModel):
     auto_offset_reset: str
     enable_auto_commit: str
     group_id: str
-    topic: list[str]
+    topics: list[str]
 
 
 class TaskSettings(BaseModel):
     title: str
-    method: Callable
+    handler: Callable
 
     class Config:
         arbitrary_types_allowed = True
@@ -27,7 +29,7 @@ class Settings(BaseSettings):
     auth_api_url: str = 'http://localhost/auth/'
     notification_api_url = 'http://localhost/api/v1/send/email'
     auth_login: str
-    auth_password:str
+    auth_password: str
     backoff_timeout: int = 30
     kafka: KafkaTaskSettings
     cycles_delay: int
@@ -47,12 +49,10 @@ class Settings(BaseSettings):
             )
 
 
-def yaml_settings_source(settings: BaseSettings) -> dict[str, Any]:
-    """Возвращает настройки из файла settings.yaml."""
-    settings_path = Path(__file__).parent / 'settings.yaml'
-    with settings_path.open('r', encoding='utf-8') as f:
-        yaml_settings = yaml.load(f, Loader=yaml.Loader)
-    return yaml_settings
+@lru_cache
+def get_settings():
+    settings = Settings()
+    return settings
 
 
-settings = Settings()
+

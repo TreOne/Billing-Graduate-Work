@@ -6,7 +6,9 @@ import bitly_api
 import requests
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from core.settings import settings
+from core.settings import get_settings
+
+settings = get_settings()
 
 
 def render_template(data: dict, template_name: str) -> str:
