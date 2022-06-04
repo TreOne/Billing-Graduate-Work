@@ -18,6 +18,10 @@ redis:
   host: redis
   port: 6379
 
+kafka:
+  kafka_url: localhost:9092
+  topic: bill
+
 jaeger:
   host: jaeger
   port: 6831
