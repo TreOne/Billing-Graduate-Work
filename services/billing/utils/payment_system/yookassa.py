@@ -5,6 +5,7 @@ from yookassa.domain.request import PaymentRequestBuilder
 from yookassa.domain.response import PaymentResponse
 
 from billing.models.enums import PaymentStatus
+from billing.repositories import UserAutoPayRepository
 from utils.payment_system import AbstractPaymentSystem
 
 __all__ = ("YooKassaPaymentSystem",)
@@ -68,6 +69,13 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
 
         request = builder.build()
         payment = Payment.create(request, idempotency_key=params.bill_uuid)
+
+        # save User's auto pay
+        if not params.save_payment_method:
+            UserAutoPayRepository.save_users_auto_pay(
+                payment_id=payment.id, bill_uuid=params.bill_uuid,
+            )
+
         return payment
 
     def _get_status_from_payment(self, payment: PaymentResponse) -> PaymentStatus:
