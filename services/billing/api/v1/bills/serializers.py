@@ -6,10 +6,16 @@ from billing.models import Bill
 from billing.models.enums import BillType
 
 
-class BillSerializer(serializers.ModelSerializer):
+class BillListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
-        fields = ("id",)
+        fields = (
+            "id",
+            "status",
+            "type",
+            "item_uuid",
+            "amount",
+        )
 
 
 class BillCreateSerializer(serializers.ModelSerializer):

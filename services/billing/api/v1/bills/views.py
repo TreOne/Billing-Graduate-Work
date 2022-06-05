@@ -9,16 +9,23 @@ from api.v1.bills.serializers import (
     BillConfirmUrlSerializer,
     BillCreateRequestSerializer,
     BillCreateSerializer,
+    BillListSerializer,
 )
 from billing.models.enums import BillType
-from billing.repositories import SubscriptionRepository
-from config.payment_service import get_payment_service, payment_system
+from billing.repositories import BillRepository, SubscriptionRepository
+from config.payment_service import payment_system
 from utils.schemas import PaymentParams
 
 
 class BillViewSet(viewsets.ViewSet):
 
     permission_classes = (IsAuthenticated,)
+
+    @extend_schema(responses=BillListSerializer)
+    def list(self, request: Request) -> Response:
+        user_uuid: str = request.user.id
+        bills = BillRepository.get_user_bills(user_uuid=user_uuid)
+        return Response(BillListSerializer(bills, many=True).data)
 
     @extend_schema(
         request=BillCreateRequestSerializer, responses=BillConfirmUrlSerializer
@@ -49,6 +56,6 @@ class BillViewSet(viewsets.ViewSet):
         )
         confirmation_url = payment_system.create_confirmation_url(params=payment_params)
         return Response(
-            {"confirmation_url": confirmation_url},
+            BillConfirmUrlSerializer({"confirmation_url": confirmation_url}).data,
             status=status.HTTP_201_CREATED,
         )
