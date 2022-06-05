@@ -1,7 +1,7 @@
 from billing.models import Bill
 from billing.repositories import BaseRepository
 
-__all__ = ('BillRepository',)
+__all__ = ("BillRepository",)
 
 
 class BillRepository(BaseRepository):

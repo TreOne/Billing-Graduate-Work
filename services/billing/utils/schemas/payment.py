@@ -5,6 +5,7 @@ from utils.schemas import FastJsonModel
 
 class PaymentParams(FastJsonModel):
     """Параметры для создания платежа."""
+
     bill_uuid: str
     amount: float
     description: str

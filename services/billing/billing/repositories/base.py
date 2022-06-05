@@ -1,4 +1,6 @@
-__all__ = ('BaseRepository',)
+from rest_framework.generics import get_object_or_404
+
+__all__ = ("BaseRepository",)
 
 
 class BaseRepository:
@@ -10,5 +12,5 @@ class BaseRepository:
         return cls.MODEL_CLASS.objects.all()
 
     @classmethod
-    def get_by_id(cls, item_id: int):
-        return cls.MODEL_CLASS.objects.get(pk=item_id)
+    def get_by_id(cls, item_uuid: str):
+        return get_object_or_404(cls.MODEL_CLASS, id=item_uuid)

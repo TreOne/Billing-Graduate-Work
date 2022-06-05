@@ -7,7 +7,7 @@ from yookassa.domain.response import PaymentResponse
 from billing.models.enums import PaymentStatus
 from utils.payment_system import AbstractPaymentSystem
 
-__all__ = ('YooKassaPaymentSystem',)
+__all__ = ("YooKassaPaymentSystem",)
 
 from utils.schemas import PaymentParams
 
@@ -36,7 +36,7 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         """Производит автоматическую оплату."""
         payment = self._create_payment(params)
         payment_status = self._get_status_from_payment(payment)
-        is_successful = (payment_status == PaymentStatus.PAID)
+        is_successful = payment_status == PaymentStatus.PAID
         return is_successful
 
     def get_payment_status(self, payment_id: str) -> PaymentStatus:
@@ -48,21 +48,23 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
     def _create_payment(self, params: PaymentParams) -> PaymentResponse:
         """Создает платеж."""
         builder = PaymentRequestBuilder()
-        builder.set_amount({'value': params.amount, 'currency': Currency.RUB})
+        builder.set_amount({"value": params.amount, "currency": Currency.RUB})
 
         if params.autopay_id:
             # Автоплатеж
             builder.set_payment_method_id(params.autopay_id)
         else:
             # Требуется подтверждение оплаты пользователем
-            builder.set_confirmation({'type': ConfirmationType.REDIRECT, 'return_url': self._return_url})
+            builder.set_confirmation(
+                {"type": ConfirmationType.REDIRECT, "return_url": self._return_url}
+            )
             if params.save_payment_method:
                 builder.set_save_payment_method(True)
-                builder.set_payment_method_data({'type': 'bank_card'})
+                builder.set_payment_method_data({"type": "bank_card"})
 
         builder.set_capture(True)  # Автоматический прием поступившего платежа
         builder.set_description(params.description)
-        builder.set_metadata({'bill_uuid': params.bill_uuid})
+        builder.set_metadata({"bill_uuid": params.bill_uuid})
 
         request = builder.build()
         payment = Payment.create(request, idempotency_key=params.bill_uuid)
@@ -73,11 +75,11 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         if payment.refunded_amount.value:
             return PaymentStatus.REFUNDED
 
-        if payment.status == 'pending':
+        if payment.status == "pending":
             return PaymentStatus.CREATED
-        elif payment.status == 'succeeded':
+        elif payment.status == "succeeded":
             return PaymentStatus.PAID
-        elif payment.status == 'canceled':
+        elif payment.status == "canceled":
             return PaymentStatus.CANCELED
 
-        raise ValueError('Failed to determine the payment status.')
+        raise ValueError("Failed to determine the payment status.")

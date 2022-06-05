@@ -21,6 +21,7 @@ class BillStatus(models.TextChoices):
 
 class PaymentStatus(Enum):
     """Статус оплаты."""
+
     CREATED = 1
     PAID = 2
     CANCELED = 3
