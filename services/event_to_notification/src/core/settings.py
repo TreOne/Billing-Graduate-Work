@@ -1,4 +1,4 @@
-__all__ = ['get_settings', 'KafkaTaskSettings']
+__all__ = ['get_settings', 'KafkaTaskSettings', 'Settings']
 
 from functools import lru_cache
 
@@ -10,6 +10,9 @@ from core.yaml_loader import yaml_settings_source
 
 
 class KafkaTaskSettings(BaseModel):
+    class Config:
+        env_prefix = 'KAFKA_'
+
     bootstrap_servers: str
     auto_offset_reset: str
     enable_auto_commit: str
@@ -40,7 +43,7 @@ class Settings(BaseSettings):
 
         @classmethod
         def customise_sources(cls, init_settings, env_settings, file_secret_settings):
-            """Переопределение старшинства источников настроек."""
+            """ Settings priority order  """
             return (
                 init_settings,
                 env_settings,
@@ -53,6 +56,3 @@ class Settings(BaseSettings):
 def get_settings():
     settings = Settings()
     return settings
-
-
-

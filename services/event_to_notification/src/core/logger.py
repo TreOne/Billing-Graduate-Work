@@ -1,4 +1,4 @@
-__all__ = ["get_logger"]
+__all__ = ['get_logger']
 import logging
 import os
 from logging.handlers import RotatingFileHandler
@@ -12,7 +12,10 @@ def get_logger(logger_name: str, level: Optional[int] = logging.DEBUG) -> loggin
     logger.setLevel(level)
     os.makedirs('/var/log/app/', exist_ok=True)
     handler = RotatingFileHandler(
-        f'/var/log/app/{logger_name}.log', maxBytes=10 * 1024 * 1024, backupCount=5, encoding='utf-8',
+        f'/var/log/app/{logger_name}.log',
+        maxBytes=10 * 1024 * 1024,
+        backupCount=5,
+        encoding='utf-8',
     )
     handler.setFormatter(logging.Formatter(log_format))
     logger.addHandler(handler)

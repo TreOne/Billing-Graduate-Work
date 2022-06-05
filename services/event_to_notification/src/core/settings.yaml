@@ -7,7 +7,7 @@ auth_login: notification
 auth_password: notification_password
 
 kafka:
-  bootstrap_servers: localhost:9092
+  bootstrap_servers: kafka:9092
   auto_offset_reset: earliest
   enable_auto_commit: false
   group_id: etl_service
@@ -17,11 +17,9 @@ kafka:
 
 tasks:
   - title: bill.created
-    handler: !Func
-      module: services.notification_handlers
-      name: send_paid_notification_to_user
+    handler: !!python/name:services.notification_handlers.send_bill_notification_to_user
+
 
   - title : bill.paid
-    handler: !Func
-      module: services.notification_handlers
-      name: send_paid_notification_to_user
+    handler: !!python/name:services.notification_handlers.send_bill_notification_to_user
+
