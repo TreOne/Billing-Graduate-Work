@@ -1,23 +1,21 @@
-from abc import ABC, abstractmethod
-
 from billing.models.enums import PaymentStatus
+from utils.payment_system import AbstractPaymentSystem
 from utils.schemas import PaymentParams
 
-__all__ = ('AbstractPaymentSystem',)
+__all__ = ('TestPaymentSystem',)
 
 
-class AbstractPaymentSystem(ABC):
-    @abstractmethod
+class TestPaymentSystem(AbstractPaymentSystem):
+    """Реализация платежной системы для проведения тестирования (без проведения реальных платежей)."""
+
     def create_confirmation_url(self, params: PaymentParams) -> str:
         """Создает ссылку для оплаты."""
-        raise NotImplementedError
+        return 'https://example.com'
 
-    @abstractmethod
     def make_autopay(self, params: PaymentParams) -> bool:
         """Производит автоматическую оплату."""
-        raise NotImplementedError
+        return True
 
-    @abstractmethod
     def get_payment_status(self, payment_id: str) -> PaymentStatus:
         """Возвращает статус платежа."""
-        raise NotImplementedError
+        return PaymentStatus.PAID
