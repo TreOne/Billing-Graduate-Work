@@ -1,14 +1,11 @@
-from http.client import BAD_REQUEST, CREATED, FORBIDDEN, CONFLICT
+from http.client import BAD_REQUEST, CREATED
 
-import pyotp
 from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify, request
 from flask_jwt_extended import get_jwt, jwt_required, decode_token
 from marshmallow import ValidationError
-from sqlalchemy import or_
 
-from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import (
     create_tokens,
     deactivate_access_token,
@@ -16,11 +13,8 @@ from auth_api.commons.jwt_utils import (
     deactivate_refresh_token,
     deactivate_refresh_token_by_access_token,
     get_user_uuid_from_token,
-    is_active_token, get_token_uuid_from_token, get_uuid_from_encoded_refresh_token,
-)
-from auth_api.commons.utils import get_device_type
-from auth_api.extensions import apispec, jwt, pwd_context, db
-from auth_api.models import User
+    is_active_token, )
+from auth_api.extensions import apispec, jwt
 from auth_api.services.auth_service import AuthService, AuthServiceException
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth/v1')
@@ -86,7 +80,6 @@ def signup():
         return {'msg': 'User created.', 'user': registered_user}, CREATED
     except AuthServiceException as e:
         return {'msg': str(e)}, e.http_code
-
 
 
 @blueprint.route('/login', methods=['POST'])

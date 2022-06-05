@@ -5,9 +5,10 @@ role_service = RoleService()
 
 
 def add_role_to_user(body):
-    role_uuid = role_service.get_role(body.type)
+    roles = role_service.get_roles()['roles']
+    role_uuid = [role['uuid'] for role in roles if role['name'] == 'subscriber']
     user_uuid = body.user_uuid
-    roles = role_service.add_role_to_user(user_uuid, role_uuid)
+    roles = role_service.add_role_to_user(user_uuid, role_uuid[0])
     print(f'Add role {body.type} to user. User roles: {roles}.')
 
 

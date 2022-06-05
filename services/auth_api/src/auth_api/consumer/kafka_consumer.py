@@ -1,10 +1,6 @@
 import json
 
-from kafka import KafkaConsumer, KafkaProducer
-from kafka.structs import TopicPartition
-
-from auth_api.consumer import message_handler
-from auth_api.consumer.models import Message
+from kafka import KafkaConsumer
 
 
 class KafkaConnector:
@@ -22,17 +18,3 @@ class KafkaConnector:
         )
 
         return consumer
-
-    # def consume_kafka(self, message_handler):
-    #     consumer = self.init_consumer()
-    #     try:
-    #         for message in consumer:
-    #             title = message.key.decode("utf-8")
-    #             body = message.value
-    #             message = Message(title=title, body=body)
-    #             message_handler.handle(message)
-    #
-    #     except Exception as exe:
-    #         print(f"Возникла ошибка при получении сообщений из кафки:{exe}")
-
-

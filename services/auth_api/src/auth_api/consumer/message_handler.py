@@ -2,6 +2,7 @@ from typing import Callable, Dict, List
 
 from models import Message
 
+
 class MessageHandler:
     def __init__(self):
         self.__observers: Dict[str, List[Callable]] = dict()
