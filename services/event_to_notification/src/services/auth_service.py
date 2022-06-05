@@ -1,20 +1,24 @@
-from functools import lru_cache
+from abc import ABC, abstractmethod
 
 import requests
 from requests import request
 
-from services.base_services import AbstractAuth
-from core.settings import get_settings
 
+from core.settings import get_settings
+from services.abstract_services import AbstractAuth
 
 settings = get_settings()
 
 AUTH_API_URL = settings.auth_api_url
 
 
-class AuthAPI(AbstractAuth):
-    def __init__(self, api_url):
-        self._api_url = api_url
+class AuthAPI(AbstractAuth, ABC):
+    @property
+    @abstractmethod
+    def api_url(self) -> str:
+        pass
+
+    def __init__(self):
         self.__username = ''
         self.__password = ''
         self.__refresh_token = ''
@@ -32,7 +36,7 @@ class AuthAPI(AbstractAuth):
         return response.json().get('user') if response.status_code == 200 else None
 
     def _abs_url(self, path: str) -> str:
-        return f'{self._api_url}{path}'
+        return f'{self.api_url}{path}'
 
     def _get(self, path: str, headers=None) -> request:
         url = self._abs_url(f'{path}')
@@ -81,11 +85,6 @@ class AuthAPI(AbstractAuth):
     def _get_headers(self):
         header = {
             'Content-type': 'application/json',
-            'Authorization': f"Bearer {self.__access_token}",
+            'Authorization': f'Bearer {self.__access_token}',
         }
         return header
-
-
-@lru_cache
-def get_auth_api():
-    return AuthAPI(AUTH_API_URL)
