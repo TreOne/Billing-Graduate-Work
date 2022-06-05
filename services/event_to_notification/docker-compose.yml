@@ -6,8 +6,8 @@ services:
     command: [ "python","main.py"]
     volumes:
       - ./src:/home/app/src
-#    env_file:
-#      - example.env
+    environment:
+     -  KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - external_movie_network
 
