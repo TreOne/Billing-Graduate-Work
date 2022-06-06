@@ -6,7 +6,8 @@ from sqlalchemy import or_
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import create_tokens
 from auth_api.commons.utils import get_device_type
-from auth_api.extensions import db, pwd_context
+from auth_api.database import session
+from auth_api.extensions import pwd_context
 from auth_api.models.user import User, AuthHistory
 
 
@@ -20,18 +21,15 @@ class AuthService:
 
     def register_user(self, username: str, email: str, password: str):
         schema = UserSchema()
-        user = schema.load({"username": username,
-                           "email": email,
-                           "password": password})
-        existing_user = User.query.filter(
-            or_(User.username == user.username, User.email == user.email),
+        existing_user = session.query(User).filter(
+            or_(User.username == username, User.email == email),
         ).first()
         if existing_user:
             raise AuthServiceException('Username or email is already taken!', http_code=CONFLICT)
-        # user = User(username=username, email=email)
+        user = User(username=username, email=email, password=password)
 
-        db.session.add(user)
-        db.session.commit()
+        session.add(user)
+        session.commit()
 
         return schema.dump(user)
 
@@ -39,7 +37,7 @@ class AuthService:
         if not username or not password:
             raise AuthServiceException('Missing username or password.', http_code=BAD_REQUEST)
 
-        user = User.query.filter_by(username=username).first()
+        user = session.query(User).filter_by(username=username).first()
 
         if user is None or not pwd_context.verify(password, user.password):
             raise AuthServiceException('Bad credentials.', http_code=BAD_REQUEST)
@@ -58,7 +56,7 @@ class AuthService:
         return access_token, refresh_token
 
     def add_to_history(self, user_uuid: str, user_agent: str, ip_address: str):
-        db.session.add(
+        session.add(
             AuthHistory(
                 user_uuid=user_uuid,
                 user_agent=user_agent,
@@ -66,4 +64,4 @@ class AuthService:
                 device=get_device_type(user_agent),
             ),
         )
-        db.session.commit()
+        session.commit()

@@ -5,6 +5,7 @@ from auth_api.commons.oauth.clients import OAuthClient
 from auth_api.commons.utils import generate_password
 from auth_api.extensions import db
 from auth_api.models.user import User
+from auth_api.database import session
 
 
 class OAuthServiceException(Exception):
@@ -16,9 +17,9 @@ class OAuthServiceException(Exception):
 class OAuthService:
 
     def login_user_oauth(self, social_id: str, email: str):
-        user = User.query.filter_by(social_id=social_id).first()
+        user = session.query(User).filter_by(social_id=social_id).first()
         if user is None:
-            email_exist = User.query.filter_by(email=email).first()
+            email_exist = session.query(User).filter_by(email=email).first()
             if email_exist:
                 email = None
 
@@ -28,8 +29,8 @@ class OAuthService:
                 password=generate_password(),
                 social_id=social_id,
             )
-            db.session.add(user)
-            db.session.commit()
+            session.add(user)
+            session.commit()
 
         if not user.is_active:
             raise OAuthServiceException('Your account is blocked.', http_code=FORBIDDEN)

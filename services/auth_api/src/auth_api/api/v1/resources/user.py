@@ -106,18 +106,20 @@ class MeResource(Resource):
     def put(self):
         access_token = get_jwt()
 
-        user_data = {'email': request.json.get('email', None),
-                     'username': request.json.get('username', None),
-                     'password': request.json.get('password', None)}
-        data_to_update = {k: v for k, v in user_data.items() if v is not None}
-        if not data_to_update:
+        email = request.json.get('email')
+        username = request.json.get('username')
+        password = request.json.get('password')
+        if not any([email, username, password]):
             return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
-        user, new_access_token = user_service.update_current_user(access_token, data_to_update)
-        return {
-            'msg': 'Update is successful. Please use new access_token.',
-            'user': user,
-            'access_token': new_access_token,
-        }
+        try:
+            user, new_access_token = user_service.update_current_user(access_token, email, username, password)
+            return {
+                'msg': 'Update is successful. Please use new access_token.',
+                'user': user,
+                'access_token': new_access_token,
+            }
+        except UserServiceException as e:
+            return {'msg': str(e)}, e.http_code
 
     def delete(self):
         access_token = get_jwt()
@@ -240,21 +242,24 @@ class UserResource(Resource):
 
     @user_has_role('administrator', 'editor')
     def get(self, user_uuid):
-        user = user_service.get_user(user_uuid)
-        return {'user': user}
+        try:
+            user = user_service.get_user(user_uuid)
+            return {'user': user}
+        except UserServiceException as e:
+            return {'msg': str(e)}, e.http_code
 
     @user_has_role('administrator')
     def put(self, user_uuid):
-        # ToDO посмотреть на user_data
-        user_data = {'email': request.json.get('email', None),
-                     'username': request.json.get('username', None),
-                     'password': request.json.get('password', None)}
-        data_to_update = {k: v for k, v in user_data.items() if v is not None}
-        if not data_to_update:
+        email = request.json.get('email')
+        username = request.json.get('username')
+        password = request.json.get('password')
+        if not any([email, username, password]):
             return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
-        user = user_service.update_user(user_uuid, data_to_update)
-
-        return {'msg': 'Update is successful.', 'user': user}
+        try:
+            user = user_service.update_user(user_uuid, email, username, password)
+            return {'msg': 'Update is successful.', 'user': user}
+        except UserServiceException as e:
+            return {'msg': str(e)}, e.http_code
 
     @user_has_role('administrator')
     def delete(self, user_uuid):
@@ -343,14 +348,13 @@ class UserList(Resource):
 
     @user_has_role('administrator')
     def post(self):
-        user_data = {'email': request.json.get('email', None),
-                     'username': request.json.get('username', None),
-                     'password': request.json.get('password', None)}
-        data_to_update = {k: v for k, v in user_data.items() if v is not None}
-        if not data_to_update:
-            return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
+        email = request.json.get('email')
+        username = request.json.get('username')
+        password = request.json.get('password')
+        if not any([email, username, password]):
+            return {'msg': 'Email, username and password must be filled.'}, BAD_REQUEST
         try:
-            user = user_service.create_user(data_to_update)
+            user = user_service.create_user(email, username, password)
             return {'msg': 'User created.', 'user': user}, CREATED
         except UserServiceException as e:
             return {'msg': str(e)}, e.http_code

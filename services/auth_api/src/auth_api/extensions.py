@@ -3,16 +3,17 @@ from flask_jsonrpc import JSONRPC
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from jaeger_client import Config
 from passlib.context import CryptContext
 
 from auth_api.commons.apispec import APISpecExt
 from auth_api.commons.flask_opentracing import FlaskTracing
 from auth_api.settings.settings import Settings
+from auth_api.database import metadata
 
 settings = Settings()
-db = SQLAlchemy()
+# db = SQLAlchemy(metadata=metadata)
 jwt = JWTManager()
 blocked_access_tokens = redis.Redis(
     host=settings.redis.host, port=settings.redis.port, db=1, decode_responses=True,

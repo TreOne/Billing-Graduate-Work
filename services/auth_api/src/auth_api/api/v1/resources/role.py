@@ -205,9 +205,9 @@ class RoleList(Resource):
 
     @user_has_role('administrator')
     def post(self):
-        new_role = {"name": request.json.get("name")}
+        name = request.json.get("name")
         try:
-            role = role_service.create_role(new_role)
+            role = role_service.create_role(name)
             return {'msg': 'Role created.', 'role': role}, CREATED
         except RoleServiceException as e:
             return {'msg': str(e)}, e.http_code

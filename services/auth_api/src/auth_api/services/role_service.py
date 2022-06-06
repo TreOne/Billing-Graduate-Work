@@ -1,7 +1,7 @@
-from http.client import CONFLICT
+from http.client import CONFLICT, NOT_FOUND
 
 from auth_api.api.v1.schemas.role import RoleSchema
-from auth_api.extensions import db
+from auth_api.database import session
 from auth_api.models.user import Role, User
 
 
@@ -13,66 +13,76 @@ class RoleServiceException(Exception):
 
 class RoleService:
 
-    def get_role(self, role_uuid):
+    def get_role(self, role_uuid: str):
         schema = RoleSchema()
-        role = Role.query.filter_by(uuid=role_uuid).first()
+        role = session.query(Role).filter_by(uuid=role_uuid).first()
         return {'role': schema.dump(role)}
 
-    def update_role(self, role_uuid, new_name):
+    def update_role(self, role_uuid: str, new_name: str):
         schema = RoleSchema(partial=True)
-        role = Role.query.filter_by(uuid=role_uuid).first()
-        role = schema.load({"name": new_name}, instance=role)
+        role = session.query(Role).filter_by(uuid=role_uuid).first()
+        role.name = new_name
 
-        db.session.commit()
+        session.commit()
         return schema.dump(role)
 
-    def delete_role(self, role_uuid):
-        role = Role.query.filter_by(uuid=role_uuid).first()
-        db.session.delete(role)
-        db.session.commit()
+    def delete_role(self, role_uuid: str):
+        role = session.query(Role).filter_by(uuid=role_uuid).first()
+        session.delete(role)
+        session.commit()
 
     def get_roles(self):
         schema = RoleSchema(many=True)
-        roles = Role.query.all()
+        roles = session.query(Role).all()
         return schema.dump(roles)
 
-    def create_role(self, new_role):
+    def create_role(self, name: str):
         schema = RoleSchema()
-        role = schema.load(new_role)
+        role = Role(name=name)
 
-        existing_role = Role.query.filter_by(name=role.name).first()
+        existing_role = session.query(Role).filter_by(name=name).first()
         if existing_role:
             raise RoleServiceException('Role already exist!', http_code=CONFLICT)
 
-        db.session.add(role)
-        db.session.commit()
+        session.add(role)
+        session.commit()
 
         return {'msg': 'Role created.', 'role': schema.dump(role)},
 
     def add_role_to_user(self, user_uuid: str, role_uuid: str):
-        user = User.query.get_or_404(user_uuid)
-        role = Role.query.get_or_404(role_uuid)
+        user = session.query(User).get(user_uuid)
+        if not user:
+            raise RoleServiceException('User not found.', http_code=NOT_FOUND)
+        role = session.query(Role).get(role_uuid)
+        if not role:
+            raise RoleServiceException('Role not found.', http_code=NOT_FOUND)
         user.roles.append(role)
 
-        db.session.add(user)
-        db.session.commit()
+        session.add(user)
+        session.commit()
 
         return user.roles
 
     def delete_user_role(self, user_uuid: str, role_uuid: str):
-        user = User.query.get_or_404(user_uuid)
-        role = Role.query.get_or_404(role_uuid)
+        user = session.query(User).get(user_uuid)
+        if not user:
+            raise RoleServiceException('User not found.', http_code=NOT_FOUND)
+        role = session.query(Role).get(role_uuid)
+        if not role:
+            raise RoleServiceException('Role not found.', http_code=NOT_FOUND)
 
         if role in user.roles:
             user.roles.remove(role)
         else:
             raise RoleServiceException('The user does not have this role.', http_code=CONFLICT)
 
-        db.session.add(user)
-        db.session.commit()
+        session.add(user)
+        session.commit()
 
         return user.roles
 
     def get_user_roles(self, user_uuid: str):
-        user = User.query.get_or_404(user_uuid)
+        user = session.query(User).get(user_uuid)
+        if not user:
+            raise RoleServiceException('User not found.', http_code=NOT_FOUND)
         return user.roles
