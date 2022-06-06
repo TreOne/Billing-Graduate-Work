@@ -1,26 +1,17 @@
-from abc import ABC, abstractmethod
+from http import HTTPStatus
+from typing import Optional
 
 import requests
 from requests import request
 
-
-from core.settings import get_settings
-from services.abstract_services import AbstractAuth
-
-settings = get_settings()
-
-AUTH_API_URL = settings.auth_api_url
+from services.auth_api.base import AbstractAuth, UserSchema
 
 
-class AuthAPI(AbstractAuth, ABC):
-    @property
-    @abstractmethod
-    def api_url(self) -> str:
-        pass
-
-    def __init__(self):
-        self.__username = ''
-        self.__password = ''
+class AuthAPI(AbstractAuth):
+    def __init__(self, api_url: str, username: str, password: str):
+        self.api_url = api_url
+        self.__username = username
+        self.__password = password
         self.__refresh_token = ''
         self.__access_token = ''
         self.__get_user_url = 'api/v1/users/'
