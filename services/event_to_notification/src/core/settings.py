@@ -6,6 +6,16 @@ import yaml
 from pydantic import BaseModel, BaseSettings
 
 
+class NotificationApiSettings(BaseModel):
+    url: str
+
+
+class AuthAPISettings(BaseModel):
+    url: str
+    login: str
+    password: str
+
+
 class KafkaSettings(BaseModel):
     bootstrap_servers: str
     auto_offset_reset: str
@@ -15,14 +25,9 @@ class KafkaSettings(BaseModel):
 
 
 class Settings(BaseSettings):
-    auth_api_url: str = 'http://localhost/auth/'
-    notification_api_url = 'http://localhost/api/v1/send/email'
-    auth_login: str
-    auth_password: str
-    backoff_timeout: int = 30
-    kafka: KafkaTaskSettings
-    cycles_delay: int
-    tasks: list[TaskSettings]
+    notification_api: NotificationApiSettings
+    auth_api: AuthAPISettings
+    kafka: KafkaSettings
 
     class Config:
         env_nested_delimiter = '__'
@@ -45,6 +50,7 @@ def yaml_settings_source(settings: BaseSettings) -> dict[str, any]:
     with settings_path.open('r', encoding='utf-8') as f:
         yaml_settings = yaml.load(f, Loader=yaml.Loader)
     return yaml_settings
+
 
 @lru_cache
 def get_settings():
