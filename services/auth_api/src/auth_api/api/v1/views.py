@@ -16,9 +16,11 @@ from auth_api.commons.pagination import paginate
 from auth_api.extensions import apispec
 from auth_api.services.role_service import RoleService, RoleServiceException
 from auth_api.services.user_service import UserService, UserServiceException
+from auth_api.settings.settings import Settings
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 api = Api(blueprint)
+settings = Settings()
 user_service = UserService()
 role_service = RoleService()
 
@@ -379,6 +381,42 @@ def user_roles(user_uuid, role_uuid):
 
     schema = RoleSchema(many=True)
     return {'roles': schema.dump(roles)}
+
+
+
+@blueprint.route('/users/subscriptions_end', methods=['GET'])
+@jwt_required()
+def get_users_with_ending_subscriptions():
+    """Получение списка пользователей, у которых заканчивается подписка.
+
+    ---
+    get:
+      tags:
+        - api/users/subscriptions_end
+      summary: Получение списка пользователей, у которых заканчивается подписка.
+      description: Возвращает список пользователей, у которых заканчивается подписка.
+      responses:
+        200:
+          description: Список пользователей получен успешно.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items: User
+        401:
+          $ref: '#/components/responses/Unauthorized'
+    """
+    days_before_expired = settings.days_before_expired_subs
+    days_from_query = int(request.args.get("days", None))
+    if days_from_query:
+        days_before_expired = days_from_query
+    users = user_service.get_users_with_ending_subscriptions(days_before_expired)
+
+    return {'list of users whose subscription ends': users}
 
 
 @blueprint.errorhandler(ValidationError)

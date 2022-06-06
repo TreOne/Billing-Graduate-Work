@@ -2,7 +2,7 @@ from http.client import CONFLICT, NOT_FOUND
 
 from auth_api.api.v1.schemas.role import RoleSchema
 from auth_api.database import session
-from auth_api.models.user import Role, User
+from auth_api.models.user import Role, User, UsersRoles
 
 
 class RoleServiceException(Exception):
@@ -16,7 +16,7 @@ class RoleService:
     def get_role(self, role_uuid: str):
         schema = RoleSchema()
         role = session.query(Role).filter_by(uuid=role_uuid).first()
-        return {'role': schema.dump(role)}
+        return schema.dump(role)
 
     def update_role(self, role_uuid: str, new_name: str):
         schema = RoleSchema(partial=True)

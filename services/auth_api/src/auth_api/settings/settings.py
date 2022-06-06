@@ -66,6 +66,7 @@ class Settings(BaseSettings):
     jaeger: JaegerSettings
     jwt: JWTSettings
     oauth: OAuthSettings
+    days_before_expired_subs: int
 
     class Config:
         env_nested_delimiter = '__'

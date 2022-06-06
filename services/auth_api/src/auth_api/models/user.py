@@ -4,21 +4,32 @@ import uuid as uuid_
 from sqlalchemy import PrimaryKeyConstraint
 from sqlalchemy.ext.hybrid import hybrid_property
 
+from auth_api.database import Base
 from auth_api.extensions import pwd_context
 from auth_api.models.custom_field_types import GUID
-from sqlalchemy import MetaData, Column, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from auth_api.database import Base
+
+
+
 
 class Role(Base):
     __tablename__ = 'roles'
 
     uuid = Column(GUID(), primary_key=True, default=uuid_.uuid4)
     name = Column(String(80), unique=True)
-    data_expiration = Column(DateTime)
 
     def __repr__(self):
         return '<Role %s>' % self.name
+
+class UsersRoles(Base):
+    __tablename__ = 'links_users_roles'
+
+    uuid = Column(GUID(), primary_key=True, default=uuid_.uuid4)
+    users_uuid = Column(GUID(), ForeignKey('users.uuid'))
+    roles_uuid = Column(GUID(), ForeignKey('roles.uuid'))
+    date_expiration = Column(DateTime, default=None)
+
 
 class User(Base):
     """Basic user model"""
@@ -33,11 +44,12 @@ class User(Base):
     is_superuser = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)
-    roles = relationship('Role', secondary='links_users_roles').where(Role.data_expiration > datetime.datetime.today())
+    roles = relationship('Role', secondary='links_users_roles',
+                         secondaryjoin=f"and_(UsersRoles.roles_uuid==Role.uuid, or_(UsersRoles.date_expiration==None, "
+                                       f"UsersRoles.date_expiration>'{datetime.datetime.utcnow()}'))")
     is_totp_enabled = Column(Boolean, default=False, nullable=False)
     two_factor_secret = Column(String(255))
     social_id = Column(String(255))
-    # subscriptions = relationship('UserSubscriptions', secondary='subscriptions')
 
     @hybrid_property
     def password(self):
@@ -61,13 +73,13 @@ class User(Base):
 #     def __repr__(self):
 #         return '<Role %s>' % self.name
 
-
-class UsersRoles(Base):
-    __tablename__ = 'links_users_roles'
-
-    uuid = Column(GUID(), primary_key=True, default=uuid_.uuid4)
-    users_uuid = Column(GUID(), ForeignKey('users.uuid'))
-    roles_uuid = Column(GUID(), ForeignKey('roles.uuid'))
+#
+# class UsersRoles(Base):
+#     __tablename__ = 'links_users_roles'
+#
+#     uuid = Column(GUID(), primary_key=True, default=uuid_.uuid4)
+#     users_uuid = Column(GUID(), ForeignKey('users.uuid'))
+#     roles_uuid = Column(GUID(), ForeignKey('roles.uuid'))
 
 
 def create_auth_partition(target, connection, **kw) -> None:

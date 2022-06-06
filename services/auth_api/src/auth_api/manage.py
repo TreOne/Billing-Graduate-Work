@@ -4,7 +4,7 @@ import click
 from flask.cli import with_appcontext
 from sqlalchemy import or_
 
-from auth_api.extensions import db
+from auth_api.database import session
 from auth_api.models import User
 from auth_api.models.user import Role
 
@@ -34,15 +34,15 @@ def createsuperuser(username, email, password):
         username=username, email=email, password=password, is_active=True, is_superuser=True,
     )
 
-    existing_superuser = User.query.filter(
+    existing_superuser = session.query(User).filter(
         or_(User.username == new_superuser.username, User.email == new_superuser.email),
     ).first()
 
     if existing_superuser:
         click.echo(f'{new_superuser.username} ({new_superuser.email}) already created!')
         return
-    db.session.add(new_superuser)
-    db.session.commit()
+    session.add(new_superuser)
+    session.commit()
     click.echo('Superuser created!')
 
 
@@ -52,6 +52,6 @@ def loaddata():
     """Инициализация базы данных."""
     roles = ['guest', 'subscriber', 'contributor', 'editor', 'administrator']
     for role in roles:
-        db.session.add(Role(name=role))
-    db.session.commit()
+        session.add(Role(name=role))
+    session.commit()
     click.echo(f'Load roles: {len(roles)}')

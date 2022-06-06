@@ -5,11 +5,10 @@ role_service = RoleService()
 
 
 def add_role_to_user(body):
-    roles = role_service.get_roles()
-    role_uuid = [role['uuid'] for role in roles if role['name'] == 'subscriber']
+    role_uuid = body.item_uuid
     user_uuid = body.user_uuid
     try:
-        roles = role_service.add_role_to_user(user_uuid, role_uuid[0])
+        roles = role_service.add_role_to_user(user_uuid, role_uuid)
         print(f'Add role {body.type} to user. User roles: {roles}.')
     except RoleServiceException as e:
         return {'msg': str(e)}, e.http_code
