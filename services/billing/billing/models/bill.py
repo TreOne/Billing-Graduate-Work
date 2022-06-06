@@ -41,13 +41,13 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         """
         Расширение метода сохранения, для отправки сообщений в Kafka.
         """
-        """ before save """
+        # before save
         super().save(*args, **kwargs)
-        """ after save """
+        # after save
         data = BillSchema(
             **{
                 "bill_uuid": str(self.pk),
-                "status": self.status,
+                "status": f"bill.{self.status}",
                 "user_uuid": str(self.user_uuid),
                 "type": self.type,
                 "item_uuid": str(self.item_uuid),

@@ -37,7 +37,7 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         """Производит автоматическую оплату."""
         payment = self._create_payment(params)
         payment_status = self._get_status_from_payment(payment)
-        is_successful = payment_status == PaymentStatus.PAID
+        is_successful: bool = payment_status == PaymentStatus.PAID
         return is_successful
 
     def get_payment_status(self, payment_id: str) -> PaymentStatus:
@@ -71,11 +71,10 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         payment = Payment.create(request, idempotency_key=params.bill_uuid)
 
         # save User's auto pay
-        if not params.save_payment_method:
+        if params.save_payment_method and not params.autopay_id:
             UserAutoPayRepository.save_users_auto_pay(
                 payment_id=payment.id, bill_uuid=params.bill_uuid,
             )
-
         return payment
 
     def _get_status_from_payment(self, payment: PaymentResponse) -> PaymentStatus:

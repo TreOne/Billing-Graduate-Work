@@ -9,7 +9,6 @@ class UserAutoPay(UUIDMixin, CreateTimeMixin):
     """Модель для хранения Автоплатежей пользователя."""
 
     user_uuid = models.UUIDField(verbose_name="uuid Пользователя", db_index=True)
-    bill_uuid = models.UUIDField(verbose_name="uuid Платежа")
 
     class Meta:
         db_table = "user_autopay"
@@ -17,10 +16,10 @@ class UserAutoPay(UUIDMixin, CreateTimeMixin):
         verbose_name_plural = "Автоплатежи"
         constraints = [
             models.UniqueConstraint(
-                fields=["user_uuid", "bill_uuid"],
-                name="unique_user_bill_auth_pay_index",
+                fields=["id", "user_uuid"],
+                name="unique_user_auth_pay_index",
             )
         ]
 
     def __str__(self) -> str:
-        return f"{self.pk}: {self.user_uuid} - {self.bill_uuid}"
+        return f"{self.pk}: {self.user_uuid}"

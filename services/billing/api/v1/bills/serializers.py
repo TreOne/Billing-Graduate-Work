@@ -40,3 +40,7 @@ class BillCreateRequestSerializer(serializers.Serializer):
 
 class BillConfirmUrlSerializer(serializers.Serializer):
     confirmation_url = serializers.CharField()
+
+
+class YooKassaNotificationSerializer(serializers.Serializer):
+    demo = serializers.CharField(required=True)

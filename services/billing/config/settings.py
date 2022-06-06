@@ -107,14 +107,14 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PARSER_CLASSES": ("rest_framework.parsers.JSONParser",),
-    "DEFAULT_RENDERER_CLASSES": (
-        "rest_framework.renderers.JSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-        "rest_framework.permissions.DjangoModelPermissions",
-    ),
+    # "DEFAULT_RENDERER_CLASSES": (
+    #     "rest_framework.renderers.JSONRenderer",
+    #     "rest_framework.renderers.BrowsableAPIRenderer",
+    # ),
+    # "DEFAULT_PERMISSION_CLASSES": (
+    #     "rest_framework.permissions.IsAuthenticated",
+    #     "rest_framework.permissions.DjangoModelPermissions",
+    # ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication",
     ),
@@ -201,7 +201,18 @@ YOOKASSA_SECRET_KEY: str = os.environ.get("YOOKASSA_SECRET_KEY")
 YOOKASSA_PAYMENT_RETURN_URL: str = (
     f'{SITE_URL}{os.environ.get("YOOKASSA_PAYMENT_RETURN_URL")}'
 )
+YOOKASSA_NOTIFICATION_URL: str = (
+    f'{SITE_URL}{os.environ.get("YOOKASSA_NOTIFICATION_URL")}'
+)
 
 # KAFKA
 KAFKA_HOST = os.environ.get("KAFKA_HOST")
 KAFKA_PORT: int = int(os.environ.get("KAFKA_PORT"))
+
+# MOVIE_SERVICE
+MOVIE_SERVICE_URL: str = os.environ.get("MOVIE_SERVICE_URL")
+MOVIE_SERVICE_GET_MOVIE: str = os.environ.get("MOVIE_SERVICE_URL")
+
+# AUTH_SERVICE
+AUTH_SERVICE_URL: str = os.environ.get("AUTH_SERVICE_URL")
+AUTH_SERVICE_URL_GET_AUTOPAY_USERS = os.environ.get("AUTH_SERVICE_URL_GET_AUTOPAY_USERS")
