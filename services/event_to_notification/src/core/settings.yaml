@@ -1,25 +1,17 @@
-cycles_delay: 60
+# Переопределение настроек с помощью переменных окружения:
+#     auth_api__password=bar
 
-auth_api_url: http://localhost/auth/
-notification_api_url: http://localhost/api/v1/send/email
+
+notification_api:
+  url: http://localhost/api/v1/send/email
 
 auth_login: notification
 auth_password: notification_password
 
 kafka:
-  bootstrap_servers: kafka:9092
+  bootstrap_servers: localhost:9092
   auto_offset_reset: earliest
   enable_auto_commit: false
   group_id: etl_service
   topics:
     - bill
-
-
-tasks:
-  - title: bill.created
-    handler: !!python/name:services.notification_handlers.send_bill_notification_to_user
-
-
-  - title : bill.paid
-    handler: !!python/name:services.notification_handlers.send_bill_notification_to_user
-
