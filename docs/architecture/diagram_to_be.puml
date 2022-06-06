@@ -33,8 +33,8 @@ Rel_Neighbor(user, billing_service, "Запрашивает услугу (под
 Rel_U(notification_service, user, "Отправляет уведомление", "STMT")
 
 Rel_U(event_broker, auth_api, "Потребляет", "bill.(paid/refunded)")
-Rel_U(event_broker, notification_service, "Потребляет", "bill.(created/paid/refunded)")
-Rel_Neighbor(billing_service, event_broker, "Публикует", "bill.(created/paid/refused/refunded)")
+Rel_U(event_broker, notification_service, "Потребляет", "bill.(paid/refunded)")
+Rel_Neighbor(billing_service, event_broker, "Публикует", "bill.(created/paid/cancelled/refunded)")
 
 Rel(payment_system, billing_service, "Подтверждает оплату")
 
