@@ -18,13 +18,12 @@ class AuthAPI(AbstractAuth):
         self.__refresh_token_url = 'auth/v1/refresh'
         self.__login_url = 'auth/v1/login'
 
-    def login(self, username, password) -> None:
-        self.__username = username
-        self.__password = password
-
-    def get_user_info(self, user_uuid: str) -> dict[str, any] or int or None:
+    def get_user_info(self, user_uuid: str) -> Optional[UserSchema]:
         response = self._get(f'{self.__get_user_url}{user_uuid}')
-        return response.json().get('user') if response.status_code == 200 else None
+        if response.status_code != HTTPStatus.OK:
+            return None
+        user_data = response.json().get('user')
+        return UserSchema(**user_data)
 
     def _abs_url(self, path: str) -> str:
         return f'{self.api_url}{path}'
