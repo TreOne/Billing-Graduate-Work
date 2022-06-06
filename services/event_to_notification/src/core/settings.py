@@ -1,31 +1,17 @@
-__all__ = ['get_settings', 'KafkaTaskSettings', 'Settings']
-
 from functools import lru_cache
+from pathlib import Path
+from typing import Optional
 
-from typing import Callable
-
+import yaml
 from pydantic import BaseModel, BaseSettings
 
-from core.yaml_loader import yaml_settings_source
 
-
-class KafkaTaskSettings(BaseModel):
-    class Config:
-        env_prefix = 'KAFKA_'
-
+class KafkaSettings(BaseModel):
     bootstrap_servers: str
     auto_offset_reset: str
     enable_auto_commit: str
     group_id: str
-    topics: list[str]
-
-
-class TaskSettings(BaseModel):
-    title: str
-    handler: Callable
-
-    class Config:
-        arbitrary_types_allowed = True
+    topics: Optional[list[str]]
 
 
 class Settings(BaseSettings):
@@ -40,10 +26,11 @@ class Settings(BaseSettings):
 
     class Config:
         env_nested_delimiter = '__'
+        case_sensitive = False
 
         @classmethod
         def customise_sources(cls, init_settings, env_settings, file_secret_settings):
-            """ Settings priority order  """
+            """Переопределение старшинства источников настроек."""
             return (
                 init_settings,
                 env_settings,
@@ -51,6 +38,13 @@ class Settings(BaseSettings):
                 file_secret_settings,
             )
 
+
+def yaml_settings_source(settings: BaseSettings) -> dict[str, any]:
+    """Возвращает настройки из файла settings.yaml."""
+    settings_path = Path(__file__).parent / 'settings.yaml'
+    with settings_path.open('r', encoding='utf-8') as f:
+        yaml_settings = yaml.load(f, Loader=yaml.Loader)
+    return yaml_settings
 
 @lru_cache
 def get_settings():
