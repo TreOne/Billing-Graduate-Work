@@ -1,24 +1,25 @@
-__all__ = ['send_bill_notification_to_user', 'send_paid_notification_to_user']
-
 import logging
 
-from orjson import orjson
+import orjson
 
-from models.bill import IncomingBill
-from models.message import TemplateBodySchema, NotificationSchema
-from models.user import UserSchema
-from services.base_utils import render_template, send_message
+from services.auth_api.base import AbstractAuth
+from services.consumers.models import BillMessage
+from services.notification_api.base import AbstractNotificationService, Notification
+from services.template_utils.render import render_template, TemplateBodySchema
+
+logger = logging.getLogger(__name__)
 
 
 def send_bill_notification_to_user(
-    message: dict[str, any], user_auth_service=None, NOTIFICATION_URL=None
+        message: str,
+        user_auth_service: AbstractAuth,
+        notification_service: AbstractNotificationService
 ) -> None:
-    incoming_message = IncomingBill(**message)
-
-    user_data_response = user_auth_service.get_user_info(user_uuid=incoming_message.user_uuid)
-
-    user_data = UserSchema(**orjson.loads(user_data_response))
-
+    bill_message = BillMessage(**orjson.loads(message))
+    user_data = user_auth_service.get_user_info(user_uuid=bill_message.user_uuid)
+    if not user_data:
+        logger.error(f'User not found {bill_message.user_uuid}.')
+        return
     template_schema = TemplateBodySchema(
         username=user_data.username, amount=incoming_message.amount
     )
@@ -33,9 +34,12 @@ def send_bill_notification_to_user(
         immediately=True,
         subject='bill',
     )
-    send_message(url=NOTIFICATION_URL, message=orjson.dumps(result))
+    notification_service.send(notification)
 
 
-def send_paid_notification_to_user(message: dict[str, any]) -> None:
-    logger = logging.getLogger(__name__)
+def send_paid_notification_to_user(
+        message: dict[str, any],
+        user_auth_service: AbstractAuth,
+        notification_service: AbstractNotificationService,
+) -> None:
     logger.error(message)
