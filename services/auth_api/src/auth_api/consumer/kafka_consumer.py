@@ -10,7 +10,7 @@ class KafkaConnector:
         self.kafka_url = kafka_url
         self.topic = topic
 
-    def init_consumer(self):
+    def get_consumer(self):
         consumer = KafkaConsumer(
             self.topic,
             bootstrap_servers=self.kafka_url,
