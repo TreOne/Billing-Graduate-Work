@@ -1,5 +1,4 @@
 backoff==2.0.1
-bitly-api-py3==0.3
 certifi==2022.5.18.1
 charset-normalizer==2.0.12
 confluent-kafka==1.8.2
