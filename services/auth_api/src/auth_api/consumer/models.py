@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class BodyMessage:
     bill_uuid: str
@@ -14,4 +15,3 @@ class BodyMessage:
 class Message:
     title: str
     body: BodyMessage
-

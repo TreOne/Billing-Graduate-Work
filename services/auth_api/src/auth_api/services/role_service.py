@@ -59,9 +59,12 @@ class RoleService:
             raise RoleServiceException('Role not found.', http_code=NOT_FOUND)
         date_expiration = None
         if expiration_months:
-            date_expiration = datetime.utcnow() + timedelta(days=expiration_months*31)  # TODO: Придумать способ лучше
-        add_role = UsersRoles(users_uuid=user_uuid, roles_uuid=role_uuid,
-                              date_expiration=date_expiration)
+            date_expiration = datetime.utcnow() + timedelta(days=expiration_months * 31)  # TODO: Придумать способ лучше
+        add_role = UsersRoles(
+            users_uuid=user_uuid,
+            roles_uuid=role_uuid,
+            date_expiration=date_expiration,
+        )
         session.add(add_role)
         session.commit()
 
