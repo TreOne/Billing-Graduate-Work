@@ -8,7 +8,7 @@ settings = Settings()
 
 message_handler = MessageHandler()
 message_handler.register('bill.paid', add_role_to_user)
-message_handler.register('bill.cancelled', delete_user_role)
+message_handler.register('bill.refunded', delete_user_role)
 
 consumer = KafkaConnector(settings.kafka.kafka_url, settings.kafka.topic).init_consumer()
 

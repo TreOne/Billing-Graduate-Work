@@ -1,3 +1,4 @@
+import json
 import os
 
 import click
@@ -50,8 +51,9 @@ def createsuperuser(username, email, password):
 @with_appcontext
 def loaddata():
     """Инициализация базы данных."""
-    roles = ['guest', 'subscriber', 'contributor', 'editor', 'administrator']
+    with open('settings/contract_roles.json') as f:
+        roles = json.load(f)
     for role in roles:
-        session.add(Role(name=role))
+        session.add(Role(name=role['code'], uuid=role['uuid']))
     session.commit()
     click.echo(f'Load roles: {len(roles)}')

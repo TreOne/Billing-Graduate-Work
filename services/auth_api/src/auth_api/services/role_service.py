@@ -1,8 +1,10 @@
+from datetime import timedelta, datetime
 from http.client import CONFLICT, NOT_FOUND
+from typing import Optional
 
 from auth_api.api.v1.schemas.role import RoleSchema
 from auth_api.database import session
-from auth_api.models.user import Role, User
+from auth_api.models.user import Role, User, UsersRoles
 
 
 class RoleServiceException(Exception):
@@ -47,18 +49,21 @@ class RoleService:
         session.add(role)
         session.commit()
 
-        return {'msg': 'Role created.', 'role': schema.dump(role)},
+        return schema.dump(role)
 
-    def add_role_to_user(self, user_uuid: str, role_uuid: str):
+    def add_role_to_user(self, user_uuid: str, role_uuid: str, subscription_expiration_days: Optional[int] = None):
         user = session.query(User).get(user_uuid)
         if not user:
             raise RoleServiceException('User not found.', http_code=NOT_FOUND)
         role = session.query(Role).get(role_uuid)
         if not role:
             raise RoleServiceException('Role not found.', http_code=NOT_FOUND)
-        user.roles.append(role)
-
-        session.add(user)
+        date_expiration = None
+        if subscription_expiration_days:
+            date_expiration = datetime.utcnow() + timedelta(days=subscription_expiration_days)
+        add_role = UsersRoles(users_uuid=user_uuid, roles_uuid=role_uuid,
+                       date_expiration=date_expiration)
+        session.add(add_role)
         session.commit()
 
         return user.roles
