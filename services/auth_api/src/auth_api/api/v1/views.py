@@ -13,14 +13,12 @@ from auth_api.api.v1.schemas.totp_request import TOTPRequestSchema
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import get_user_uuid_from_token, user_has_role
 from auth_api.commons.pagination import paginate
-from auth_api.extensions import apispec
+from auth_api.extensions import apispec, settings
 from auth_api.services.role_service import RoleService, RoleServiceException
 from auth_api.services.user_service import UserService, UserServiceException
-from auth_api.settings.settings import Settings
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 api = Api(blueprint)
-settings = Settings()
 user_service = UserService()
 role_service = RoleService()
 
