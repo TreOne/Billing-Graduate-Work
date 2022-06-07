@@ -1,29 +1,18 @@
-from typing import Optional
-
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import NotFound
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from api.v1.bills.serializers import (
+    BillAutoPaySerializer,
     BillConfirmUrlSerializer,
     BillCreateRequestSerializer,
-    BillCreateSerializer,
     BillListSerializer,
     YooKassaNotificationSerializer,
 )
-from billing.models.enums import BillType
-from billing.repositories import (
-    BillRepository,
-    SubscriptionRepository,
-    UserAutoPayRepository,
-    MovieRepository,
-)
-from config.payment_service import payment_system
-from utils.schemas import PaymentParams
+from billing.repositories.bill import BillRepository
 
 
 class BillViewSet(viewsets.ViewSet):
@@ -44,40 +33,21 @@ class BillViewSet(viewsets.ViewSet):
         return Response(data)
 
     @extend_schema(
-        request=BillCreateRequestSerializer, responses=BillConfirmUrlSerializer
+        request=BillCreateRequestSerializer,
+        responses={
+            201: BillConfirmUrlSerializer,
+            200: BillAutoPaySerializer,
+            400: BillAutoPaySerializer,
+        },
     )
     def create(self, request: Request) -> Response:
-        user_uuid: str = request.user.id
-        autopay_id: Optional[str] = UserAutoPayRepository.get_users_auto_pay(user_uuid=user_uuid)
-        request_serializer = BillCreateRequestSerializer(data=request.data)
-        request_serializer.is_valid(raise_exception=True)
-        request_serializer = request_serializer.save()
-        item_uuid: str = request_serializer.get("item_uuid")
-        bill_type: str = request_serializer.get("type")
-
-        if bill_type == BillType.subscription:
-            subscription = SubscriptionRepository.get_by_id(item_uuid=item_uuid)
-            amount = subscription.get('price')
-            description: str = f"У вас теперь есть {bill_type} '{subscription.get('title')}'."
-        elif bill_type == BillType.movie:
-            movie_title, amount = MovieRepository.get_by_id(item_uuid=item_uuid)
-            description: str = f"У вас теперь есть {bill_type} '{movie_title}'."
+        http_status = status.HTTP_200_OK
+        result: dict = BillRepository.buy_item(request=request)
+        if result.get("confirmation_url"):
+            serializer = BillConfirmUrlSerializer(result)
+            return Response(data=serializer.data, status=http_status)
         else:
-            raise NotFound
-
-        serializer = BillCreateSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        bill = serializer.save(user_uuid=user_uuid, amount=amount)
-
-        payment_params = PaymentParams(
-            bill_uuid=str(bill.id),
-            amount=bill.amount,
-            description=description,
-            save_payment_method=True,
-            autopay_id=autopay_id
-        )
-        confirmation_url = payment_system.create_confirmation_url(params=payment_params)
-        return Response(
-            BillConfirmUrlSerializer({"confirmation_url": confirmation_url}).data,
-            status=status.HTTP_201_CREATED,
-        )
+            serializer = BillAutoPaySerializer(result)
+            if result.get("is_successful") is False:
+                http_status = status.HTTP_400_BAD_REQUEST
+            return Response(data=serializer.data, status=http_status)

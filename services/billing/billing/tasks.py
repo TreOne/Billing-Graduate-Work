@@ -3,7 +3,8 @@ from datetime import datetime
 from typing import List
 
 from celery import shared_task
-from billing.repositories import UserAutoPayRepository
+
+from billing.repositories.user_autopay import UserAutoPayRepository
 from config.payment_service import payment_system
 from utils.schemas import PaymentParams
 
@@ -28,6 +29,6 @@ def autopay_periodic_task():
         )
         is_successful = payment_system.make_autopay(auto_payment_params)
         if is_successful:
-            print(f'Автоплатеж проведен успешно.')
+            print(f"Автоплатеж проведен успешно.")
         else:
-            print(f'ОШИБКА: Не удалось выполнить автоплатеж!')
+            print(f"ОШИБКА: Не удалось выполнить автоплатеж!")

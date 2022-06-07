@@ -5,7 +5,7 @@ from yookassa.domain.request import PaymentRequestBuilder
 from yookassa.domain.response import PaymentResponse
 
 from billing.models.enums import PaymentStatus
-from billing.repositories import UserAutoPayRepository
+from billing.repositories.user_autopay import UserAutoPayRepository
 from utils.payment_system import AbstractPaymentSystem
 
 __all__ = ("YooKassaPaymentSystem",)
@@ -73,7 +73,8 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         # save User's auto pay
         if params.save_payment_method and not params.autopay_id:
             UserAutoPayRepository.save_users_auto_pay(
-                payment_id=payment.id, bill_uuid=params.bill_uuid,
+                payment_id=payment.id,
+                user_uuid=params.user_uuid,
             )
         return payment
 

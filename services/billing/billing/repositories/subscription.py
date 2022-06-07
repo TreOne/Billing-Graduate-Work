@@ -1,7 +1,10 @@
-from utils import contants
 from typing import Optional
 
-__all__ = ('SubscriptionRepository',)
+from rest_framework.exceptions import NotFound
+
+from utils import contants
+
+__all__ = ("SubscriptionRepository",)
 
 
 class SubscriptionRepository:
@@ -10,4 +13,10 @@ class SubscriptionRepository:
 
     @classmethod
     def get_by_id(cls, item_uuid: str) -> Optional[dict]:
-        return cls.MODEL_CLASS.get(str(item_uuid))
+        try:
+            subscription = [
+                role for role in cls.MODEL_CLASS if role.get("uuid") == item_uuid
+            ][0]
+            return subscription
+        except Exception:
+            raise NotFound

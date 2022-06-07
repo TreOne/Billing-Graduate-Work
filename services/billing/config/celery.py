@@ -13,10 +13,10 @@ app.autodiscover_tasks()
 
 
 app.conf.beat_schedule = {
-    'add-every-day-autopay': {
-        'task': 'tasks.autopay_periodic_task',
-        'schedule': crontab(minute=0, hour=0),
-        'args': (),
+    "add-every-day-autopay": {
+        "task": "tasks.autopay_periodic_task",
+        "schedule": crontab(minute=0, hour=0),
+        "args": (),
     },
 }
 app.conf.timezone = settings.TIME_ZONE
