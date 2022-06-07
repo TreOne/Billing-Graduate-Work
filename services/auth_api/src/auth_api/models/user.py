@@ -43,9 +43,17 @@ class User(Base):
     is_superuser = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)
-    roles = relationship('Role', secondary='links_users_roles',
-                         secondaryjoin=f"and_(UsersRoles.roles_uuid==Role.uuid, or_(UsersRoles.date_expiration==None,"
-                                       f"UsersRoles.date_expiration>'{datetime.datetime.utcnow()}'))")
+    roles = relationship(
+        'Role',
+        secondary='links_users_roles',
+        secondaryjoin=(
+            "and_("
+            "UsersRoles.roles_uuid == Role.uuid, "
+            "or_("
+            "UsersRoles.date_expiration == None, "
+            f"UsersRoles.date_expiration > '{datetime.datetime.utcnow()}'))"
+        ),
+    )
     is_totp_enabled = Column(Boolean, default=False, nullable=False)
     two_factor_secret = Column(String(255))
     social_id = Column(String(255))
