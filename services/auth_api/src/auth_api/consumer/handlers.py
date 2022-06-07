@@ -7,7 +7,7 @@ def add_role_to_user(body):
     role_uuid = body.item_uuid
     user_uuid = body.user_uuid
     try:
-        roles = role_service.add_role_to_user(user_uuid, role_uuid, 31)
+        roles = role_service.add_role_to_user(user_uuid, role_uuid, expiration_months=1)
         print(f'Add role {body.type} to user. User roles: {roles}.')
     except RoleServiceException as e:
         return {'msg': str(e)}, e.http_code

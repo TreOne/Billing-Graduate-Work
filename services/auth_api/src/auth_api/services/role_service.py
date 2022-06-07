@@ -50,7 +50,7 @@ class RoleService:
 
         return schema.dump(role)
 
-    def add_role_to_user(self, user_uuid: str, role_uuid: str, subscription_expiration_days: Optional[int] = None):
+    def add_role_to_user(self, user_uuid: str, role_uuid: str, expiration_months: Optional[int] = None):
         user = session.query(User).get(user_uuid)
         if not user:
             raise RoleServiceException('User not found.', http_code=NOT_FOUND)
@@ -58,8 +58,8 @@ class RoleService:
         if not role:
             raise RoleServiceException('Role not found.', http_code=NOT_FOUND)
         date_expiration = None
-        if subscription_expiration_days:
-            date_expiration = datetime.utcnow() + timedelta(days=subscription_expiration_days)
+        if expiration_months:
+            date_expiration = datetime.utcnow() + timedelta(days=expiration_months*31)  # TODO: Придумать способ лучше
         add_role = UsersRoles(users_uuid=user_uuid, roles_uuid=role_uuid,
                               date_expiration=date_expiration)
         session.add(add_role)
