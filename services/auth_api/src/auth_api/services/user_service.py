@@ -72,7 +72,7 @@ class UserService:
     ):
 
         user_uuid = get_user_uuid_from_token(access_token)
-        schema = UserSchema(partial=True)
+        schema = UserSchema()
         user = session.query(User).get(user_uuid)
         if not user:
             raise UserServiceException("User not found.", http_code=NOT_FOUND)
@@ -113,7 +113,7 @@ class UserService:
             username: Optional[str] = None,
             password: Optional[str] = None,
     ):
-        schema = UserSchema(partial=True)
+        schema = UserSchema()
         user = session.query(User).get(user_uuid)
         if not user:
             raise UserServiceException("User not found.", http_code=NOT_FOUND)

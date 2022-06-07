@@ -20,7 +20,7 @@ class RoleService:
         return schema.dump(role)
 
     def update_role(self, role_uuid: str, new_name: str):
-        schema = RoleSchema(partial=True)
+        schema = RoleSchema()
         role = session.query(Role).get(role_uuid)
         role.name = new_name
 
