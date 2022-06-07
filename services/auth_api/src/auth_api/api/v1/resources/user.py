@@ -4,7 +4,8 @@ from flask import request
 from flask_jwt_extended import get_jwt, jwt_required
 from flask_restful import Resource
 
-from auth_api.commons.jwt_utils import user_has_role
+from auth_api.commons.jwt_utils import create_extended_access_token, deactivate_access_token, get_user_uuid_from_token, \
+    user_has_role
 from auth_api.services.user_service import UserService
 
 
@@ -110,7 +111,12 @@ class MeResource(Resource):
         password = request.json.get('password')
         if not any([email, username, password]):
             return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
-        user, new_access_token = self.user_service.update_current_user(access_token, email, username, password)
+        user_uuid = get_user_uuid_from_token(access_token)
+        user = self.user_service.update_user(user_uuid, email, username, password)
+
+        deactivate_access_token(access_token)
+        refresh_uuid = access_token["refresh_uuid"]
+        new_access_token = create_extended_access_token(user_uuid, refresh_uuid)
         return {
             'msg': 'Update is successful. Please use new access_token.',
             'user': user,
@@ -119,7 +125,10 @@ class MeResource(Resource):
 
     def delete(self):
         access_token = get_jwt()
-        self.user_service.delete_current_user(access_token)
+        user_uuid = get_user_uuid_from_token(access_token)
+        self.user_service.delete_user(user_uuid)
+        deactivate_access_token(access_token)
+
         return {'msg': 'Your account has been blocked.'}
 
 
