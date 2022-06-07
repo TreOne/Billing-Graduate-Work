@@ -21,18 +21,18 @@ def send_bill_notification_to_user(
         logger.error(f'User not found {bill_message.user_uuid}.')
         return
     template_schema = TemplateBodySchema(
-        username=user_data.username, amount=incoming_message.amount
+        username=user_data.username,
+        amount=bill_message.amount
     )
-
-    rendered_template_body = render_template(
-        data=template_schema.dict(), template_name='payment_bill'
+    notification_body = render_template(
+        template_name='payment_bill',
+        data=template_schema.dict(),
     )
-
-    result = NotificationSchema(
+    notification = Notification(
         recipient=user_data.email,
-        body=rendered_template_body,
+        subject='Счёт',
+        body=notification_body,
         immediately=True,
-        subject='bill',
     )
     notification_service.send(notification)
 
