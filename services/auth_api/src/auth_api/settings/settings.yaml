@@ -3,7 +3,6 @@
 #     alchemy__database_uri=sqlite:///:memory:
 
 sentry_dsn: https://2a7a736e66894d99b97886c0448def48@o1212334.ingest.sentry.io/6350385
-days_before_expired_subs: 3
 
 views:
   expiring_subs_default_difference_in_days: 3  # По умолчанию отображать подписки истекающие через n дней
