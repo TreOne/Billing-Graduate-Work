@@ -1,11 +1,13 @@
 from auth_api.consumer.models import BillMessageBody
 from auth_api.services.role_service import RoleService, RoleServiceException
-from auth_api.services.user_service import UserService, UserServiceException
+from auth_api.services.user_service import UserServiceException
 
 role_service = RoleService()
 
 
 def add_role_to_user(body: BillMessageBody):
+    if body.type != 'subscription':
+        return
     role_uuid = body.item_uuid
     user_uuid = body.user_uuid
     try:
@@ -20,7 +22,9 @@ def add_role_to_user(body: BillMessageBody):
 
 
 def delete_user_role(body: BillMessageBody):
+    if body.type != 'subscription':
+        return
     role_uuid = body.item_uuid
     user_uuid = body.user_uuid
     roles = role_service.delete_user_role(user_uuid, role_uuid)
-    print(f'Delete user role - {body.type}. User roles: {roles}.')
+    print(f'Delete user role - {role_uuid}. User roles: {roles}.')
