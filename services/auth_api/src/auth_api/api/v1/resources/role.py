@@ -4,7 +4,7 @@ from flask import request
 from flask_restful import Resource
 
 from auth_api.commons.jwt_utils import user_has_role
-from auth_api.services.role_service import RoleService, RoleServiceException
+from auth_api.services.role_service import RoleService
 
 role_service = RoleService()
 
@@ -207,8 +207,5 @@ class RoleList(Resource):
     @user_has_role('administrator')
     def post(self):
         name = request.json.get("name")
-        try:
-            role = role_service.create_role(name)
-            return {'msg': 'Role created.', 'role': role}, CREATED
-        except RoleServiceException as e:
-            return {'msg': str(e)}, e.http_code
+        role = role_service.create_role(name)
+        return {'msg': 'Role created.', 'role': role}, CREATED

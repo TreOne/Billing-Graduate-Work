@@ -1,13 +1,11 @@
-from http.client import CREATED, BAD_REQUEST
+from http.client import BAD_REQUEST, CREATED
 
 from flask import request
 from flask_jwt_extended import get_jwt, jwt_required
 from flask_restful import Resource
 
-from auth_api.commons.jwt_utils import (
-    user_has_role,
-)
-from auth_api.services.user_service import UserService, UserServiceException
+from auth_api.commons.jwt_utils import user_has_role
+from auth_api.services.user_service import UserService
 
 user_service = UserService()
 
@@ -111,15 +109,12 @@ class MeResource(Resource):
         password = request.json.get('password')
         if not any([email, username, password]):
             return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
-        try:
-            user, new_access_token = user_service.update_current_user(access_token, email, username, password)
-            return {
-                'msg': 'Update is successful. Please use new access_token.',
-                'user': user,
-                'access_token': new_access_token,
-            }
-        except UserServiceException as e:
-            return {'msg': str(e)}, e.http_code
+        user, new_access_token = user_service.update_current_user(access_token, email, username, password)
+        return {
+            'msg': 'Update is successful. Please use new access_token.',
+            'user': user,
+            'access_token': new_access_token,
+        }
 
     def delete(self):
         access_token = get_jwt()
@@ -242,11 +237,8 @@ class UserResource(Resource):
 
     @user_has_role('administrator', 'editor')
     def get(self, user_uuid):
-        try:
-            user = user_service.get_user(user_uuid)
-            return {'user': user}
-        except UserServiceException as e:
-            return {'msg': str(e)}, e.http_code
+        user = user_service.get_user(user_uuid)
+        return {'user': user}
 
     @user_has_role('administrator')
     def put(self, user_uuid):
@@ -255,19 +247,13 @@ class UserResource(Resource):
         password = request.json.get('password')
         if not any([email, username, password]):
             return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
-        try:
-            user = user_service.update_user(user_uuid, email, username, password)
-            return {'msg': 'Update is successful.', 'user': user}
-        except UserServiceException as e:
-            return {'msg': str(e)}, e.http_code
+        user = user_service.update_user(user_uuid, email, username, password)
+        return {'msg': 'Update is successful.', 'user': user}
 
     @user_has_role('administrator')
     def delete(self, user_uuid):
-        try:
-            user_service.delete_user(user_uuid)
-            return {'msg': 'User has been blocked.'}
-        except UserServiceException as e:
-            return {'msg': str(e)}, e.http_code
+        user_service.delete_user(user_uuid)
+        return {'msg': 'User has been blocked.'}
 
 
 class UserList(Resource):
@@ -353,8 +339,5 @@ class UserList(Resource):
         password = request.json.get('password')
         if not any([email, username, password]):
             return {'msg': 'Email, username and password must be filled.'}, BAD_REQUEST
-        try:
-            user = user_service.create_user(email, username, password)
-            return {'msg': 'User created.', 'user': user}, CREATED
-        except UserServiceException as e:
-            return {'msg': str(e)}, e.http_code
+        user = user_service.create_user(email, username, password)
+        return {'msg': 'User created.', 'user': user}, CREATED

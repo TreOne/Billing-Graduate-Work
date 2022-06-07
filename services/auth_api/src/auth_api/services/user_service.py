@@ -1,27 +1,22 @@
 import datetime
-from http.client import CONFLICT, BAD_REQUEST, NOT_FOUND
+from http.client import BAD_REQUEST, CONFLICT, NOT_FOUND
 from typing import Optional
 
 import pyotp
 from sqlalchemy import or_
 
 from auth_api.api.v1.schemas.user import UserSchema
-from auth_api.commons.jwt_utils import (
-    get_user_uuid_from_token,
-    deactivate_access_token,
-    create_extended_access_token,
-    deactivate_all_refresh_tokens,
-)
+from auth_api.commons.jwt_utils import (create_extended_access_token, deactivate_access_token,
+                                        deactivate_all_refresh_tokens, get_user_uuid_from_token)
 from auth_api.commons.pagination import paginate
 from auth_api.database import session
 from auth_api.extensions import db
-from auth_api.models.user import User, AuthHistory, UsersRoles, Role
+from auth_api.models.user import AuthHistory, User, UsersRoles
+from auth_api.services.exceptions import ServiceException
 
 
-class UserServiceException(Exception):
-    def __init__(self, message, http_code=None):
-        super().__init__(message)
-        self.http_code = http_code
+class UserServiceException(ServiceException):
+    pass
 
 
 class UserService:
@@ -69,11 +64,11 @@ class UserService:
         return provisioning_url
 
     def update_current_user(
-        self,
-        access_token,
-        email: Optional[str] = None,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
+            self,
+            access_token,
+            email: Optional[str] = None,
+            username: Optional[str] = None,
+            password: Optional[str] = None,
     ):
 
         user_uuid = get_user_uuid_from_token(access_token)
@@ -112,11 +107,11 @@ class UserService:
         return {"user": schema.dump(user)}
 
     def update_user(
-        self,
-        user_uuid,
-        email: Optional[str] = None,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
+            self,
+            user_uuid,
+            email: Optional[str] = None,
+            username: Optional[str] = None,
+            password: Optional[str] = None,
     ):
         schema = UserSchema(partial=True)
         user = session.query(User).get(user_uuid)
@@ -156,7 +151,7 @@ class UserService:
         schema = UserSchema()
         existing_user = (
             session.query(User)
-            .filter(or_(User.username == username, User.email == email),)
+            .filter(or_(User.username == username, User.email == email), )
             .first()
         )
         if existing_user:
@@ -175,7 +170,7 @@ class UserService:
         query = session.query(User.uuid).join(UsersRoles).filter(
             UsersRoles.date_expiration.between(time_now, date_expired)).all()
         return schema.dump(query)
-        #TODO ниже запрос, если нужен еще и id роли
+        # TODO ниже запрос, если нужен еще и id роли
         # session.query(User.uuid.label("user"), Role.uuid.label("role")).join(UsersRoles,
         #                                                                      UsersRoles.users_uuid == User.uuid).join(
         #     Role, Role.uuid == UsersRoles.roles_uuid).filter(

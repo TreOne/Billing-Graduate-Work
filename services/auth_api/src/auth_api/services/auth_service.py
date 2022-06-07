@@ -1,4 +1,4 @@
-from http.client import CONFLICT, BAD_REQUEST, FORBIDDEN
+from http.client import BAD_REQUEST, CONFLICT, FORBIDDEN
 
 import pyotp
 from sqlalchemy import or_
@@ -8,13 +8,12 @@ from auth_api.commons.jwt_utils import create_tokens
 from auth_api.commons.utils import get_device_type
 from auth_api.database import session
 from auth_api.extensions import pwd_context
-from auth_api.models.user import User, AuthHistory
+from auth_api.models.user import AuthHistory, User
+from auth_api.services.exceptions import ServiceException
 
 
-class AuthServiceException(Exception):
-    def __init__(self, message, http_code=None):
-        super().__init__(message)
-        self.http_code = http_code
+class AuthServiceException(ServiceException):
+    pass
 
 
 class AuthService:
