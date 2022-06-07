@@ -5,8 +5,10 @@
 notification_api:
   url: http://localhost/api/v1/send/email
 
-auth_login: notification
-auth_password: notification_password
+auth_api:
+  url: http://localhost/auth/
+  login: notification
+  password: notification_password
 
 kafka:
   bootstrap_servers: localhost:9092
