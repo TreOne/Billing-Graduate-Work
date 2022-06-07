@@ -11,7 +11,7 @@ from auth_api.commons.jwt_utils import (create_extended_access_token, deactivate
 from auth_api.commons.pagination import paginate
 from auth_api.database import session
 from auth_api.extensions import db
-from auth_api.models.user import AuthHistory, User, UsersRoles
+from auth_api.models.user import AuthHistory, Role, User, UsersRoles
 from auth_api.services.exceptions import ServiceException
 
 
@@ -131,11 +131,16 @@ class UserService:
         schema = UserSchema(many=True)
         time_now = datetime.datetime.utcnow()
         date_expired = time_now + datetime.timedelta(days=day)
-        query = session.query(User.uuid).join(UsersRoles).filter(
-            UsersRoles.date_expiration.between(time_now, date_expired)).all()
+        query = session.query(
+            User.uuid.label("user"),
+            Role.uuid.label("role")
+        ).join(
+            UsersRoles,
+            UsersRoles.users_uuid == User.uuid
+        ).join(
+            Role,
+            Role.uuid == UsersRoles.roles_uuid
+        ).filter(
+            UsersRoles.date_expiration.between(time_now, date_expired)
+        ).all()
         return schema.dump(query)
-        # TODO ниже запрос, если нужен еще и id роли
-        # session.query(User.uuid.label("user"), Role.uuid.label("role")).join(UsersRoles,
-        #                                                                      UsersRoles.users_uuid == User.uuid).join(
-        #     Role, Role.uuid == UsersRoles.roles_uuid).filter(
-        #     UsersRoles.date_expiration.between(time_now, date_expired)).all()
