@@ -51,7 +51,9 @@ def createsuperuser(username, email, password):
 @with_appcontext
 def loaddata():
     """Инициализация базы данных."""
-    with open('settings/contract_roles.json') as f:
+    dirname = os.path.dirname(__file__)
+    contract_roles_filename = os.path.join(dirname, 'settings/contract_roles.json')
+    with open(contract_roles_filename) as f:
         roles = json.load(f)
     for role in roles:
         session.add(Role(name=role['code'], uuid=role['uuid']))
