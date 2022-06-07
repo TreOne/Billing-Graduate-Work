@@ -1,4 +1,4 @@
-from http.client import CREATED
+from http.client import BAD_REQUEST, CREATED
 
 from flask import request
 from flask_restful import Resource
@@ -119,6 +119,8 @@ class RoleResource(Resource):
     @user_has_role('administrator')
     def put(self, role_uuid):
         new_name = request.json.get("name")
+        if not new_name:
+            return {'msg': 'Missing "name" in request.'}, BAD_REQUEST
         role = self.role_service.update_role(role_uuid, new_name)
 
         return {'msg': 'Role updated.', 'role': role}
@@ -211,5 +213,7 @@ class RoleList(Resource):
     @user_has_role('administrator')
     def post(self):
         name = request.json.get("name")
+        if not name:
+            return {'msg': 'Missing "name" in request.'}, BAD_REQUEST
         role = self.role_service.create_role(name)
         return {'msg': 'Role created.', 'role': role}, CREATED
