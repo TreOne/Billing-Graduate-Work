@@ -2,7 +2,7 @@ from http.client import CONFLICT, NOT_FOUND
 
 from auth_api.api.v1.schemas.role import RoleSchema
 from auth_api.database import session
-from auth_api.models.user import Role, User, UsersRoles
+from auth_api.models.user import Role, User
 
 
 class RoleServiceException(Exception):
@@ -86,3 +86,4 @@ class RoleService:
         if not user:
             raise RoleServiceException('User not found.', http_code=NOT_FOUND)
         return user.roles
+

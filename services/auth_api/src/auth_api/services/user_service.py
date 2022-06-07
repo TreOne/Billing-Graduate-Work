@@ -35,7 +35,6 @@ class UserService:
         return auth_history
 
     def change_user_totp_status(self, user_uuid, totp_status: bool, totp_code: str):
-
         user = session.query(User).filter_by(uuid=user_uuid).first()
 
         if totp_status == user.is_totp_enabled:

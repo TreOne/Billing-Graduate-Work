@@ -201,7 +201,6 @@ class RoleList(Resource):
     @user_has_role('administrator', 'editor')
     def get(self):
         roles = role_service.get_roles()
-        # roles = role_service.roll()
 
         return {'roles': roles}
 

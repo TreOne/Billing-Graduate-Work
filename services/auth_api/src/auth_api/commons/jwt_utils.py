@@ -12,9 +12,10 @@ from flask_jwt_extended import (
 )
 
 from auth_api.commons.jaeger_utils import trace
+from auth_api.database import session
 from auth_api.extensions import active_refresh_tokens, blocked_access_tokens, settings
 from auth_api.models import User
-from auth_api.database import session
+
 
 def user_has_role(*required_roles):
     """Декоратор, разрешающий использование ендпоинта только пользователям с определенной ролью."""

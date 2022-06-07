@@ -3,9 +3,8 @@ from http.client import FORBIDDEN, NOT_FOUND
 
 from auth_api.commons.oauth.clients import OAuthClient
 from auth_api.commons.utils import generate_password
-from auth_api.extensions import db
-from auth_api.models.user import User
 from auth_api.database import session
+from auth_api.models.user import User
 
 
 class OAuthServiceException(Exception):

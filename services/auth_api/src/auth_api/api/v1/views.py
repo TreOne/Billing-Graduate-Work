@@ -383,7 +383,6 @@ def user_roles(user_uuid, role_uuid):
     return {'roles': schema.dump(roles)}
 
 
-
 @blueprint.route('/users/subscriptions_end', methods=['GET'])
 @jwt_required()
 def get_users_with_ending_subscriptions():
@@ -395,6 +394,13 @@ def get_users_with_ending_subscriptions():
         - api/users/subscriptions_end
       summary: Получение списка пользователей, у которых заканчивается подписка.
       description: Возвращает список пользователей, у которых заканчивается подписка.
+      parameters:
+        - in: path
+          name: days
+          schema:
+            type: int
+          required: false
+          description: Количество дней до окончания подписки
       responses:
         200:
           description: Список пользователей получен успешно.
@@ -404,9 +410,14 @@ def get_users_with_ending_subscriptions():
                 allOf:
                   - type: object
                     properties:
-                      results:
+                      Users:
                         type: array
-                        items: User
+                        items:
+                          type: object
+                          properties:
+                            uuid:
+                              type: string
+
         401:
           $ref: '#/components/responses/Unauthorized'
     """
@@ -416,7 +427,7 @@ def get_users_with_ending_subscriptions():
         days_before_expired = days_from_query
     users = user_service.get_users_with_ending_subscriptions(days_before_expired)
 
-    return {'list of users whose subscription ends': users}
+    return {'Users': users}
 
 
 @blueprint.errorhandler(ValidationError)
@@ -446,3 +457,4 @@ def register_views():
     apispec.spec.path(view=get_totp_link, app=current_app)
     apispec.spec.path(view=change_totp_status, app=current_app)
     apispec.spec.path(view=user_roles, app=current_app)
+    apispec.spec.path(view=get_users_with_ending_subscriptions, app=current_app)
