@@ -17,19 +17,19 @@ class RoleService:
 
     def get_role(self, role_uuid: str):
         schema = RoleSchema()
-        role = session.query(Role).filter_by(uuid=role_uuid).first()
+        role = session.query(Role).get(role_uuid)
         return schema.dump(role)
 
     def update_role(self, role_uuid: str, new_name: str):
         schema = RoleSchema(partial=True)
-        role = session.query(Role).filter_by(uuid=role_uuid).first()
+        role = session.query(Role).get(role_uuid)
         role.name = new_name
 
         session.commit()
         return schema.dump(role)
 
     def delete_role(self, role_uuid: str):
-        role = session.query(Role).filter_by(uuid=role_uuid).first()
+        role = session.query(Role).get(role_uuid)
         session.delete(role)
         session.commit()
 

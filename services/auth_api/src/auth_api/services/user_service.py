@@ -35,7 +35,7 @@ class UserService:
         return auth_history
 
     def change_user_totp_status(self, user_uuid, totp_status: bool, totp_code: str):
-        user = session.query(User).filter_by(uuid=user_uuid).first()
+        user = session.query(User).get(user_uuid)
 
         if totp_status == user.is_totp_enabled:
             raise UserServiceException(
@@ -54,7 +54,7 @@ class UserService:
         return totp_status
 
     def get_user_totp_link(self, user_uuid: str):
-        user = session.query(User).filter_by(uuid=user_uuid).first()
+        user = session.query(User).get(user_uuid)
         if user.two_factor_secret is None:
             secret = pyotp.random_base32()
             user.two_factor_secret = secret
