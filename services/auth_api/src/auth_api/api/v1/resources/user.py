@@ -7,8 +7,6 @@ from flask_restful import Resource
 from auth_api.commons.jwt_utils import user_has_role
 from auth_api.services.user_service import UserService
 
-user_service = UserService()
-
 
 class MeResource(Resource):
     """Ресурс представляющий текущего пользователя (на основе access-токена).
@@ -89,6 +87,9 @@ class MeResource(Resource):
 
     method_decorators = [jwt_required()]
 
+    def __init__(self):
+        self.user_service = UserService()
+
     def get(self):
         access_token = get_jwt()
         user_data = {
@@ -109,7 +110,7 @@ class MeResource(Resource):
         password = request.json.get('password')
         if not any([email, username, password]):
             return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
-        user, new_access_token = user_service.update_current_user(access_token, email, username, password)
+        user, new_access_token = self.user_service.update_current_user(access_token, email, username, password)
         return {
             'msg': 'Update is successful. Please use new access_token.',
             'user': user,
@@ -118,7 +119,7 @@ class MeResource(Resource):
 
     def delete(self):
         access_token = get_jwt()
-        user_service.delete_current_user(access_token)
+        self.user_service.delete_current_user(access_token)
         return {'msg': 'Your account has been blocked.'}
 
 
@@ -235,9 +236,12 @@ class UserResource(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.user_service = UserService()
+
     @user_has_role('administrator', 'editor')
     def get(self, user_uuid):
-        user = user_service.get_user(user_uuid)
+        user = self.user_service.get_user(user_uuid)
         return {'user': user}
 
     @user_has_role('administrator')
@@ -247,12 +251,12 @@ class UserResource(Resource):
         password = request.json.get('password')
         if not any([email, username, password]):
             return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
-        user = user_service.update_user(user_uuid, email, username, password)
+        user = self.user_service.update_user(user_uuid, email, username, password)
         return {'msg': 'Update is successful.', 'user': user}
 
     @user_has_role('administrator')
     def delete(self, user_uuid):
-        user_service.delete_user(user_uuid)
+        self.user_service.delete_user(user_uuid)
         return {'msg': 'User has been blocked.'}
 
 
@@ -327,9 +331,12 @@ class UserList(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.user_service = UserService()
+
     @user_has_role('administrator', 'editor')
     def get(self):
-        users_list = user_service.get_users_list()
+        users_list = self.user_service.get_users_list()
         return users_list
 
     @user_has_role('administrator')
@@ -339,5 +346,5 @@ class UserList(Resource):
         password = request.json.get('password')
         if not any([email, username, password]):
             return {'msg': 'Email, username and password must be filled.'}, BAD_REQUEST
-        user = user_service.create_user(email, username, password)
+        user = self.user_service.create_user(email, username, password)
         return {'msg': 'User created.', 'user': user}, CREATED

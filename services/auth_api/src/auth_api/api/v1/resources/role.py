@@ -6,8 +6,6 @@ from flask_restful import Resource
 from auth_api.commons.jwt_utils import user_has_role
 from auth_api.services.role_service import RoleService
 
-role_service = RoleService()
-
 
 class RoleResource(Resource):
     """Ресурс представляющий роль пользователя.
@@ -110,21 +108,24 @@ class RoleResource(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.role_service = RoleService()
+
     @user_has_role('administrator', 'editor')
     def get(self, role_uuid):
-        role = role_service.get_role(role_uuid)
+        role = self.role_service.get_role(role_uuid)
         return {'role': role}
 
     @user_has_role('administrator')
     def put(self, role_uuid):
         new_name = request.json.get("name")
-        role = role_service.update_role(role_uuid, new_name)
+        role = self.role_service.update_role(role_uuid, new_name)
 
         return {'msg': 'Role updated.', 'role': role}
 
     @user_has_role('administrator')
     def delete(self, role_uuid):
-        role_service.delete_role(role_uuid)
+        self.role_service.delete_role(role_uuid)
 
         return {'msg': 'Role deleted.'}
 
@@ -198,14 +199,17 @@ class RoleList(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.role_service = RoleService()
+
     @user_has_role('administrator', 'editor')
     def get(self):
-        roles = role_service.get_roles()
+        roles = self.role_service.get_roles()
 
         return {'roles': roles}
 
     @user_has_role('administrator')
     def post(self):
         name = request.json.get("name")
-        role = role_service.create_role(name)
+        role = self.role_service.create_role(name)
         return {'msg': 'Role created.', 'role': role}, CREATED
