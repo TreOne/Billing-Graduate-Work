@@ -88,7 +88,7 @@ def before_request():
     # Ограничение количества запросов
     if is_rate_limit_exceeded():
         return jsonify({'msg': 'Too many requests.'}), TOO_MANY_REQUESTS
-    pass
+
 
 def configure_extensions(app):
     db.init_app(app)
