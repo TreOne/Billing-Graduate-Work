@@ -27,7 +27,7 @@ class RedisSettings(BaseModel):
 
 
 class KafkaSettings(BaseModel):
-    kafka_url: str
+    host: str
     topic: str
 
 

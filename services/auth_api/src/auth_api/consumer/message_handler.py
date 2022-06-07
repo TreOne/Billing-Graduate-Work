@@ -1,6 +1,6 @@
 from typing import Callable, Dict, List
 
-from models import Message
+from auth_api.consumer.models import BillMessage
 
 
 class MessageHandler:
@@ -11,7 +11,7 @@ class MessageHandler:
         handlers = self.__observers.setdefault(title, [])
         handlers.append(handler)
 
-    def handle(self, message: Message):
+    def handle(self, message: BillMessage):
         handlers = self.__observers.get(message.title, [])
         for handler in handlers:
             handler(message.body)

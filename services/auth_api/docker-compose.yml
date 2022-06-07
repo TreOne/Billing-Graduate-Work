@@ -20,6 +20,22 @@ services:
       - db
       - redis
 
+  auth_consumer:
+    build: .
+    volumes:
+      - ./src/auth_api:/home/app/src/auth_api
+      - ./src/auth_api/migrations:/home/app/src/migrations:ro
+    env_file:
+      - example.env
+    entrypoint:
+      - python
+      - auth_api/consumer/main.py
+    networks:
+      - external_movie_network
+    depends_on:
+      - db
+      - redis
+
   db:
     image: postgres:12.0-alpine
     env_file:

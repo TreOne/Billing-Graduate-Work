@@ -93,3 +93,11 @@ class RoleService:
         if not user:
             raise RoleServiceException('User not found.', http_code=NOT_FOUND)
         return user.roles
+
+    def user_has_role(self, user_uuid: str, role_uuid: str):
+        # TODO: РЕАЛИЗОВАТЬ!
+        return False
+
+    def update_role_exp_date(self, user_uuid: str, role_uuid: str, expiration_months=1):
+        # TODO: РЕАЛИЗОВАТЬ!
+        return []

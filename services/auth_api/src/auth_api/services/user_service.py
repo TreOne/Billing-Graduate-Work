@@ -163,7 +163,7 @@ class UserService:
         session.commit()
         return schema.dump(user)
 
-    def get_users_with_ending_subscriptions(self, day):
+    def get_users_with_ending_subscriptions(self, day: int):
         schema = UserSchema(many=True)
         time_now = datetime.datetime.utcnow()
         date_expired = time_now + datetime.timedelta(days=day)
