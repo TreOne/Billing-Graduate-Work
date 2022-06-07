@@ -63,42 +63,6 @@ class UserService:
         )
         return provisioning_url
 
-    def update_current_user(
-            self,
-            access_token,
-            email: Optional[str] = None,
-            username: Optional[str] = None,
-            password: Optional[str] = None,
-    ):
-
-        user_uuid = get_user_uuid_from_token(access_token)
-        schema = UserSchema()
-        user = session.query(User).get(user_uuid)
-        if not user:
-            raise UserServiceException("User not found.", http_code=NOT_FOUND)
-        if email:
-            user.email = email
-        if username:
-            user.username = username
-        if password:
-            user.password = password
-
-        session.commit()
-
-        deactivate_access_token(access_token)
-        refresh_uuid = access_token["refresh_uuid"]
-        new_access_token = create_extended_access_token(user_uuid, refresh_uuid)
-        return schema.dump(user), new_access_token
-
-    def delete_current_user(self, access_token):
-        user_uuid = get_user_uuid_from_token(access_token)
-        user = session.query(User).get(user_uuid)
-        user.is_active = False
-        session.commit()
-
-        deactivate_access_token(access_token)
-        deactivate_all_refresh_tokens(user_uuid)
-
     def get_user(self, user_uuid):
         schema = UserSchema()
         user = session.query(User).get(user_uuid)
