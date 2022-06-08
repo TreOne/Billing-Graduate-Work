@@ -7,7 +7,8 @@ from services.consumers.base import AbstractConsumer, BrokerMessage
 from services.consumers.consumer_dummy import ConsumerDummy
 from services.message_handler import MessageHandler
 from services.notification_api.notification_service_dummy import DummyNotificationAPI
-from services.notification_handlers import send_bill_notification_to_user, send_paid_notification_to_user
+from services.notification_handlers import send_bill_notification_to_user,\
+    send_refund_notification_to_user, send_refund_notification_to_admin
 
 logger = logging.getLogger(__name__)
 
@@ -31,16 +32,17 @@ if __name__ == '__main__':
     })
 
     mh = MessageHandler(
+        settings=settings,
         notification_service=notification_api,
         user_auth_service=user_auth_service,
     )
-    mh.register('bill.created', send_bill_notification_to_user)
+    mh.register('bill.refunded', send_refund_notification_to_user)
+    mh.register('bill.refunded', send_refund_notification_to_admin)
     mh.register('bill.paid', send_bill_notification_to_user)
-    mh.register('bill.paid', send_paid_notification_to_user)
 
     dummy_consumer = ConsumerDummy([
         BrokerMessage(
-            key='bill.created',
+            key='bill.refunded',
             value="""
                 {
                     "bill_uuid": "84b27fc2-775e-40c9-9d81-41ec1b1ec85a",
@@ -52,7 +54,7 @@ if __name__ == '__main__':
                 }
             """),
         BrokerMessage(
-            key='bill.created',
+            key='bill.refunded',
             value="""
                 {
                     "bill_uuid": "3fbf05e8-5d03-4040-bc68-3224ca318363",
