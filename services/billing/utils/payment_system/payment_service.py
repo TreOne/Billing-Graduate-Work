@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from billing.models.enums import PaymentStatus
+from billing.models.enums import BillStatus
 from utils.schemas import PaymentParams
 
 __all__ = ("AbstractPaymentSystem",)
@@ -18,6 +18,6 @@ class AbstractPaymentSystem(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_payment_status(self, payment_id: str) -> PaymentStatus:
+    def get_payment_status(self, payment_id: str) -> BillStatus:
         """Возвращает статус платежа."""
         raise NotImplementedError

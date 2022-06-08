@@ -1,4 +1,4 @@
-from billing.models.enums import PaymentStatus
+from billing.models.enums import BillStatus
 from utils.payment_system import AbstractPaymentSystem
 from utils.schemas import PaymentParams
 
@@ -16,6 +16,6 @@ class TestPaymentSystem(AbstractPaymentSystem):
         """Производит автоматическую оплату."""
         return True
 
-    def get_payment_status(self, payment_id: str) -> PaymentStatus:
+    def get_payment_status(self, payment_id: str) -> BillStatus:
         """Возвращает статус платежа."""
-        return PaymentStatus.PAID
+        return BillStatus.paid

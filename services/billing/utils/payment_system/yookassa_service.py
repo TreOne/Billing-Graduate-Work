@@ -4,7 +4,7 @@ from yookassa.domain.models import Currency
 from yookassa.domain.request import PaymentRequestBuilder
 from yookassa.domain.response import PaymentResponse
 
-from billing.models.enums import PaymentStatus
+from billing.models.enums import BillStatus
 from billing.repositories.user_autopay import UserAutoPayRepository
 from utils.payment_system import AbstractPaymentSystem
 
@@ -37,10 +37,10 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         """Производит автоматическую оплату."""
         payment = self._create_payment(params)
         payment_status = self._get_status_from_payment(payment)
-        is_successful: bool = payment_status == PaymentStatus.PAID
+        is_successful: bool = payment_status == BillStatus.paid
         return is_successful
 
-    def get_payment_status(self, payment_id: str) -> PaymentStatus:
+    def get_payment_status(self, payment_id: str) -> BillStatus:
         """Возвращает статус платежа."""
         payment: PaymentResponse = Payment.find_one(payment_id)
         payment_status = self._get_status_from_payment(payment)
@@ -78,16 +78,18 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
             )
         return payment
 
-    def _get_status_from_payment(self, payment: PaymentResponse) -> PaymentStatus:
+    def _get_status_from_payment(self, payment: PaymentResponse) -> BillStatus:
         """Извлекает статус платежа из объекта PaymentResponse."""
         if payment.refunded_amount.value:
-            return PaymentStatus.REFUNDED
+            return BillStatus.refunded
+        return self._convert_bill_status(payment_status=payment.status)
 
-        if payment.status == "pending":
-            return PaymentStatus.CREATED
-        elif payment.status == "succeeded":
-            return PaymentStatus.PAID
-        elif payment.status == "canceled":
-            return PaymentStatus.CANCELED
-
+    @staticmethod
+    def _convert_bill_status(payment_status: str) -> BillStatus:
+        if payment_status in ("pending", "waiting_for_capture"):
+            return BillStatus.created
+        elif payment_status == "succeeded":
+            return BillStatus.paid
+        elif payment_status == "canceled":
+            return BillStatus.canceled
         raise ValueError("Failed to determine the payment status.")

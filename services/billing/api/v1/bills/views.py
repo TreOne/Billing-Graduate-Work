@@ -27,10 +27,12 @@ class BillViewSet(viewsets.ViewSet):
 
     @extend_schema(request=YooKassaNotificationSerializer)
     @action(methods=["POST"], permission_classes=[AllowAny], detail=False)
-    def notification_url(self, request: Request) -> Response:
+    def yookassa_notification_url(self, request: Request) -> Response:
         data = request.data
-        # TODO: обрабатывать ответ из YooKassa
-        return Response(data)
+        bill_uuid: str = data["object"]["id"]
+        bill_status: str = data["object"]["status"]
+        BillRepository.update_bill(bill_uuid=bill_uuid, bill_status=bill_status)
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         request=BillCreateRequestSerializer,

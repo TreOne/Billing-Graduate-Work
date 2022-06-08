@@ -26,6 +26,15 @@ class BillRepository(BaseRepository):
         return cls.MODEL_CLASS.objects.filter(user_uuid=user_uuid)
 
     @classmethod
+    def update_bill(cls, bill_uuid: str, bill_status: str) -> None:
+        bill_status: str = payment_system._convert_bill_status(
+            payment_status=bill_status
+        )
+        bill = cls.get_by_id(item_uuid=bill_uuid)
+        bill.status = bill_status
+        bill.save()
+
+    @classmethod
     def buy_item(cls, request: Request) -> dict:
         user_uuid: str = request.user.id
         autopay_id: Optional[str] = UserAutoPayRepository.get_users_auto_pay(

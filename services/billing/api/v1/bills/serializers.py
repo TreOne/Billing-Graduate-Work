@@ -42,4 +42,39 @@ class BillAutoPaySerializer(serializers.Serializer):
 
 
 class YooKassaNotificationSerializer(serializers.Serializer):
-    demo = serializers.CharField(required=True)
+    type = serializers.CharField(default="notification")
+    event = serializers.CharField(default="payment.succeeded")
+    object = serializers.JSONField(
+        default={
+            "id": "22d6d597-000f-5000-9000-145f6df21d6f",
+            "status": "succeeded",
+            "paid": True,
+            "amount": {"value": "70.00", "currency": "RUB"},
+            "authorization_details": {
+                "rrn": "10000000000",
+                "auth_code": "000000",
+                "three_d_secure": {"applied": True},
+            },
+            "created_at": "2018-07-10T14:27:54.691Z",
+            "description": "Заказ №72",
+            "expires_at": "2018-07-17T14:28:32.484Z",
+            "metadata": {},
+            "payment_method": {
+                "type": "bank_card",
+                "id": "22d6d597-000f-5000-9000-145f6df21d6f",
+                "saved": False,
+                "card": {
+                    "first6": "555555",
+                    "last4": "4444",
+                    "expiry_month": "07",
+                    "expiry_year": "2021",
+                    "card_type": "MasterCard",
+                    "issuer_country": "RU",
+                    "issuer_name": "Sberbank",
+                },
+                "title": "Bank card *4444",
+            },
+            "refundable": False,
+            "test": False,
+        }
+    )
