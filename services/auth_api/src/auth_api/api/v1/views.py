@@ -375,7 +375,7 @@ def user_roles(user_uuid, role_uuid):
     return {'roles': schema.dump(roles)}
 
 
-@blueprint.route('/users/subscriptions_end', methods=['GET'])
+@blueprint.route('/views/expiring_subscriptions', methods=['GET'])
 @jwt_required()
 def get_users_with_ending_subscriptions():
     """Получение списка пользователей, у которых заканчивается подписка.
@@ -413,10 +413,10 @@ def get_users_with_ending_subscriptions():
         401:
           $ref: '#/components/responses/Unauthorized'
     """
-    days_from_query = int(request.args.get("days", settings.days_before_expired_subs))
+    days_from_query = int(request.args.get("days", settings.views.expiring_subs_default_difference_in_days))
     users = user_service.get_users_with_ending_subscriptions(days_from_query)
 
-    return {'Users': users}
+    return {'results': users}
 
 
 @blueprint.errorhandler(ServiceException)

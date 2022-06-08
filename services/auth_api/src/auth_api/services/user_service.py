@@ -6,6 +6,7 @@ import pyotp
 from sqlalchemy import or_
 
 from auth_api.api.v1.schemas.user import UserSchema
+from auth_api.api.v1.schemas.view import ExpiringSubscriptionSchema
 from auth_api.commons.jwt_utils import deactivate_all_refresh_tokens
 from auth_api.commons.pagination import paginate
 from auth_api.database import session
@@ -125,12 +126,12 @@ class UserService:
         return schema.dump(user)
 
     def get_users_with_ending_subscriptions(self, day: int):
-        schema = UserSchema(many=True)
-        time_now = datetime.datetime.utcnow()
-        date_expired = time_now + datetime.timedelta(days=day)
+        schema = ExpiringSubscriptionSchema(many=True)
+        time_now = datetime.utcnow()
+        date_expired = time_now + timedelta(days=day)
         query = session.query(
-            User.uuid.label("user"),
-            Role.uuid.label("role")
+            User.uuid.label("user_uuid"),
+            Role.uuid.label("role_uuid")
         ).join(
             UsersRoles,
             UsersRoles.users_uuid == User.uuid
