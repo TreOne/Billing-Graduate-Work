@@ -1,6 +1,11 @@
 # Переопределение настроек с помощью переменных окружения:
 #     auth_api__password=bar
 
+project:
+  redirect_url: https://example.com/
+
+admin:
+  email: admin_mail@mail.com
 
 notification_api:
   url: http://localhost/api/v1/send/email

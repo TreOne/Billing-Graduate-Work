@@ -6,6 +6,14 @@ import yaml
 from pydantic import BaseModel, BaseSettings
 
 
+class ProjectSettings(BaseModel):
+    redirect_url: str = "https://example.com/"
+
+
+class AdminSettings(BaseModel):
+    email: str
+
+
 class NotificationApiSettings(BaseModel):
     url: str
 
@@ -28,6 +36,8 @@ class Settings(BaseSettings):
     notification_api: NotificationApiSettings
     auth_api: AuthAPISettings
     kafka: KafkaSettings
+    admin: AdminSettings
+    project: ProjectSettings
 
     class Config:
         env_nested_delimiter = '__'
