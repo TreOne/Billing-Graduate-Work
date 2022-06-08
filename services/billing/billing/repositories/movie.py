@@ -23,7 +23,7 @@ class MovieRepository:
 
     @classmethod
     def _determine_movie_cost(cls, rating: float) -> float:
-        costs: list[float] = [20.00, 40.00, 60.00, 80.00, 100.00]
-        breakpoints: list[int] = [6, 7, 8, 9, 10]
+        costs: list[float] = [50.00, 60.00, 70.00, 80.00, 90.00, 100.00]
+        breakpoints: list[int] = [5, 6, 7, 8, 9]
         index = bisect.bisect(breakpoints, rating)
         return costs[index]

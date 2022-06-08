@@ -8,7 +8,7 @@ from billing.models import Bill
 from billing.models.enums import BillType
 from billing.repositories.base import BaseRepository
 from billing.repositories.movie import MovieRepository
-from billing.repositories.subscription import SubscriptionRepository
+from billing.repositories.role import RoleRepository
 
 __all__ = ("BillRepository",)
 
@@ -126,11 +126,9 @@ class BillRepository(BaseRepository):
             description: str = f"У вас теперь есть фильм '{movie_title}'."
             return description, amount
         elif bill_type == BillType.subscription:
-            subscription = SubscriptionRepository.get_by_id(item_uuid=item_uuid)
-            amount = subscription.get("price")
-            description: str = (
-                f"У вас теперь есть роль '{subscription.get('title_ru')}'."
-            )
+            role = RoleRepository.get_by_id(item_uuid=item_uuid)
+            amount = role.get("price")
+            description: str = f"У вас теперь есть роль '{role.get('title_ru')}'."
             return description, amount
         else:
             raise NotFound
