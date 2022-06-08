@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta
 from http.client import BAD_REQUEST, CONFLICT, NOT_FOUND
 from typing import Optional
 
@@ -6,8 +6,7 @@ import pyotp
 from sqlalchemy import or_
 
 from auth_api.api.v1.schemas.user import UserSchema
-from auth_api.commons.jwt_utils import (create_extended_access_token, deactivate_access_token,
-                                        deactivate_all_refresh_tokens, get_user_uuid_from_token)
+from auth_api.commons.jwt_utils import deactivate_all_refresh_tokens
 from auth_api.commons.pagination import paginate
 from auth_api.database import session
 from auth_api.extensions import db
@@ -21,11 +20,10 @@ class UserServiceException(ServiceException):
 
 class UserService:
     def get_auth_history(self, user_uuid: str):
-        # ToDO тут из-за пагинации оставил flask-alchemy
         auth_history = (
             db.session.query(AuthHistory)
-            .filter_by(user_uuid=user_uuid)
-            .order_by(AuthHistory.created_at.desc())
+                .filter_by(user_uuid=user_uuid)
+                .order_by(AuthHistory.created_at.desc())
         )
         return auth_history
 
@@ -107,7 +105,6 @@ class UserService:
 
     def get_users_list(self):
         schema = UserSchema(many=True)
-        # ToDO тут из-за пагинации оставил flask-alchemy
         query = db.session.query(User).filter_by(is_active=True)
         return paginate(query, schema)
 
@@ -115,8 +112,8 @@ class UserService:
         schema = UserSchema()
         existing_user = (
             session.query(User)
-            .filter(or_(User.username == username, User.email == email), )
-            .first()
+                .filter(or_(User.username == username, User.email == email), )
+                .first()
         )
         if existing_user:
             raise UserServiceException(
@@ -144,3 +141,66 @@ class UserService:
             UsersRoles.date_expiration.between(time_now, date_expired)
         ).all()
         return schema.dump(query)
+
+    def get_user_roles(self, user_uuid: str):
+        user = session.query(User).get(user_uuid)
+        if not user:
+            raise UserServiceException('User not found.', http_code=NOT_FOUND)
+        return user.roles
+
+    def user_has_role(self, user_uuid: str, role_uuid: str):
+        user = session.query(UsersRoles).filter_by(users_uuid=user_uuid, roles_uuid=role_uuid).first()
+        return bool(user)
+
+    def add_role_to_user(self, user_uuid: str, role_uuid: str, expiration_months: Optional[int] = None):
+        user = session.query(User).get(user_uuid)
+        if not user:
+            raise UserServiceException('User not found.', http_code=NOT_FOUND)
+        role = session.query(Role).get(role_uuid)
+        if not role:
+            raise UserServiceException('Role not found.', http_code=NOT_FOUND)
+        date_expiration = None
+        if expiration_months:
+            date_expiration = datetime.utcnow() + timedelta(
+                days=expiration_months * 31)  # TODO: Придумать способ лучше
+        add_role = UsersRoles(
+            users_uuid=user_uuid,
+            roles_uuid=role_uuid,
+            date_expiration=date_expiration,
+        )
+        session.add(add_role)
+        session.commit()
+
+        return user.roles
+
+    def update_role_exp_date(self, user_uuid: str, role_uuid: str, expiration_months=1):
+        user_role = session.query(UsersRoles).filter_by(users_uuid=user_uuid, roles_uuid=role_uuid).first()
+        old_date_expiration = user_role.date_expiration
+        if old_date_expiration < datetime.utcnow():
+            old_date_expiration = datetime.utcnow()
+        date_expiration = None
+        if expiration_months:
+            date_expiration = old_date_expiration + timedelta(days=expiration_months * 31)
+        user_role.date_expiration = date_expiration
+
+        session.commit()
+        user_roles = session.query(User).get(user_uuid).roles
+        return user_roles
+
+    def delete_user_role(self, user_uuid: str, role_uuid: str):
+        user = session.query(User).get(user_uuid)
+        if not user:
+            raise UserServiceException('User not found.', http_code=NOT_FOUND)
+        role = session.query(Role).get(role_uuid)
+        if not role:
+            raise UserServiceException('Role not found.', http_code=NOT_FOUND)
+
+        if role in user.roles:
+            user.roles.remove(role)
+        else:
+            raise UserServiceException('The user does not have this role.', http_code=CONFLICT)
+
+        session.add(user)
+        session.commit()
+
+        return user.roles

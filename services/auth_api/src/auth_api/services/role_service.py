@@ -1,10 +1,8 @@
-from datetime import datetime, timedelta
-from http.client import CONFLICT, NOT_FOUND
-from typing import Optional
+from http.client import CONFLICT
 
 from auth_api.api.v1.schemas.role import RoleSchema
 from auth_api.database import session
-from auth_api.models.user import Role, User, UsersRoles
+from auth_api.models.user import Role
 from auth_api.services.exceptions import ServiceException
 
 
@@ -49,55 +47,3 @@ class RoleService:
         session.commit()
 
         return schema.dump(role)
-
-    def add_role_to_user(self, user_uuid: str, role_uuid: str, expiration_months: Optional[int] = None):
-        user = session.query(User).get(user_uuid)
-        if not user:
-            raise RoleServiceException('User not found.', http_code=NOT_FOUND)
-        role = session.query(Role).get(role_uuid)
-        if not role:
-            raise RoleServiceException('Role not found.', http_code=NOT_FOUND)
-        date_expiration = None
-        if expiration_months:
-            date_expiration = datetime.utcnow() + timedelta(days=expiration_months * 31)  # TODO: Придумать способ лучше
-        add_role = UsersRoles(
-            users_uuid=user_uuid,
-            roles_uuid=role_uuid,
-            date_expiration=date_expiration,
-        )
-        session.add(add_role)
-        session.commit()
-
-        return user.roles
-
-    def delete_user_role(self, user_uuid: str, role_uuid: str):
-        user = session.query(User).get(user_uuid)
-        if not user:
-            raise RoleServiceException('User not found.', http_code=NOT_FOUND)
-        role = session.query(Role).get(role_uuid)
-        if not role:
-            raise RoleServiceException('Role not found.', http_code=NOT_FOUND)
-
-        if role in user.roles:
-            user.roles.remove(role)
-        else:
-            raise RoleServiceException('The user does not have this role.', http_code=CONFLICT)
-
-        session.add(user)
-        session.commit()
-
-        return user.roles
-
-    def get_user_roles(self, user_uuid: str):
-        user = session.query(User).get(user_uuid)
-        if not user:
-            raise RoleServiceException('User not found.', http_code=NOT_FOUND)
-        return user.roles
-
-    def user_has_role(self, user_uuid: str, role_uuid: str):
-        # TODO: РЕАЛИЗОВАТЬ!
-        return False
-
-    def update_role_exp_date(self, user_uuid: str, role_uuid: str, expiration_months=1):
-        # TODO: РЕАЛИЗОВАТЬ!
-        return []

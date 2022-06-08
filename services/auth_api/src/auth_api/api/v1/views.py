@@ -275,7 +275,7 @@ def get_user_roles(user_uuid):
           $ref: '#/components/responses/TooManyRequests'
     """
 
-    roles = role_service.get_user_roles(user_uuid)
+    roles = user_service.get_user_roles(user_uuid)
     schema = RoleSchema(many=True)
 
     return {'roles': schema.dump(roles)}
@@ -365,9 +365,9 @@ def user_roles(user_uuid, role_uuid):
           $ref: '#/components/responses/TooManyRequests'
     """
     if request.method == 'PUT':
-        roles = role_service.add_role_to_user(user_uuid, role_uuid)
+        roles = user_service.add_role_to_user(user_uuid, role_uuid)
     elif request.method == 'DELETE':
-        roles = role_service.delete_user_role(user_uuid, role_uuid)
+        roles = user_service.delete_user_role(user_uuid, role_uuid)
     else:
         return jsonify({'msg': 'Method not allowed.'}), METHOD_NOT_ALLOWED
 
