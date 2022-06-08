@@ -1,14 +1,6 @@
 import os
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-from pydantic import BaseModel
-
-
-class TemplateBodySchema(BaseModel):
-    """Represents template data model."""
-    link: str = 'https://example.com/'
-    username: str
-    amount: int
+from jinja2 import Environment, FileSystemLoader
 
 
 def render_template(template_name: str, data: dict) -> str:

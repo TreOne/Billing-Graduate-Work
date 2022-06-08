@@ -6,7 +6,8 @@ from services.consumers.base import AbstractConsumer
 from services.consumers.kafka_consumer import ConsumerKafka
 from services.message_handler import MessageHandler
 from services.notification_api.notification_service import NotificationAPI
-from services.notification_handlers import send_bill_notification_to_user
+from services.notification_handlers import send_bill_notification_to_user, send_refund_notification_to_user, \
+    send_refund_notification_to_admin
 
 logger = logging.getLogger(__name__)
 
@@ -27,10 +28,12 @@ if __name__ == '__main__':
     )
 
     mh = MessageHandler(
+        settings=settings,
         notification_service=notification_api,
         user_auth_service=user_auth_service,
     )
-    mh.register('bill.created', send_bill_notification_to_user)
+    mh.register('bill.refunded', send_refund_notification_to_user)
+    mh.register('bill.refunded', send_refund_notification_to_admin)
     mh.register('bill.paid', send_bill_notification_to_user)
 
     kafka_consumer = ConsumerKafka(
