@@ -14,23 +14,12 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Копируем точку входа
-#COPY /docker/notification_planning/entrypoint.dev.sh .
-# Fix права на выполнение (для пользователей unix систем)
-#RUN ["chmod", "+x", "entrypoint.dev.sh"]
-# Fix окончания строк (для пользователей win систем)
-# RUN dos2unix entrypoint.dev.sh
-
 # Проверка оформления кода
 RUN pip install --upgrade pip
-#RUN pip install flake8
-COPY . .
-#RUN flake8 --ignore=E501,F401 .
 
 # Установка зависимостей
 COPY requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
-
 
 ## СБОРКА
 FROM python:3.9.10-slim

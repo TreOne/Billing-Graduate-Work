@@ -3,6 +3,7 @@ from typing import Tuple
 
 import requests
 from django.conf import settings
+from rest_framework.exceptions import ValidationError
 
 
 class MovieRepository:
@@ -17,9 +18,12 @@ class MovieRepository:
 
     @classmethod
     def _get_movie_info(cls, item_uuid: str) -> dict:
-        url: str = f"{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}"
-        response = requests.get(url=url)
-        return response.json()
+        try:
+            url: str = f"{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}"
+            response = requests.get(url=url)
+            return response.json()
+        except Exception:
+            raise ValidationError({"detail": "Сервис фильмов недоступен"})
 
     @classmethod
     def _determine_movie_cost(cls, rating: float) -> float:
