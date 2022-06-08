@@ -1,18 +1,27 @@
+import logging
+from logging import config as logging_config
+
 from auth_api.consumer.connectors.base import AbstractBrokerConnector
 from auth_api.consumer.connectors.kafka_connector import KafkaConnector
 from auth_api.consumer.handlers import add_role_to_user, delete_user_role
+from auth_api.consumer.logger import LOGGER_SETTINGS
 from auth_api.consumer.message_handler import MessageHandler
 from auth_api.settings.settings import Settings
 
 
 def start_consuming(con: AbstractBrokerConnector, mh: MessageHandler):
-    print('Start consuming...')
+    logger.info("Start consuming...")
     consumer = con.get_consumer()
     for bill_message in consumer:
+        logger.info(f"Success get message from kafka: {bill_message.title} - {bill_message.body}")
         mh.handle(bill_message)
 
 
 if __name__ == '__main__':
+    logging_config.dictConfig(LOGGER_SETTINGS)
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
     settings = Settings()
 
     message_handler = MessageHandler()
