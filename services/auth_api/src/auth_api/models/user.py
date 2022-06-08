@@ -1,7 +1,7 @@
 import datetime
 import uuid as uuid_
 
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy import PrimaryKeyConstraint
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
@@ -23,6 +23,9 @@ class Role(Base):
 
 class UsersRoles(Base):
     __tablename__ = 'links_users_roles'
+    __table_args__ = (
+        UniqueConstraint('users_uuid', 'roles_uuid', name='unique_users_roles_link'),
+    )
 
     uuid = Column(GUID(), primary_key=True, default=uuid_.uuid4)
     users_uuid = Column(GUID(), ForeignKey('users.uuid'))
