@@ -3,11 +3,11 @@ from typing import Optional
 
 import requests
 from requests import request
+import logging
 
-from core.logger import get_logger
 from services.auth_api.base import AbstractAuth, UserSchema
 
-logger = get_logger(logger_name=__name__, level='info')
+logger = logging.getLogger(__name__)
 
 
 class AuthAPI(AbstractAuth):

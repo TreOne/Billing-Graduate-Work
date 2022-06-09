@@ -1,22 +1,25 @@
-import logging
-import os
-from logging.handlers import RotatingFileHandler
-from typing import Optional
+__all__ = 'LOGGING'
 
+from pathlib import Path
 
-def get_logger(logger_name: str, level: Optional[int or str] = logging.DEBUG) -> logging.Logger:
-    log_format = '%(asctime)s %(name)-30s %(levelname)-8s %(message)s'
+log_dir = Path.home() / 'logs'
 
-    logger = logging.getLogger(logger_name)
-    logger.setLevel(level)
-    os.makedirs('/var/log/app/', exist_ok=True)
-    handler = RotatingFileHandler(
-        f'/var/log/app/{logger_name}.log',
-        maxBytes=10 * 1024 * 1024,
-        backupCount=5,
-        encoding='utf-8',
-    )
-    handler.setFormatter(logging.Formatter(log_format))
-    logger.addHandler(handler)
-
-    return logger
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {'json': {'()': 'ecs_logging.StdlibFormatter', }, },
+    'handlers': {
+        'app_handler': {
+            'level': 'INFO',
+            'formatter': 'json',
+            'class': 'logging.FileHandler',
+            'filename': log_dir / 'email_sender.json',
+        },
+        'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', },
+    },
+    'loggers': {
+        '': {'handlers': ['console'], 'level': 'INFO', },
+        'email_sender': {'handlers': ['app_handler'], 'level': 'INFO', 'propagate': False, },
+    },
+    'root': {'level': 'INFO', 'handlers': ['console', ], },
+}

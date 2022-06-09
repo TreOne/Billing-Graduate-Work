@@ -1,14 +1,13 @@
-
+import logging
 from abc import ABC
 from typing import Optional, Iterator
 
 import backoff
 from kafka import KafkaConsumer
 
-from core.logger import get_logger
 from services.consumers.base import AbstractConsumer, BrokerMessage
 
-logger = get_logger(logger_name=__name__, level='info')
+logger = logging.getLogger(__name__)
 
 
 class ConsumerKafka(AbstractConsumer, ABC):
