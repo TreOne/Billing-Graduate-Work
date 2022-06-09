@@ -68,13 +68,13 @@ class BillRepository(BaseRepository):
             user_uuid=bill_schema.user_uuid
         )
         if autopay_id:
-            return cls._buy_item_with_autopay(bill_schema, autopay_id)
+            return cls.buy_item_with_autopay(bill_schema, autopay_id)
         else:
-            confirmation_url: str = cls._buy_item_without_autopay(bill_schema)
+            confirmation_url: str = cls.buy_item_without_autopay(bill_schema)
             return NotAutoPayResult(**{"confirmation_url": confirmation_url})
 
     @classmethod
-    def _buy_item_with_autopay(
+    def buy_item_with_autopay(
         cls, bill_schema: BillBaseSchema, autopay_id: str
     ) -> AutoPayResult:
         """Оплата с сохраненным токеном."""
@@ -96,7 +96,7 @@ class BillRepository(BaseRepository):
         return AutoPayResult(**{"message": message, "is_successful": is_successful})
 
     @classmethod
-    def _buy_item_without_autopay(cls, bill_schema: BillBaseSchema) -> str:
+    def buy_item_without_autopay(cls, bill_schema: BillBaseSchema) -> str:
         """Оплата без сохраненного токена."""
         description, amount = cls._determine_data_by_bill_type(bill_schema=bill_schema)
         bill_uuid: str = cls._create_bill(bill_schema=bill_schema, amount=amount)

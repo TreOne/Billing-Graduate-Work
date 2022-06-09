@@ -12,10 +12,17 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
 
+# https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html#crontab-schedules
 app.conf.beat_schedule = {
     "add-every-day-autopay": {
-        "task": "tasks.autopay_periodic_task",
+        "task": "billing.tasks.autopay_periodic_task",
         "schedule": crontab(minute=0, hour=0),
+        "args": (),
+    },
+    "demo": {
+        "task": "billing.tasks.say_hello",
+        "schedule": crontab(minute="*/1"),
+        # "schedule": crontab(minute=0, hour=0),
         "args": (),
     },
 }

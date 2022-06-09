@@ -1,34 +1,43 @@
+import json
 import logging
-from datetime import datetime
-from typing import List
 
 from celery import shared_task
+from django.conf import settings
 
-from billing.repositories.user_autopay import UserAutoPayRepository
-from config.payment_service import payment_system
-from utils.schemas import PaymentParams
+from billing.models.enums import BillType
+from billing.repositories.bill import BillRepository
+from utils.auth_api.auth_service import AuthAPI
+from utils.schemas.bill import BillBaseSchema
 
 log = logging.getLogger(__name__)
 
 
 @shared_task
+def say_hello():
+    logging.info("hello")
+    return "success"
+
+
+@shared_task
 def autopay_periodic_task():
     """Задача для автопродление подписки."""
-    # TODO: брать данные с сервиса Auth
-    users_for_pay: List[str] = []
-
-    auto_pays = UserAutoPayRepository.get_actual_auto_pays(users=users_for_pay)
-
-    for auto_pay in auto_pays:
-        # Проводим автоплатеж по ранее сохраненному платежу
-        auto_payment_params = PaymentParams(
-            bill_uuid=str(uuid.uuid4()),
-            amount=300.0,
-            description=f'Оплата подписки "Practix.Premium".',
-            autopay_id=auto_pay.id,
+    # Авторизуемся в сервисе Авторизации
+    auth_service = AuthAPI(
+        username=settings.AUTH_SERVICE_USERNAME,
+        password=settings.AUTH_SERVICE_PASSWORD,
+    )
+    # Получаем оканчивающиеся подписки пользователей, за три дня до окончания
+    subscriptions_end: list = auth_service.get_user_subscriptions_end(days=3)
+    end_result = []
+    for subscription in subscriptions_end:
+        # Готовим схему Оплаты
+        bill_schema = BillBaseSchema(
+            user_uuid=subscription.user_uuid,
+            type=BillType.subscription,
+            item_uuid=subscription.role_uuid,
         )
-        is_successful = payment_system.make_autopay(auto_payment_params)
-        if is_successful:
-            print(f"Автоплатеж проведен успешно.")
-        else:
-            print(f"ОШИБКА: Не удалось выполнить автоплатеж!")
+        # Покупаем объект подписки для конкретного пользователя
+        result: dict = BillRepository.buy_item(bill_schema=bill_schema)
+        log.info(result)
+        end_result.append(result)
+    return json.dumps(end_result)

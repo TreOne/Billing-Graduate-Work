@@ -27,8 +27,3 @@ class UserAutoPayRepository(BaseRepository):
             return str(auto_pay_id)
         except Exception:
             return None
-
-    # @classmethod
-    # def get_actual_auto_pays(cls, users: List[str]) -> List[UserAutoPay]:
-    #     auto_pays = cls.MODEL_CLASS.objects.filter(user_uuid__in=users)
-    #     return auto_pays

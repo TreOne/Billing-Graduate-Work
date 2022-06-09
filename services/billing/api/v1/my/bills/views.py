@@ -14,6 +14,7 @@ class MyBillViewSet(viewsets.ViewSet):
 
     @extend_schema(responses=BillListSerializer)
     def list(self, request: Request) -> Response:
+        """Выдача оплат для пользователя."""
         user_uuid: str = request.user.id
         bills = BillRepository.get_user_bills(user_uuid=user_uuid)
         return Response(BillListSerializer(bills, many=True).data)

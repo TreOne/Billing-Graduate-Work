@@ -57,7 +57,7 @@ class BillViewSet(viewsets.ViewSet):
         },
     )
     def create(self, request: Request) -> Response:
-
+        """Метод на покупку фильмов и подписок."""
         request_serializer = BillCreateRequestSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
         request_serializer = request_serializer.save()
