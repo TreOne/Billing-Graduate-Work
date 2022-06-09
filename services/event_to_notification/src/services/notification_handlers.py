@@ -1,14 +1,13 @@
-import logging
-
 import orjson
 
+from core.logger import get_logger
 from core.settings import Settings
 from services.auth_api.base import AbstractAuth
 from services.consumers.models import BillMessage
 from services.notification_api.base import AbstractNotificationService, Notification
 from services.template_utils.render import render_template
 
-logger = logging.getLogger(__name__)
+logger = get_logger(logger_name=__name__, level='info')
 
 
 def send_bill_notification_to_user(

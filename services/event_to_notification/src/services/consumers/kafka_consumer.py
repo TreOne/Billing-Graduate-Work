@@ -1,13 +1,14 @@
-import logging
+
 from abc import ABC
 from typing import Optional, Iterator
 
 import backoff
 from kafka import KafkaConsumer
 
+from core.logger import get_logger
 from services.consumers.base import AbstractConsumer, BrokerMessage
 
-logger = logging.getLogger(__name__)
+logger = get_logger(logger_name=__name__, level='info')
 
 
 class ConsumerKafka(AbstractConsumer, ABC):
@@ -52,6 +53,7 @@ class ConsumerKafka(AbstractConsumer, ABC):
                 reconnect_backoff_ms=100,
             )
             self.consumer.subscribe(topics=self.topics)
+            logger.info('Successfully connected to kafka server.')
 
     def stop_consumer(self) -> None:
         self.consumer.close()

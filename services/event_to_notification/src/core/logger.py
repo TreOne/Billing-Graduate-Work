@@ -4,7 +4,7 @@ from logging.handlers import RotatingFileHandler
 from typing import Optional
 
 
-def get_logger(logger_name: str, level: Optional[int] = logging.DEBUG) -> logging.Logger:
+def get_logger(logger_name: str, level: Optional[int or str] = logging.DEBUG) -> logging.Logger:
     log_format = '%(asctime)s %(name)-30s %(levelname)-8s %(message)s'
 
     logger = logging.getLogger(logger_name)

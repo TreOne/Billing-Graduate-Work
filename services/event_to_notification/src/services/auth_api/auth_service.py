@@ -4,7 +4,10 @@ from typing import Optional
 import requests
 from requests import request
 
+from core.logger import get_logger
 from services.auth_api.base import AbstractAuth, UserSchema
+
+logger = get_logger(logger_name=__name__, level='info')
 
 
 class AuthAPI(AbstractAuth):
@@ -21,6 +24,7 @@ class AuthAPI(AbstractAuth):
     def get_user_info(self, user_uuid: str) -> Optional[UserSchema]:
         response = self._get(f'{self.__get_user_url}{user_uuid}')
         if response.status_code != HTTPStatus.OK:
+            logger.error(f"Can't retrieve {user_uuid},response status{response.status_code}")
             return None
         user_data = response.json().get('user')
         return UserSchema(**user_data)
@@ -70,6 +74,8 @@ class AuthAPI(AbstractAuth):
             self.__refresh_token = tokens['refresh_token']
             self.__access_token = tokens['access_token']
             return True
+        else:
+            logger.error(f"Uth service login error , status{response.status_code}")
         return False
 
     def _get_headers(self):
