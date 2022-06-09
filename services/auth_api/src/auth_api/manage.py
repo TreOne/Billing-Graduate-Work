@@ -70,8 +70,7 @@ def loaddata():
         admins = json.load(f)
     for admin in admins:
         username = admin['login']
-        password = admin['password']
-
+        password = os.getenv(f'{username.upper()}_PASSWORD')
         existing_admin = session.query(User).filter(User.username == username).first()
         if existing_admin:
             click.echo(f'{existing_admin.username} already created!')

@@ -2,11 +2,11 @@
 {
    "service":"billing",
    "login":"srv_billing",
-   "password": "EvJkpM8yCTfgtIEgzx8I"
+   "password": ""
 },
 {
    "service":"event_to_notification",
    "login":"srv_bills_notif",
-   "password": "FdbQJum5RB1kK0YSBnVr"
+   "password": ""
 }
 ]
