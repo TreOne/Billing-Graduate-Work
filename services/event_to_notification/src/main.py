@@ -1,6 +1,5 @@
 import logging
-from logging import config as logging_config
-from core.logger import LOGGING
+
 from core.settings import get_settings
 from services.auth_api.auth_service import AuthAPI
 from services.consumers.base import AbstractConsumer
@@ -10,7 +9,6 @@ from services.notification_api.notification_service import NotificationAPI
 from services.notification_handlers import send_bill_notification_to_user, send_refund_notification_to_user, \
     send_refund_notification_to_admin
 
-logging_config.dictConfig(LOGGING)
 logger = logging.getLogger(__name__)
 
 
