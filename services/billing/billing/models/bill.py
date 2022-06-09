@@ -62,5 +62,5 @@ class Bill(UUIDMixin, UpdateTimeMixin):
                 "amount": float(self.amount),
             }
         )
-        producer.produce("default", data.json())
+        producer.produce(topic="bill", value=data.json(), key=f"bill.{self.status}")
         producer.flush()
