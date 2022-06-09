@@ -11,5 +11,5 @@ class NotificationAPI(AbstractNotificationService):
         self.api_url = api_url
 
     def send(self, notification: Notification) -> bool:
-        response = requests.post(self.api_url, data=notification.dict())
+        response = requests.post(self.api_url, data=notification.json())
         return response.status_code == HTTPStatus.OK
