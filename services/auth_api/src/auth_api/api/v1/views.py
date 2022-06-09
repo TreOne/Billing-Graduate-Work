@@ -383,7 +383,7 @@ def get_users_with_ending_subscriptions():
     ---
     get:
       tags:
-        - api/users/subscriptions_end
+        - api/views/expiring_subscriptions
       summary: Получение списка пользователей, у которых заканчивается подписка.
       description: Возвращает список пользователей, у которых заканчивается подписка.
       parameters:
@@ -402,12 +402,14 @@ def get_users_with_ending_subscriptions():
                 allOf:
                   - type: object
                     properties:
-                      Users:
+                      results:
                         type: array
                         items:
                           type: object
                           properties:
-                            uuid:
+                            user_uuid:
+                              type: string
+                            role_uuid:
                               type: string
 
         401:
