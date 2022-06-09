@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 from billing.models.enums import BillStatus, BillType
 from billing.models.mixins import UpdateTimeMixin, UUIDMixin
@@ -33,6 +34,13 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         db_table = "bill"
         verbose_name = "Оплата"
         verbose_name_plural = "Оплаты"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user_uuid", "item_uuid"],
+                condition=Q(type=BillType.movie),
+                name="unique_user_movie_item_index",
+            )
+        ]
 
     def __str__(self) -> str:
         return f"{self.pk}: {self.status} - {self.type}"

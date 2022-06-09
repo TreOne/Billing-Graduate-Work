@@ -1,23 +1,33 @@
 import bisect
-from typing import Tuple
+from typing import Any, NamedTuple
 
 import requests
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
 
 
+class MovieData(NamedTuple):
+    """Данные о Фильме."""
+
+    movie_title: str
+    movie_cost: float
+
+
 class MovieRepository:
+    """Репозиторий по работе с Фильмами."""
+
     @classmethod
-    def get_by_id(cls, item_uuid: str) -> Tuple[str, float]:
+    def get_by_id(cls, item_uuid: str) -> MovieData:
         """Запрашивает информацию о фильме из сервиса контента."""
         data = cls._get_movie_info(item_uuid=item_uuid)
         movie_title: str = data.get("title")
         imdb_rating: float = data.get("imdb_rating")
         movie_cost: float = cls._determine_movie_cost(rating=imdb_rating)
-        return movie_title, movie_cost
+        return MovieData(movie_title=movie_title, movie_cost=movie_cost)
 
     @classmethod
-    def _get_movie_info(cls, item_uuid: str) -> dict:
+    def _get_movie_info(cls, item_uuid: str) -> dict[str, Any]:
+        """Запросить информацию о фильме из Сервиса Фильмов."""
         try:
             url: str = f"{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}"
             response = requests.get(url=url)
@@ -27,6 +37,7 @@ class MovieRepository:
 
     @classmethod
     def _determine_movie_cost(cls, rating: float) -> float:
+        """Определить цену за фильм."""
         costs: list[float] = [50.00, 60.00, 70.00, 80.00, 90.00, 100.00]
         breakpoints: list[int] = [5, 6, 7, 8, 9]
         index = bisect.bisect(breakpoints, rating)

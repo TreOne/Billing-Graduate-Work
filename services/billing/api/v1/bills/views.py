@@ -9,29 +9,43 @@ from api.v1.bills.serializers import (
     BillAutoPaySerializer,
     BillConfirmUrlSerializer,
     BillCreateRequestSerializer,
-    BillListSerializer,
     YooKassaNotificationSerializer,
 )
+from billing.models.enums import BillStatus
 from billing.repositories.bill import BillRepository
+from billing.repositories.user_autopay import UserAutoPayRepository
+from utils.schemas.bill import BillBaseSchema
 
 
 class BillViewSet(viewsets.ViewSet):
 
     permission_classes = (IsAuthenticated,)
 
-    @extend_schema(responses=BillListSerializer)
-    def list(self, request: Request) -> Response:
-        user_uuid: str = request.user.id
-        bills = BillRepository.get_user_bills(user_uuid=user_uuid)
-        return Response(BillListSerializer(bills, many=True).data)
-
     @extend_schema(request=YooKassaNotificationSerializer)
     @action(methods=["POST"], permission_classes=[AllowAny], detail=False)
     def yookassa_notification_url(self, request: Request) -> Response:
-        data = request.data
-        bill_uuid: str = data["object"]["id"]
-        bill_status: str = data["object"]["status"]
-        BillRepository.update_bill(bill_uuid=bill_uuid, bill_status=bill_status)
+        """Обработка уведомления об изменениях статуса Оплаты из сервиса Yookassa."""
+        yookassa_object: dict = request.data["object"]
+        payment_id: str = yookassa_object["payment_method"]["id"]
+        user_uuid: str = yookassa_object["metadata"]["user_uuid"]
+        bill_uuid: str = yookassa_object["metadata"]["bill_uuid"]
+        is_token_saved: bool = yookassa_object["payment_method"]["saved"]
+        bill_status: str = BillRepository.determine_bill_status(
+            bill_status=yookassa_object["status"]
+        )
+        three_d_secure: bool = yookassa_object["authorization_details"][
+            "three_d_secure"
+        ]["applied"]
+
+        if all(
+            (is_token_saved, bill_status == BillStatus.paid, three_d_secure is False)
+        ):
+            # save User's auto pay
+            UserAutoPayRepository.save_users_auto_pay(
+                payment_id=payment_id,
+                user_uuid=user_uuid,
+            )
+        BillRepository.update_bill_status(bill_uuid=bill_uuid, bill_status=bill_status)
         return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -43,8 +57,25 @@ class BillViewSet(viewsets.ViewSet):
         },
     )
     def create(self, request: Request) -> Response:
+
+        request_serializer = BillCreateRequestSerializer(data=request.data)
+        request_serializer.is_valid(raise_exception=True)
+        request_serializer = request_serializer.save()
+
+        user_uuid: str = request.user.id
+        item_uuid: str = request_serializer.get("item_uuid")
+        bill_type: str = request_serializer.get("type")
+
+        bill_schema: BillBaseSchema = BillBaseSchema(
+            **{
+                "user_uuid": user_uuid,
+                "type": bill_type,
+                "item_uuid": item_uuid,
+            }
+        )
+        result: dict = BillRepository.buy_item(bill_schema=bill_schema)
+
         http_status = status.HTTP_200_OK
-        result: dict = BillRepository.buy_item(request=request)
         if result.get("confirmation_url"):
             serializer = BillConfirmUrlSerializer(result)
             return Response(data=serializer.data, status=http_status)

@@ -4,6 +4,7 @@ __all__ = ("BaseRepository",)
 
 
 class BaseRepository:
+    """Основной репозиторий."""
 
     MODEL_CLASS = None
 

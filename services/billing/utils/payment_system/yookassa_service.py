@@ -5,7 +5,6 @@ from yookassa.domain.request import PaymentRequestBuilder
 from yookassa.domain.response import PaymentResponse
 
 from billing.models.enums import BillStatus
-from billing.repositories.user_autopay import UserAutoPayRepository
 from utils.payment_system import AbstractPaymentSystem
 
 __all__ = ("YooKassaPaymentSystem",)
@@ -65,27 +64,30 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
 
         builder.set_capture(True)  # Автоматический прием поступившего платежа
         builder.set_description(params.description)
-        builder.set_metadata({"bill_uuid": params.bill_uuid})
+        builder.set_metadata(
+            {
+                "bill_uuid": params.bill_uuid,
+                "user_uuid": params.user_uuid,
+            }
+        )
 
         request = builder.build()
-        payment = Payment.create(request, idempotency_key=params.bill_uuid)
-
-        # save User's auto pay
-        if params.save_payment_method and not params.autopay_id:
-            UserAutoPayRepository.save_users_auto_pay(
-                payment_id=payment.id,
-                user_uuid=params.user_uuid,
-            )
+        payment: PaymentResponse = Payment.create(
+            request, idempotency_key=params.bill_uuid
+        )
         return payment
 
     def _get_status_from_payment(self, payment: PaymentResponse) -> BillStatus:
         """Извлекает статус платежа из объекта PaymentResponse."""
-        if payment.refunded_amount.value:
+        if payment.refunded_amount and payment.refunded_amount.value:
             return BillStatus.refunded
-        return self._convert_bill_status(payment_status=payment.status)
+        payment_status: BillStatus = self.convert_bill_status(
+            payment_status=payment.status
+        )
+        return payment_status
 
     @staticmethod
-    def _convert_bill_status(payment_status: str) -> BillStatus:
+    def convert_bill_status(payment_status: str) -> BillStatus:
         if payment_status in ("pending", "waiting_for_capture"):
             return BillStatus.created
         elif payment_status == "succeeded":

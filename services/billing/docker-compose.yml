@@ -11,7 +11,7 @@ services:
     depends_on:
       - django_app
     networks:
-      - billing_network
+      - external_movie_network
 
   redis:
     image: redis:6.2.6-alpine
@@ -20,7 +20,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - billing_network
+      - external_movie_network
 
   postgres_db:
     image: postgres:12.0-alpine
@@ -40,7 +40,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - billing_network
+      - external_movie_network
 
   django_app:
     build:
@@ -60,7 +60,7 @@ services:
       redis:
         condition: service_started
     networks:
-      - billing_network
+      - external_movie_network
 
   celery_worker:
     build:
@@ -74,7 +74,7 @@ services:
       django_app:
         condition: service_started
     networks:
-      - billing_network
+      - external_movie_network
 
   celery_beat:
     build:
@@ -88,7 +88,7 @@ services:
       django_app:
         condition: service_started
     networks:
-      - billing_network
+      - external_movie_network
 
   flower:
     build:
@@ -101,7 +101,7 @@ services:
     env_file:
       - example.env
     networks:
-      - billing_network
+      - external_movie_network
 
 volumes:
   nginx_logs:
@@ -109,5 +109,5 @@ volumes:
   billing_postgres_data:
 
 networks:
-  billing_network:
-    driver: bridge
+  external_movie_network:
+    name: movie_network

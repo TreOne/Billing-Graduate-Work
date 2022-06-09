@@ -4,18 +4,6 @@ from billing.models import Bill
 from billing.models.enums import BillType
 
 
-class BillListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bill
-        fields = (
-            "id",
-            "status",
-            "type",
-            "item_uuid",
-            "amount",
-        )
-
-
 class BillCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
@@ -23,6 +11,15 @@ class BillCreateSerializer(serializers.ModelSerializer):
             "type",
             "item_uuid",
         )
+
+    def validate(self, data):
+        if self.Meta.model.objects.filter(
+            user_uuid=self.context["user_uuid"],
+            item_uuid=data["item_uuid"],
+            type=BillType.movie,
+        ).exists():
+            raise serializers.ValidationError({"detail": "Вы уже купили этот фильм"})
+        return data
 
 
 class BillCreateRequestSerializer(serializers.Serializer):
