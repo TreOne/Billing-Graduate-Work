@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     environment:
-     - KAFKA__BOOTSTRAP_SERVERS=kafka:9092
+     - KAFKA__BOOTSTRAP_SERVERS=kafka:29092
     networks:
       - external_movie_network
 
