@@ -7,11 +7,8 @@ from pydantic import BaseModel, BaseSettings
 
 
 class ProjectSettings(BaseModel):
-    redirect_url: str = "https://example.com/"
-
-
-class AdminSettings(BaseModel):
-    email: str
+    redirect_url: str
+    admin_email: str
 
 
 class NotificationApiSettings(BaseModel):
@@ -33,11 +30,10 @@ class KafkaSettings(BaseModel):
 
 
 class Settings(BaseSettings):
+    project: ProjectSettings
     notification_api: NotificationApiSettings
     auth_api: AuthAPISettings
     kafka: KafkaSettings
-    admin: AdminSettings
-    project: ProjectSettings
 
     class Config:
         env_nested_delimiter = '__'

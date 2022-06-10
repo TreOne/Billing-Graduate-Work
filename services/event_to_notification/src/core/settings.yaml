@@ -2,10 +2,8 @@
 #     auth_api__password=bar
 
 project:
-  redirect_url: https://example.com/
-
-admin:
-  email: admin_mail@mail.com
+  redirect_url: https://tre.one/yookassa/
+  admin_email: admin@example.com
 
 notification_api:
   url: http://notification_api:8000/api/v1/send/email
@@ -19,6 +17,6 @@ kafka:
   bootstrap_servers: kafka:29092
   auto_offset_reset: earliest
   enable_auto_commit: false
-  group_id: etl_service
+  group_id: event_to_notification_service
   topics:
     - bill
