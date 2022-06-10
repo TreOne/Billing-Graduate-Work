@@ -4,12 +4,12 @@ from logging import config as logging_config
 from auth_api.consumer.connectors.base import AbstractBrokerConnector
 from auth_api.consumer.connectors.kafka_connector import KafkaConnector
 from auth_api.consumer.handlers import add_role_to_user, delete_user_role
-from auth_api.consumer.logger import LOGGING
+from auth_api.settings.logger import LOGGING
 from auth_api.consumer.message_handler import MessageHandler
 from auth_api.settings.settings import Settings
 
 logging_config.dictConfig(LOGGING)
-logger = logging.getLogger("auth_consumer")
+logger = logging.getLogger('auth_consumer')
 logger.setLevel(logging.INFO)
 
 

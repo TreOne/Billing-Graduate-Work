@@ -4,7 +4,7 @@ from logging import config as logging_config
 from auth_api.consumer.connectors.base import AbstractBrokerConnector
 from auth_api.consumer.connectors.test_connector import TestConnector
 from auth_api.consumer.handlers import add_role_to_user, delete_user_role
-from auth_api.consumer.logger import LOGGING
+from auth_api.settings.logger import LOGGING
 from auth_api.consumer.message_handler import MessageHandler
 from auth_api.consumer.models import BillMessage, BillMessageBody
 from auth_api.settings.settings import Settings
