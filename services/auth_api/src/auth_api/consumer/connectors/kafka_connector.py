@@ -22,5 +22,7 @@ class KafkaConnector(AbstractBrokerConnector):
             try:
                 yield BillMessage.from_message(message)
             except KeyError as e:
-                logger.error(e,  exc_info=True, extra={'Error processing messages': message.value.dict})
+                logger.error(
+                    e, exc_info=True, extra={'Error processing messages': message.value.dict}
+                )
                 continue
