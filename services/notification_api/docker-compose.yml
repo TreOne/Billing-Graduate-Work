@@ -74,8 +74,7 @@ services:
       - external_movie_network
 
   filebeat:
-    # Образ filebeat удален с DockerHUB, а "docker.elastic.co" недоступен из России. Используйте VPN =(
-    image: docker.elastic.co/beats/filebeat:7.12.0
+    image: elastic/filebeat:7.12.0
     environment:
       ELASTICSEARCH_HOSTS: "http://elastic_logging:9200"
       KIBANA_HOST: "http://kibana_logging"
@@ -88,7 +87,7 @@ services:
       elastic_logging:
         condition: service_healthy
     networks:
-      - external_movie_network
+     - external_movie_network
 
   elastic_logging:
     image: elasticsearch:7.12.0

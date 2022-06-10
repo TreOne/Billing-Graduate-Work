@@ -1,0 +1,19 @@
+services:
+  event_to_notification:
+    build:
+      context: .
+      target: development
+    command: [ "python","main.py"]
+    volumes:
+      - ./src:/home/app/src
+    env_file:
+      - .env
+    environment:
+     - KAFKA__BOOTSTRAP_SERVERS=kafka:29092
+    networks:
+      - external_movie_network
+
+networks:
+  external_movie_network:
+    name: movie_network
+

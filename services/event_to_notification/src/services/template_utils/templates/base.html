@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<div style="max-width: 1191px;">
+    <div style="background-color:#ffffff;line-height:inherit;margin:0;padding:0">
+        <table style="margin-left:auto;
+                margin-right:auto ">
+            <tr>
+                <td></td>
+                <td>
+                    <div style="text-align: center">
+                        <h1>Hello , {{ username }}!</h1>
+                        <br>
+                        <br>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    {% block body %}{% endblock %}
+                <td>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+    <br style="line-height:inherit">
+    <br style="line-height:inherit">
+    <br style="line-height:inherit">
+    <br style="line-height:inherit">
+</div>
+
+<p style="color:#888888;font-size:13px;line-height:inherit;text-align:center">
+    If you want to unsubscribe just click this url .
+    <a data-link-id="9" href="{{ link }}"
+       rel="noopener noreferrer"
+       style="line-height:inherit"
+       target="_blank"> Click</a>.&nbsp;
+</p>
+</div>
+</body>
+</html>

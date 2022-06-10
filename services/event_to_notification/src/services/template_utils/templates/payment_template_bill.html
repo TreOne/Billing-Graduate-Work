@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}
+Bill
+{% endblock %}
+{% block body %}
+<div style="text-align:center; ">
+    <h2>Thank you for buying our product </h2>
+    <br>
+</div>
+<ul style="list-style: none">
+    <li>
+        <div style="color: #333; height: 100%; width: 100%;" height="100%" width="100%">
+            <table style="border-collapse: collapse; padding: 40px; width: 100%;"
+            >
+                <tbody>
+                <tr>
+                    <td width="5px" style="padding: 0;"></td>
+                    <td
+                            style="border: 1px solid #000; clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 0;">
+                        <table
+                               style="background: #f9f9f9; width:100% ;border-bottom: 1px solid #eee; border-collapse: collapse; color: #999;">
+                            <tbody>
+                            <tr>
+                                <td width="50%" style="padding: 20px;"><strong
+                                        style="color: #333; font-size: 24px;">{{amount}}</strong> Paid
+                                </td>
+                                <td align="right" width="50%" style="padding: 20px;">Thanks for using <span>Example_Cinema.com</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="padding: 0;"></td>
+                    <td width="5px" style="padding: 0;"></td>
+                </tr>
+                <tr>
+                    <td style="padding: 0;"></td>
+                    <td style="border: 1px solid #000; border-top: 0; clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 0;">
+                        <table style="width: 100%">
+                            <tbody>
+                            <tr>
+                                <td style="padding: 20px;">
+                                    <h3
+                                            style="
+                                            border-bottom: 1px solid #000;
+                                            color: #000;
+                                            font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+                                            font-size: 18px;
+                                            font-weight: bold;
+                                            line-height: 1.2;
+                                            margin: 0;
+                                            margin-bottom: 15px;
+                                            padding-bottom: 5px;
+                                        "
+                                    >
+                                        Summary
+                                    </h3>
+                                    <table style="width: 100%; margin-bottom: 30px;">
+                                        <tbody>
+
+                                        <tr>
+                                            <td style="width: 70%; padding: 5px 0;">Subscription price </td>
+                                            <td align="right" style="padding: 5px 0;">${{amount}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style=" font-weight: bold; padding: 20px 0;">
+                                                Amount paid
+                                            </td>
+                                            <td align="right"
+                                                style=" font-weight: bold; padding: 5px 0;">
+                                                {{amount}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="padding: 0;"></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </li>
+</ul>
+
+{% endblock %}

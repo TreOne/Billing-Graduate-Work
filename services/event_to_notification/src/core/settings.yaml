@@ -1,0 +1,24 @@
+# Переопределение настроек с помощью переменных окружения:
+#     auth_api__password=bar
+
+project:
+  redirect_url: https://example.com/
+
+admin:
+  email: admin_mail@mail.com
+
+notification_api:
+  url: http://notification_api:8000/api/v1/send/email
+
+auth_api:
+  url: http://localhost/auth/
+  login: srv_bills_notif
+  password: FdbQJum5RB1kK0YSBnVr
+
+kafka:
+  bootstrap_servers: localhost:9092
+  auto_offset_reset: earliest
+  enable_auto_commit: false
+  group_id: etl_service
+  topics:
+    - bill
