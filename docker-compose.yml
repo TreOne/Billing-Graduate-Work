@@ -1,6 +1,16 @@
 version: '3.8'
 
 services:
+  nginx:
+    build: services/nginx
+    restart: always
+    volumes:
+      - nginx_logs:/var/log/nginx
+    ports:
+      - "5010:5010"  # auth_api
+    networks:
+      - movie_network
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.0
     hostname: zookeeper
@@ -33,6 +43,18 @@ services:
       - movie_network
     depends_on:
       - zookeeper
+
+
+volumes:
+  # Логи для filebeat
+  nginx_logs:
+  auth_api_logs:
+  billing_logs:
+  event_to_notification_logs:
+  notification_api_logs:
+  notification_sender_logs:
+  # Статика django
+  billing_static_volume:
 
 
 networks:
