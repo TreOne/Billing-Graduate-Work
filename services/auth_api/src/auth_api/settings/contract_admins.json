@@ -1,0 +1,12 @@
+[
+{
+   "service":"billing",
+   "login":"srv_billing",
+   "password": ""
+},
+{
+   "service":"event_to_notification",
+   "login":"srv_bills_notif",
+   "password": ""
+}
+]

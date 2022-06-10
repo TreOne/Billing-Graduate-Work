@@ -4,6 +4,9 @@
 
 sentry_dsn: https://2a7a736e66894d99b97886c0448def48@o1212334.ingest.sentry.io/6350385
 
+views:
+  expiring_subs_default_difference_in_days: 3  # По умолчанию отображать подписки истекающие через n дней
+
 flask:
   debug: True
   testing: False
@@ -17,6 +20,10 @@ alchemy:
 redis:
   host: redis
   port: 6379
+
+kafka:
+  host: kafka:29092
+  topic: bill
 
 jaeger:
   host: jaeger

@@ -1,12 +1,10 @@
-from http.client import CONFLICT, CREATED
+from http.client import BAD_REQUEST, CREATED
 
 from flask import request
 from flask_restful import Resource
 
-from auth_api.api.v1.schemas.role import RoleSchema
 from auth_api.commons.jwt_utils import user_has_role
-from auth_api.extensions import db
-from auth_api.models.user import Role
+from auth_api.services.role_service import RoleService
 
 
 class RoleResource(Resource):
@@ -110,27 +108,26 @@ class RoleResource(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.role_service = RoleService()
+
     @user_has_role('administrator', 'editor')
-    def get(self, name):
-        schema = RoleSchema()
-        role = Role.query.filter_by(name=name).first()
-        return {'role': schema.dump(role)}
+    def get(self, role_uuid):
+        role = self.role_service.get_role(role_uuid)
+        return {'role': role}
 
     @user_has_role('administrator')
-    def put(self, name):
-        schema = RoleSchema(partial=True)
-        role = Role.query.filter_by(name=name).first()
-        role = schema.load(request.json, instance=role)
+    def put(self, role_uuid):
+        new_name = request.json.get("name")
+        if not new_name:
+            return {'msg': 'Missing "name" in request.'}, BAD_REQUEST
+        role = self.role_service.update_role(role_uuid, new_name)
 
-        db.session.commit()
-
-        return {'msg': 'Role updated.', 'role': schema.dump(role)}
+        return {'msg': 'Role updated.', 'role': role}
 
     @user_has_role('administrator')
-    def delete(self, name):
-        role = Role.query.filter_by(name=name).first()
-        db.session.delete(role)
-        db.session.commit()
+    def delete(self, role_uuid):
+        self.role_service.delete_role(role_uuid)
 
         return {'msg': 'Role deleted.'}
 
@@ -204,22 +201,19 @@ class RoleList(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.role_service = RoleService()
+
     @user_has_role('administrator', 'editor')
     def get(self):
-        schema = RoleSchema(many=True)
-        roles = Role.query.all()
-        return {'roles': schema.dump(roles)}
+        roles = self.role_service.get_roles()
+
+        return {'roles': roles}
 
     @user_has_role('administrator')
     def post(self):
-        schema = RoleSchema()
-        role = schema.load(request.json)
-
-        existing_role = Role.query.filter_by(name=role.name).first()
-        if existing_role:
-            return {'msg': 'Role already exist!'}, CONFLICT
-
-        db.session.add(role)
-        db.session.commit()
-
-        return {'msg': 'Role created.', 'role': schema.dump(role)}, CREATED
+        name = request.json.get("name")
+        if not name:
+            return {'msg': 'Missing "name" in request.'}, BAD_REQUEST
+        role = self.role_service.create_role(name)
+        return {'msg': 'Role created.', 'role': role}, CREATED

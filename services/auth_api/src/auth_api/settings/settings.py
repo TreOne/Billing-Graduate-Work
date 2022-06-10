@@ -5,6 +5,10 @@ import yaml
 from pydantic import BaseModel, BaseSettings
 
 
+class ViewsSettings(BaseModel):
+    expiring_subs_default_difference_in_days: int
+
+
 class FlaskSettings(BaseModel):
     debug: bool
     testing: bool
@@ -20,6 +24,11 @@ class AlchemySettings(BaseModel):
 class RedisSettings(BaseModel):
     host: str
     port: int
+
+
+class KafkaSettings(BaseModel):
+    host: str
+    topic: str
 
 
 class JaegerSettings(BaseModel):
@@ -55,9 +64,11 @@ class OAuthSettings(BaseModel):
 
 class Settings(BaseSettings):
     sentry_dsn: str
+    views: ViewsSettings
     flask: FlaskSettings
     alchemy: AlchemySettings
     redis: RedisSettings
+    kafka: KafkaSettings
     jaeger: JaegerSettings
     jwt: JWTSettings
     oauth: OAuthSettings

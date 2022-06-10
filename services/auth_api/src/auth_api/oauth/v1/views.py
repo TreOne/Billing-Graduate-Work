@@ -1,14 +1,13 @@
 from http.client import BAD_REQUEST
 
-from flask import Blueprint
-from flask import current_app as app
-from flask import jsonify, request
+from flask import Blueprint, current_app as app, jsonify, request
 from marshmallow import ValidationError
 
 from auth_api.commons.jwt_utils import create_tokens
 from auth_api.extensions import apispec
 from auth_api.services.auth_service import AuthService
-from auth_api.services.oauth_service import OAuthService, OAuthServiceException
+from auth_api.services.exceptions import ServiceException
+from auth_api.services.oauth_service import OAuthService
 
 blueprint = Blueprint('oauth', __name__, url_prefix='/oauth/v1')
 auth_service = AuthService()
@@ -96,16 +95,18 @@ def oauth_login(provider):
     if not request.is_json:
         return jsonify({'msg': 'Missing JSON in request.'}), BAD_REQUEST
 
-    try:
-        social_id, email = oauth_service.get_user_info_from_oauth(provider)
-        user_uuid = oauth_service.login_user_oauth(social_id, email)
-        access_token, refresh_token = create_tokens(user_uuid)
-        user_agent = request.user_agent.string
-        ip_address = request.remote_addr
-        auth_service.add_to_history(user_uuid, user_agent, ip_address)
-        return jsonify({'access_token': access_token, 'refresh_token': refresh_token})
-    except OAuthServiceException as e:
-        return {'msg': str(e)}, e.http_code
+    social_id, email = oauth_service.get_user_info_from_oauth(provider)
+    user_uuid = oauth_service.login_user_oauth(social_id, email)
+    access_token, refresh_token = create_tokens(user_uuid)
+    user_agent = request.user_agent.string
+    ip_address = request.remote_addr
+    auth_service.add_to_history(user_uuid, user_agent, ip_address)
+    return jsonify({'access_token': access_token, 'refresh_token': refresh_token})
+
+
+@blueprint.errorhandler(ServiceException)
+def handle_service_error(e):
+    return jsonify({'msg': str(e)}), e.http_code
 
 
 @blueprint.errorhandler(ValidationError)

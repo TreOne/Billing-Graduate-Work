@@ -13,12 +13,15 @@ from auth_api.api.v1.schemas.totp_request import TOTPRequestSchema
 from auth_api.api.v1.schemas.user import UserSchema
 from auth_api.commons.jwt_utils import get_user_uuid_from_token, user_has_role
 from auth_api.commons.pagination import paginate
-from auth_api.extensions import apispec
-from auth_api.services.user_service import UserService, UserServiceException
+from auth_api.extensions import apispec, settings
+from auth_api.services.exceptions import ServiceException
+from auth_api.services.role_service import RoleService
+from auth_api.services.user_service import UserService
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 api = Api(blueprint)
 user_service = UserService()
+role_service = RoleService()
 
 api.add_resource(MeResource, '/users/me', endpoint='current_user')
 api.add_resource(UserResource, '/users/<uuid:user_uuid>', endpoint='user_by_uuid')
@@ -155,12 +158,8 @@ def change_totp_status():
     totp_request = schema.load(request.json)
     totp_status = totp_request.get('totp_status')
     totp_code = totp_request.get('totp_code')
-
-    try:
-        totp_status = user_service.change_user_totp_status(user_uuid, totp_status, totp_code)
-        return {'msg': f'Totp status changed to: {totp_status}'}
-    except UserServiceException as e:
-        return {'msg': str(e)}, e.http_code
+    totp_status = user_service.change_user_totp_status(user_uuid, totp_status, totp_code)
+    return {'msg': f'Totp status changed to: {totp_status}'}
 
 
 @blueprint.route('/users/<uuid:user_uuid>/history', methods=['GET'])
@@ -276,7 +275,7 @@ def get_user_roles(user_uuid):
           $ref: '#/components/responses/TooManyRequests'
     """
 
-    roles = user_service.get_roles(user_uuid)
+    roles = user_service.get_user_roles(user_uuid)
     schema = RoleSchema(many=True)
 
     return {'roles': schema.dump(roles)}
@@ -365,16 +364,66 @@ def user_roles(user_uuid, role_uuid):
         429:
           $ref: '#/components/responses/TooManyRequests'
     """
-
     if request.method == 'PUT':
-        roles = user_service.add_role(user_uuid, role_uuid)
+        roles = user_service.add_role_to_user(user_uuid, role_uuid)
     elif request.method == 'DELETE':
-        roles = user_service.remove_role(user_uuid, role_uuid)
+        roles = user_service.delete_user_role(user_uuid, role_uuid)
     else:
         return jsonify({'msg': 'Method not allowed.'}), METHOD_NOT_ALLOWED
 
     schema = RoleSchema(many=True)
     return {'roles': schema.dump(roles)}
+
+
+@blueprint.route('/views/expiring_subscriptions', methods=['GET'])
+@jwt_required()
+def get_users_with_ending_subscriptions():
+    """Получение списка пользователей, у которых заканчивается подписка.
+
+    ---
+    get:
+      tags:
+        - api/views/expiring_subscriptions
+      summary: Получение списка пользователей, у которых заканчивается подписка.
+      description: Возвращает список пользователей, у которых заканчивается подписка.
+      parameters:
+        - in: path
+          name: days
+          schema:
+            type: int
+          required: false
+          description: Количество дней до окончания подписки
+      responses:
+        200:
+          description: Список пользователей получен успешно.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            user_uuid:
+                              type: string
+                            role_uuid:
+                              type: string
+
+        401:
+          $ref: '#/components/responses/Unauthorized'
+    """
+    days_from_query = int(request.args.get("days", settings.views.expiring_subs_default_difference_in_days))
+    users = user_service.get_users_with_ending_subscriptions(days_from_query)
+
+    return {'results': users}
+
+
+@blueprint.errorhandler(ServiceException)
+def handle_service_error(e):
+    return jsonify({'msg': str(e)}), e.http_code
 
 
 @blueprint.errorhandler(ValidationError)
@@ -404,3 +453,4 @@ def register_views():
     apispec.spec.path(view=get_totp_link, app=current_app)
     apispec.spec.path(view=change_totp_status, app=current_app)
     apispec.spec.path(view=user_roles, app=current_app)
+    apispec.spec.path(view=get_users_with_ending_subscriptions, app=current_app)

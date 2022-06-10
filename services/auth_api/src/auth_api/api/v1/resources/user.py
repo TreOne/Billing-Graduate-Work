@@ -1,21 +1,12 @@
-from http.client import CONFLICT, CREATED
+from http.client import BAD_REQUEST, CREATED
 
 from flask import request
 from flask_jwt_extended import get_jwt, jwt_required
 from flask_restful import Resource
-from sqlalchemy import or_
 
-from auth_api.api.v1.schemas.user import UserSchema
-from auth_api.commons.jwt_utils import (
-    create_extended_access_token,
-    deactivate_access_token,
-    deactivate_all_refresh_tokens,
-    get_user_uuid_from_token,
-    user_has_role,
-)
-from auth_api.commons.pagination import paginate
-from auth_api.extensions import db
-from auth_api.models import User
+from auth_api.commons.jwt_utils import create_extended_access_token, deactivate_access_token, get_user_uuid_from_token, \
+    user_has_role
+from auth_api.services.user_service import UserService
 
 
 class MeResource(Resource):
@@ -97,6 +88,9 @@ class MeResource(Resource):
 
     method_decorators = [jwt_required()]
 
+    def __init__(self):
+        self.user_service = UserService()
+
     def get(self):
         access_token = get_jwt()
         user_data = {
@@ -111,32 +105,30 @@ class MeResource(Resource):
 
     def put(self):
         access_token = get_jwt()
-        user_uuid = get_user_uuid_from_token(access_token)
-        schema = UserSchema(partial=True)
-        user = User.query.get_or_404(user_uuid)
-        user = schema.load(request.json, instance=user)
 
-        db.session.commit()
+        email = request.json.get('email')
+        username = request.json.get('username')
+        password = request.json.get('password')
+        if not any([email, username, password]):
+            return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
+        user_uuid = get_user_uuid_from_token(access_token)
+        user = self.user_service.update_user(user_uuid, email, username, password)
 
         deactivate_access_token(access_token)
-        refresh_uuid = access_token['refresh_uuid']
+        refresh_uuid = access_token["refresh_uuid"]
         new_access_token = create_extended_access_token(user_uuid, refresh_uuid)
-
         return {
             'msg': 'Update is successful. Please use new access_token.',
-            'user': schema.dump(user),
+            'user': user,
             'access_token': new_access_token,
         }
 
     def delete(self):
         access_token = get_jwt()
         user_uuid = get_user_uuid_from_token(access_token)
-        user = User.query.get(user_uuid)
-        user.is_active = False
-        db.session.commit()
-
+        self.user_service.delete_user(user_uuid)
         deactivate_access_token(access_token)
-        deactivate_all_refresh_tokens(user_uuid)
+
         return {'msg': 'Your account has been blocked.'}
 
 
@@ -253,32 +245,27 @@ class UserResource(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.user_service = UserService()
+
     @user_has_role('administrator', 'editor')
     def get(self, user_uuid):
-        schema = UserSchema()
-        user = User.query.get_or_404(user_uuid)
-        return {'user': schema.dump(user)}
+        user = self.user_service.get_user(user_uuid)
+        return {'user': user}
 
     @user_has_role('administrator')
     def put(self, user_uuid):
-        schema = UserSchema(partial=True)
-        user = User.query.get_or_404(user_uuid)
-        user = schema.load(request.json, instance=user)
-
-        db.session.commit()
-
-        return {'msg': 'Update is successful.', 'user': schema.dump(user)}
+        email = request.json.get('email')
+        username = request.json.get('username')
+        password = request.json.get('password')
+        if not any([email, username, password]):
+            return {'msg': 'At least one field - email, username or password must be filled.'}, BAD_REQUEST
+        user = self.user_service.update_user(user_uuid, email, username, password)
+        return {'msg': 'Update is successful.', 'user': user}
 
     @user_has_role('administrator')
     def delete(self, user_uuid):
-        user = User.query.get_or_404(user_uuid)
-        if not user.is_active:
-            return {'msg': 'The user is already blocked.'}, CONFLICT
-
-        user.is_active = False
-        db.session.commit()
-
-        deactivate_all_refresh_tokens(user_uuid)
+        self.user_service.delete_user(user_uuid)
         return {'msg': 'User has been blocked.'}
 
 
@@ -353,24 +340,20 @@ class UserList(Resource):
           $ref: '#/components/responses/TooManyRequests'
     """
 
+    def __init__(self):
+        self.user_service = UserService()
+
     @user_has_role('administrator', 'editor')
     def get(self):
-        schema = UserSchema(many=True)
-        query = User.query.filter_by(is_active=True)
-        return paginate(query, schema)
+        users_list = self.user_service.get_users_list()
+        return users_list
 
     @user_has_role('administrator')
     def post(self):
-        schema = UserSchema()
-        user = schema.load(request.json)
-
-        existing_user = User.query.filter(
-            or_(User.username == user.username, User.email == user.email),
-        ).first()
-        if existing_user:
-            return {'msg': 'Username or email is already taken!'}, CONFLICT
-
-        db.session.add(user)
-        db.session.commit()
-
-        return {'msg': 'User created.', 'user': schema.dump(user)}, CREATED
+        email = request.json.get('email')
+        username = request.json.get('username')
+        password = request.json.get('password')
+        if not any([email, username, password]):
+            return {'msg': 'Email, username and password must be filled.'}, BAD_REQUEST
+        user = self.user_service.create_user(email, username, password)
+        return {'msg': 'User created.', 'user': user}, CREATED

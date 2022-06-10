@@ -12,6 +12,7 @@ from flask_jwt_extended import (
 )
 
 from auth_api.commons.jaeger_utils import trace
+from auth_api.database import session
 from auth_api.extensions import active_refresh_tokens, blocked_access_tokens, settings
 from auth_api.models import User
 
@@ -51,7 +52,7 @@ def create_tokens(user_uuid: _uuid.UUID) -> (str, str):
 @trace
 def create_extended_access_token(user_uuid: _uuid.UUID, refresh_uuid: _uuid.UUID):
     """Возвращает access-токен с дополнительными данными."""
-    user = User.query.get(user_uuid)
+    user = session.query(User).get(user_uuid)
     if not user.is_active:
         return jsonify({'msg': 'Your account is blocked.'}), FORBIDDEN
     access_token = create_access_token(

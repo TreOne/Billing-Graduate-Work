@@ -26,3 +26,4 @@ user-agents==2.2.0
 sentry-sdk==1.5.10
 blinker==1.4
 python-logstash==0.4.8
+kafka-python==2.0.2
