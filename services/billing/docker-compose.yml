@@ -1,6 +1,46 @@
 version: '3.8'
 
 services:
+  billing_app:
+    container_name: billing_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: '/home/app/billing/entrypoint.sh'
+    volumes:
+      - billing_static_volume:/home/app/billing/static
+      - billing_logs:/home/app/billing/logs
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    env_file:
+      - example.env
+    depends_on:
+      billing_postgres_db:
+        condition: service_started
+      billing_redis:
+        condition: service_started
+    networks:
+      - external_movie_network
+
+  billing_celery_worker:
+    container_name: billing_celery_worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "celery -A config worker -l info"
+    env_file:
+      - example.env
+    volumes:
+      - billing_logs:/home/app/billing/logs
+    depends_on:
+      billing_app:
+        condition: service_started
+    networks:
+      - external_movie_network
+
   billing_redis:
     container_name: billing_redis
     image: redis:6.2.6-alpine
@@ -29,44 +69,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - external_movie_network
-
-  billing_app:
-    container_name: billing_app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    entrypoint: '/home/app/billing/entrypoint.sh'
-    volumes:
-      - billing_billing_static_volume:/home/app/billing/static
-      - billing_billing_logs:/home/app/billing/logs
-    expose:
-      - 8000
-    ports:
-      - "8000:8000"
-    env_file:
-      - example.env
-    depends_on:
-      billing_postgres_db:
-        condition: service_started
-      billing_redis:
-        condition: service_started
-    networks:
-      - external_movie_network
-
-  billing_celery_worker:
-    container_name: billing_celery_worker
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: >
-      sh -c "celery -A config worker -l info"
-    env_file:
-      - example.env
-    depends_on:
-      billing_app:
-        condition: service_started
     networks:
       - external_movie_network
 
@@ -100,9 +102,9 @@ services:
       - external_movie_network
 
 volumes:
-  billing_billing_static_volume:
+  billing_static_volume:
     external: true
-  billing_billing_logs:
+  billing_logs:
     external: true
   billing_postgres_data:
 
