@@ -17,14 +17,15 @@ services:
     networks:
       - external_movie_network
     depends_on:
-      - db
-      - redis
+      - auth_db
+      - auth_redis
 
   auth_consumer:
     build: .
     volumes:
       - ./src/auth_api:/home/app/src/auth_api
       - ./src/auth_api/migrations:/home/app/src/migrations:ro
+      - auth_api_logs:/home/app/logs
     env_file:
       - example.env
     entrypoint:
@@ -33,10 +34,10 @@ services:
     networks:
       - external_movie_network
     depends_on:
-      - db
-      - redis
+      - auth_db
+      - auth_redis
 
-  db:
+  auth_db:
     image: postgres:12.0-alpine
     env_file:
       - example.env
@@ -47,7 +48,7 @@ services:
     networks:
       - external_movie_network
 
-  redis:
+  auth_redis:
     image: redis:6.2.6-alpine
     expose:
       - 6379
@@ -56,7 +57,10 @@ services:
     networks:
       - external_movie_network
 
-
 networks:
   external_movie_network:
     name: movie_network
+
+volumes:
+  auth_api_logs:
+    external: true
