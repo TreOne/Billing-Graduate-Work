@@ -1,19 +1,26 @@
-LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-LOG_DEFAULT_HANDLERS = [
-    'console',
-]
+from pathlib import Path
 
-LOGGER_SETTINGS = {
+log_dir = Path.home() / 'logs'
+
+LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {'verbose': {'format': LOG_FORMAT}},
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        }
+    'formatters': {
+        'json': {'()': 'ecs_logging.StdlibFormatter',},
     },
-    'loggers': {'': {'handlers': LOG_DEFAULT_HANDLERS, 'level': 'INFO'},},
-    'root': {'level': 'INFO', 'formatter': 'verbose', 'handlers': LOG_DEFAULT_HANDLERS},
+    'handlers': {
+        'auth_handler': {
+            'level': 'INFO',
+            'formatter': 'json',
+            'class': 'logging.FileHandler',
+            'filename': log_dir / 'auth_consumer.json',
+        },
+        'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler',},
+    },
+    'loggers': {
+        '': {'handlers': ['console'], 'level': 'INFO',},
+        'auth_consumer': {'handlers': ['auth_handler'], 'level': 'INFO', 'propagate': False,}
+
+    },
+    'root': {'level': 'INFO', 'handlers': ['console',],},
 }

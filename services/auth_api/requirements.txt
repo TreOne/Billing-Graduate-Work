@@ -1,6 +1,7 @@
 apispec[yaml]==5.1.1
 apispec-webframeworks==0.5.2
 click==8.0.4
+ecs-logging==1.1.0
 Flask==2.0.3
 Flask-JWT-Extended==4.3.1
 flask-marshmallow==0.14.0

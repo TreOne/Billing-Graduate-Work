@@ -4,10 +4,14 @@ from logging import config as logging_config
 from auth_api.consumer.connectors.base import AbstractBrokerConnector
 from auth_api.consumer.connectors.test_connector import TestConnector
 from auth_api.consumer.handlers import add_role_to_user, delete_user_role
-from auth_api.consumer.logger import LOGGER_SETTINGS
+from auth_api.consumer.logger import LOGGING
 from auth_api.consumer.message_handler import MessageHandler
 from auth_api.consumer.models import BillMessage, BillMessageBody
 from auth_api.settings.settings import Settings
+
+logging_config.dictConfig(LOGGING)
+logger = logging.getLogger('auth_consumer')
+logger.setLevel(logging.INFO)
 
 
 def start_consuming(con: AbstractBrokerConnector, mh: MessageHandler):
@@ -21,9 +25,6 @@ def start_consuming(con: AbstractBrokerConnector, mh: MessageHandler):
 
 
 if __name__ == '__main__':
-    logging_config.dictConfig(LOGGER_SETTINGS)
-    logger = logging.getLogger('auth_api.consumer.test.py')
-    logger.setLevel(logging.INFO)
     settings = Settings()
     message_handler = MessageHandler()
     message_handler.register('bill.paid', add_role_to_user)
