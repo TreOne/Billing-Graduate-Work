@@ -3,13 +3,11 @@ services:
     build:
       context: .
       target: development
-    command: [ "python","main.py"]
+    command: ["python", "main.py"]
     volumes:
       - ./src:/home/app/src
-    env_file:
-      - .env
     environment:
-     - KAFKA__BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA__BOOTSTRAP_SERVERS=kafka:29092
     networks:
       - external_movie_network
 
