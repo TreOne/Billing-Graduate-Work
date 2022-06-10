@@ -5,12 +5,12 @@
 
 rabbitmq:
   user: admin
-  password: foo  # OVERWRITE ME WITH ENVIRONMENT VARIABLE: rabbitmq__password=bar
-  host: rabbitmq
+  password: foo  # OVERWRITE ME WITH ENVIRONMENT VARIABLE: notification_rabbitmq__password=bar
+  host: notification_rabbitmq
   port: 5672
 
 redis:
-  host: redis
+  host: notification_redis
   port: 6379
 
 email:

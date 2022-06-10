@@ -12,9 +12,9 @@ filebeat.inputs:
 
   - type: log
     paths:
-      - /var/harvested_logs/email_sender/email_sender.json
+      - /var/harvested_logs/notification_sender/notification_sender.json
     fields:
-      log_type: "email_sender-log"
+      log_type: "notification_sender-log"
     fields_under_root: true
     json.keys_under_root: true
     json.overwrite_keys: true
@@ -67,7 +67,7 @@ processors:
       ignore_missing: true
 
   - drop_fields:
-      when.contains.log_type: email_sender-log
+      when.contains.log_type: notification_sender-log
       fields: [ "log", "process" ]
       ignore_missing: true
 

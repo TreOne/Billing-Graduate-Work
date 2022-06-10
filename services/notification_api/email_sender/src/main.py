@@ -17,7 +17,7 @@ from services.webpush import WebpushService
 from services.websocket import WebsocketService
 
 logging_config.dictConfig(LOGGING)
-logger = logging.getLogger('email_sender')
+logger = logging.getLogger('notification_sender')
 
 
 if __name__ == '__main__':
