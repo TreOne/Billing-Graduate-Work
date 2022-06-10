@@ -13,7 +13,7 @@ fi
 
 echo "Prepare dev environment..."
 flask db upgrade
-flask createsuperuser -u admin -e example@email.com -p password
+flask createsuperuser -u admin -e admin@example.com -p password
 flask loaddata
 
 echo "Starting server..."
