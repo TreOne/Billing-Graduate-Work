@@ -9,7 +9,7 @@ from auth_api.consumer.message_handler import MessageHandler
 from auth_api.settings.settings import Settings
 
 logging_config.dictConfig(LOGGING)
-logger = logging.getLogger("auth_consumer")
+logger = logging.getLogger('auth_consumer')
 logger.setLevel(logging.INFO)
 
 

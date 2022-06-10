@@ -5,9 +5,7 @@ log_dir = Path.home() / 'logs'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'json': {'()': 'ecs_logging.StdlibFormatter',},
-    },
+    'formatters': {'json': {'()': 'ecs_logging.StdlibFormatter',},},
     'handlers': {
         'auth_handler': {
             'level': 'INFO',
@@ -19,8 +17,7 @@ LOGGING = {
     },
     'loggers': {
         '': {'handlers': ['console'], 'level': 'INFO',},
-        'auth_consumer': {'handlers': ['auth_handler'], 'level': 'INFO', 'propagate': False,}
-
+        'auth_consumer': {'handlers': ['auth_handler'], 'level': 'INFO', 'propagate': False,},
     },
     'root': {'level': 'INFO', 'handlers': ['console',],},
 }
