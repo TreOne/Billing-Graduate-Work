@@ -6,8 +6,11 @@ services:
     restart: always
     volumes:
       - nginx_logs:/var/log/nginx
+      - billing_static:/home/app/admin_panel/static
     ports:
       - "5010:5010"  # auth_api
+      - "5020:5020"  # billing_app
+      - "5555:5555"  # billing_flower
     networks:
       - movie_network
 
@@ -100,7 +103,8 @@ services:
 
 
 volumes:
-  # Логи для filebeat
+  billing_static:
+    name: billing_static
   nginx_logs:
     name: nginx_logs
   auth_logs:
@@ -113,8 +117,6 @@ volumes:
     name: notification_api_logs
   notification_sender_logs:
     name: notification_sender_logs
-  # Статика django
-  billing_static_volume:
 
 
 networks:

@@ -124,8 +124,9 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'JTI_CLAIM': 'user_uuid',
+    'JTI_CLAIM': 'jti',
     'USER_ID_CLAIM': 'user_uuid',
+    'TOKEN_TYPE_CLAIM': 'type',
 }
 
 # Swagger
@@ -189,9 +190,7 @@ SITE_URL: str = os.environ.get('SITE_URL')
 # Yookassa
 YOOKASSA_SHOP_ID: int = int(os.environ.get('YOOKASSA_SHOP_ID'))
 YOOKASSA_SECRET_KEY: str = os.environ.get('YOOKASSA_SECRET_KEY')
-YOOKASSA_PAYMENT_RETURN_URL: str = (
-    f'{SITE_URL}{os.environ.get("YOOKASSA_PAYMENT_RETURN_URL")}'
-)
+YOOKASSA_PAYMENT_RETURN_URL: str = os.environ.get('YOOKASSA_PAYMENT_RETURN_URL')
 YOOKASSA_NOTIFICATION_URL: str = (f'{SITE_URL}{os.environ.get("YOOKASSA_NOTIFICATION_URL")}')
 
 # KAFKA

@@ -30,7 +30,7 @@ jaeger:
   port: 6831
 
 jwt:
-  secret_key: buz  # OVERWRITE ME WITH ENVIRONMENT VARIABLE: jwt__secret_key=poo
+  secret_key: foo  # OVERWRITE ME WITH ENVIRONMENT VARIABLE: jwt__secret_key=poo
   identity_claim: user_uuid  # The claim in a JWT that is used as the source of identity. Default: "sub"
   access:
     expires: 900  # 15 minutes

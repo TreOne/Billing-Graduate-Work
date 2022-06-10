@@ -8,12 +8,10 @@ services:
       dockerfile: Dockerfile
     entrypoint: '/home/app/billing/entrypoint.sh'
     volumes:
-      - billing_static_volume:/home/app/billing/static
+      - billing_static:/home/app/billing/static
       - billing_logs:/home/app/billing/logs
     expose:
       - 8000
-    ports:
-      - "8000:8000"
     env_file:
       - example.env
     depends_on:
@@ -46,8 +44,6 @@ services:
     image: redis:6.2.6-alpine
     expose:
       - 6379
-    ports:
-      - "6379:6379"
     networks:
       - external_movie_network
 
@@ -62,8 +58,6 @@ services:
       - POSTGRES_PASSWORD=billing
     expose:
       - 5432
-    ports:
-      - "5432:5432"
     healthcheck:
       test: [ "CMD", "pg_isready -U notification_planning" ]
       interval: 5s
@@ -94,15 +88,15 @@ services:
       dockerfile: Dockerfile
     command: >
       sh -c "celery -A config flower"
-    ports:
-      - "5555:5555"
+    expose:
+      - 5555
     env_file:
       - example.env
     networks:
       - external_movie_network
 
 volumes:
-  billing_static_volume:
+  billing_static:
     external: true
   billing_logs:
     external: true
