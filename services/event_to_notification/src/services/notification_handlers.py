@@ -12,10 +12,10 @@ logger = logging.getLogger('event_to_notification')
 
 
 def send_bill_notification_to_user(
-        message: str,
-        user_auth_service: AbstractAuth,
-        notification_service: AbstractNotificationService,
-        settings: Settings,
+    message: str,
+    user_auth_service: AbstractAuth,
+    notification_service: AbstractNotificationService,
+    settings: Settings,
 ) -> None:
     bill_message = BillMessage(**orjson.loads(message))
     user_data = user_auth_service.get_user_info(user_uuid=bill_message.user_uuid)
@@ -40,10 +40,10 @@ def send_bill_notification_to_user(
 
 
 def send_refund_notification_to_user(
-        message: str,
-        user_auth_service: AbstractAuth,
-        notification_service: AbstractNotificationService,
-        settings: Settings,
+    message: str,
+    user_auth_service: AbstractAuth,
+    notification_service: AbstractNotificationService,
+    settings: Settings,
 ) -> None:
     bill_message = BillMessage(**orjson.loads(message))
     user_data = user_auth_service.get_user_info(user_uuid=bill_message.user_uuid)
@@ -68,10 +68,10 @@ def send_refund_notification_to_user(
 
 
 def send_refund_notification_to_admin(
-        message: str,
-        user_auth_service: AbstractAuth,
-        notification_service: AbstractNotificationService,
-        settings: Settings,
+    message: str,
+    user_auth_service: AbstractAuth,
+    notification_service: AbstractNotificationService,
+    settings: Settings,
 ) -> None:
     bill_message = BillMessage(**orjson.loads(message))
     template_schema = {

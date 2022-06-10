@@ -12,12 +12,12 @@ logger = logging.getLogger('event_to_notification')
 
 class ConsumerKafka(AbstractConsumer, ABC):
     def __init__(
-            self,
-            bootstrap_servers: str,
-            auto_offset_reset: str,
-            enable_auto_commit: str,
-            group_id: str,
-            topics: Optional[list[str]],
+        self,
+        bootstrap_servers: str,
+        auto_offset_reset: str,
+        enable_auto_commit: str,
+        group_id: str,
+        topics: Optional[list[str]],
     ):
         self.bootstrap_servers = bootstrap_servers
         self.auto_offset_reset = auto_offset_reset

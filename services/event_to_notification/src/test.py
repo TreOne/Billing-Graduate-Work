@@ -14,6 +14,7 @@ from services.notification_handlers import (
     send_refund_notification_to_user,
     send_refund_notification_to_admin,
 )
+
 logging_config.dictConfig(LOGGING)
 logger = logging.getLogger('event_to_notification')
 

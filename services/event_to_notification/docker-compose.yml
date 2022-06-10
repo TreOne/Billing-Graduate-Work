@@ -14,7 +14,7 @@ services:
 
 volumes:
   event_to_notification_logs:
-      external: true
+                      external: true
 
 
 networks:
