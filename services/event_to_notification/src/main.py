@@ -6,16 +6,24 @@ from services.consumers.base import AbstractConsumer
 from services.consumers.kafka_consumer import ConsumerKafka
 from services.message_handler import MessageHandler
 from services.notification_api.notification_service import NotificationAPI
-from services.notification_handlers import send_bill_notification_to_user, send_refund_notification_to_user, \
-    send_refund_notification_to_admin
+from services.notification_handlers import send_bill_notification_to_user, send_refund_notification_to_admin, \
+    send_refund_notification_to_user
 
 logger = logging.getLogger(__name__)
 
 
 def start_consume(consumer: AbstractConsumer, message_handler: MessageHandler):
+    """Запуск обработки событий."""
     messages = consumer.consume()
     for message in messages:
         message_handler.handle(title=message.key, message=message.value)
+
+
+def register_observers(mh: MessageHandler):
+    """Регистрация слушателей событий по заголовкам (ключам) полученных сообщений."""
+    mh.register('bill.refunded', send_refund_notification_to_user)
+    mh.register('bill.refunded', send_refund_notification_to_admin)
+    mh.register('bill.paid', send_bill_notification_to_user)
 
 
 if __name__ == '__main__':
@@ -32,9 +40,7 @@ if __name__ == '__main__':
         notification_service=notification_api,
         user_auth_service=user_auth_service,
     )
-    mh.register('bill.refunded', send_refund_notification_to_user)
-    mh.register('bill.refunded', send_refund_notification_to_admin)
-    mh.register('bill.paid', send_bill_notification_to_user)
+    register_observers(mh)
 
     kafka_consumer = ConsumerKafka(
         bootstrap_servers=settings.kafka.bootstrap_servers,
