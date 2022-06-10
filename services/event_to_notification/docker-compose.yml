@@ -6,10 +6,15 @@ services:
     command: ["python", "main.py"]
     volumes:
       - ./src:/home/app/src
+      -  event_to_notification_logs:/home/app/logs
     environment:
       - KAFKA__BOOTSTRAP_SERVERS=kafka:29092
     networks:
       - external_movie_network
+
+volumes:
+  event_to_notification_logs:
+     external: true
 
 networks:
   external_movie_network:

@@ -1,12 +1,12 @@
+import logging
 from http import HTTPStatus
 from typing import Optional
 
 import requests
-import logging
 
 from services.auth_api.base import AbstractAuth, UserSchema
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('event_to_notification')
 
 
 class AuthAPI(AbstractAuth):

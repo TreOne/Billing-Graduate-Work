@@ -12,3 +12,5 @@ PyYAML==6.0
 requests==2.27.1
 typing_extensions==4.2.0
 urllib3==1.26.9
+ecs-logging==1.1.0
+

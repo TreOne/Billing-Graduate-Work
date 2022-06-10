@@ -7,17 +7,17 @@ from kafka import KafkaConsumer
 
 from services.consumers.base import AbstractConsumer, BrokerMessage
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('event_to_notification')
 
 
 class ConsumerKafka(AbstractConsumer, ABC):
     def __init__(
-        self,
-        bootstrap_servers: str,
-        auto_offset_reset: str,
-        enable_auto_commit: str,
-        group_id: str,
-        topics: Optional[list[str]],
+            self,
+            bootstrap_servers: str,
+            auto_offset_reset: str,
+            enable_auto_commit: str,
+            group_id: str,
+            topics: Optional[list[str]],
     ):
         self.bootstrap_servers = bootstrap_servers
         self.auto_offset_reset = auto_offset_reset
@@ -29,12 +29,14 @@ class ConsumerKafka(AbstractConsumer, ABC):
     def consume(self) -> Iterator[BrokerMessage]:
         self.start_consumer()
         try:
-            while True:
-                for message in self.consumer:
+            for message in self.consumer:
+                try:
                     yield BrokerMessage(
                         key=message.key.decode('UTF-8'), value=message.value.decode('UTF-8')
                     )
-                self.consumer.commit()
+                    self.consumer.commit()
+                except (KeyError, UnicodeEncodeError, ValueError) as e:
+                    logger.error(e, exc_info=True, extra={'Message': message})
         finally:
             self.stop_consumer()
 
@@ -57,4 +59,5 @@ class ConsumerKafka(AbstractConsumer, ABC):
             logger.info('Successfully connected to kafka server.')
 
     def stop_consumer(self) -> None:
+        logger.info('Stopping kafka consumer ')
         self.consumer.close()

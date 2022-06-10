@@ -8,7 +8,7 @@ from services.consumers.models import BillMessage
 from services.notification_api.base import AbstractNotificationService, Notification
 from services.template_utils.render import render_template
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('event_to_notification')
 
 
 def send_bill_notification_to_user(
