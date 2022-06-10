@@ -1,7 +1,0 @@
-openapi: 3.0.3
-info:
-  title: Billing service API
-  version: 1.0.0
-  description: Arbeit macht frei
-paths: {}
-components: {}
