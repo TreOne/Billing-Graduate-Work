@@ -68,8 +68,6 @@ services:
       retries: 100
     expose:
       - 6379
-    ports:
-      - "26379:6379"
     networks:
       - external_movie_network
 
