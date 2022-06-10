@@ -42,17 +42,11 @@ COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
-# Копируем точку входа
-#COPY --from=builder /usr/src/app/entrypoint.dev.sh $HOME
-
 # Копируем файлы проекта
-COPY . $APP_HOME
+COPY ./src $APP_HOME
 
 # Изменяем владельца файлов на app
 RUN chown -R app:app $APP_HOME
 
 # Переключаемся на пользователя app
 USER app
-
-# Запускаем точку входа
-#ENTRYPOINT ["/home/app/entrypoint.dev.sh"]

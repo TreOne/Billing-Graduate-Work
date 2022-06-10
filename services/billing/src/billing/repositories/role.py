@@ -2,7 +2,7 @@ from typing import Optional
 
 from rest_framework.exceptions import NotFound
 
-from utils import contants
+from utils import constants
 
 __all__ = ("RoleRepository",)
 
@@ -10,7 +10,7 @@ __all__ = ("RoleRepository",)
 class RoleRepository:
     """Репозиторий по работе с Подписками."""
 
-    MODEL_CLASS = contants.SYSTEM_ROLES
+    MODEL_CLASS = constants.SYSTEM_ROLES
 
     @classmethod
     def get_by_id(cls, item_uuid: str) -> Optional[dict]:
