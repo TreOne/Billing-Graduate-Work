@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nginx:
-    build: services/nginx
+    build: nginx
     restart: always
     volumes:
       - nginx_logs:/var/log/nginx
