@@ -34,10 +34,6 @@ services:
     depends_on:
       - zookeeper
 
-volumes:
-   event_to_notification_logs:
-
-
 networks:
   movie_network:
     name: movie_network

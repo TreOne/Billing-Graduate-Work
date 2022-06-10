@@ -1,16 +1,19 @@
+import logging
 from typing import Callable
 
 from core.settings import Settings
 from services.auth_api.base import AbstractAuth
 from services.notification_api.base import AbstractNotificationService
 
+logger = logging.getLogger('event_to_notification')
+
 
 class MessageHandler:
     def __init__(
-        self,
-        user_auth_service: AbstractAuth,
-        notification_service: AbstractNotificationService,
-        settings: Settings,
+            self,
+            user_auth_service: AbstractAuth,
+            notification_service: AbstractNotificationService,
+            settings: Settings,
     ):
         self.__observers: dict[str, list[Callable]] = dict()
         self.user_auth_service = user_auth_service
@@ -24,9 +27,12 @@ class MessageHandler:
     def handle(self, title: str, message: str) -> None:
         handlers = self.__observers.get(title, [])
         for handler in handlers:
-            handler(
-                settings=self.settings,
-                message=message,
-                user_auth_service=self.user_auth_service,
-                notification_service=self.notification_service,
-            )
+            try:
+                handler(
+                    settings=self.settings,
+                    message=message,
+                    user_auth_service=self.user_auth_service,
+                    notification_service=self.notification_service,
+                )
+            except Exception as e:
+                logger.error(e, exc_info=True)
