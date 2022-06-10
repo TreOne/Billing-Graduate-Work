@@ -42,12 +42,16 @@ class MovieRepository:
             return response.json()
         except Exception as e:
             message: str = 'Сервис фильмов недоступен'
-            logger.error(e, exc_info=True, extra={
-                'item_uuid': item_uuid,
-                'bill_type': BillType.movie,
-                'http_code': http.HTTPStatus.BAD_REQUEST,
-                'message': message
-            })
+            logger.error(
+                e,
+                exc_info=True,
+                extra={
+                    'item_uuid': item_uuid,
+                    'bill_type': BillType.movie,
+                    'http_code': http.HTTPStatus.BAD_REQUEST,
+                    'message': message,
+                },
+            )
             raise ValidationError({'detail': message})
 
     @classmethod

@@ -39,7 +39,9 @@ def autopay_periodic_task():
             type=BillType.subscription,
             item_uuid=subscription.role_uuid,
         )
-        logger.info(f'Покупаем объект подписки ({subscription.role_uuid}) для пользователя {subscription.user_uuid}')
+        logger.info(
+            f'Покупаем объект подписки ({subscription.role_uuid}) для пользователя {subscription.user_uuid}'
+        )
         result: dict = BillRepository.buy_item(bill_schema=bill_schema)
         logger.info('Результат покупки:', extra=result)
         end_result.append(result)

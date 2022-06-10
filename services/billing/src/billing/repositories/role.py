@@ -23,10 +23,14 @@ class RoleRepository:
             role: dict = [role for role in cls.MODEL_CLASS if role.get('uuid') == item_uuid][0]
             return role
         except Exception as e:
-            logger.error(e, exc_info=True, extra={
-                'item_uuid': item_uuid,
-                'bill_type': BillType.subscription,
-                'http_code': http.HTTPStatus.NOT_FOUND,
-                'message': 'Такого подписки нет'
-            })
+            logger.error(
+                e,
+                exc_info=True,
+                extra={
+                    'item_uuid': item_uuid,
+                    'bill_type': BillType.subscription,
+                    'http_code': http.HTTPStatus.NOT_FOUND,
+                    'message': 'Такого подписки нет',
+                },
+            )
             raise NotFound

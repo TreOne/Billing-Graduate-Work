@@ -70,9 +70,13 @@ class BillRepository(BaseRepository):
         autopay = UserAutoPayRepository.get_users_auto_pay(user_uuid=user_uuid)
         if autopay:
             logger.info('Пользователь оплатил через автоплатеж', extra=bill_schema.dict())
-            return cls.buy_item_with_autopay(bill_schema=bill_schema, autopay_id=str(autopay.id))
+            return cls.buy_item_with_autopay(
+                bill_schema=bill_schema, autopay_id=str(autopay.id)
+            )
         else:
-            logger.info('Пользователь оплатил через ссылку на Юкассу', extra=bill_schema.dict())
+            logger.info(
+                'Пользователь оплатил через ссылку на Юкассу', extra=bill_schema.dict()
+            )
             confirmation_url: str = cls.buy_item_without_autopay(bill_schema)
             return NotAutoPayResult(**{'confirmation_url': confirmation_url})
 

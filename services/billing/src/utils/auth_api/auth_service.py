@@ -71,8 +71,7 @@ class AuthAPI(AbstractAuth):
     def _login(self) -> bool:
         url = self._abs_url(self.__login_url)
         data: LoginData = LoginData(
-            username=self.__username,
-            password=self.__password,
+            username=self.__username, password=self.__password,
         )
         response = requests.post(url, json=data)
         if response.status_code == http.HTTPStatus.OK:

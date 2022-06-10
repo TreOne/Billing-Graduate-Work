@@ -20,7 +20,7 @@ class BillCreateSerializer(serializers.ModelSerializer):
         filters: dict = {
             'user_uuid': self.context['user_uuid'],
             'item_uuid': data['item_uuid'],
-            'type': BillType.movie
+            'type': BillType.movie,
         }
         if self.Meta.model.objects.filter(**filters).exists():
             logger.info(f'Пользователь пытается повторно купить фильм', extra=filters)
