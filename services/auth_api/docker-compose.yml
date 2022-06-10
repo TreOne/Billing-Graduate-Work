@@ -6,6 +6,7 @@ services:
     volumes:
       - ./src/auth_api:/home/app/src/auth_api
       - ./src/auth_api/migrations:/home/app/src/migrations:ro
+      - auth_logs:/home/app/logs
     env_file:
       - example.env
     entrypoint:
@@ -23,7 +24,7 @@ services:
     volumes:
       - ./src/auth_api:/home/app/src/auth_api
       - ./src/auth_api/migrations:/home/app/src/migrations:ro
-      - auth_api_logs:/home/app/logs
+      - auth_logs:/home/app/logs
     env_file:
       - example.env
     entrypoint:
@@ -56,5 +57,5 @@ networks:
     name: movie_network
 
 volumes:
-  auth_api_logs:
+  auth_logs:
     external: true
