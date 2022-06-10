@@ -12,8 +12,6 @@ services:
       - /home/app/entrypoint.sh
     expose:
       - 5000
-    ports:
-      - "5000:5000"
     networks:
       - external_movie_network
     depends_on:
@@ -43,8 +41,6 @@ services:
       - example.env
     expose:
       - 5432
-    ports:
-      - "15432:5432"
     networks:
       - external_movie_network
 
@@ -52,8 +48,6 @@ services:
     image: redis:6.2.6-alpine
     expose:
       - 6379
-    ports:
-      - "16379:6379"
     networks:
       - external_movie_network
 
