@@ -1,5 +1,6 @@
 import json
 import logging
+from logging import config as logging_config
 
 from celery import shared_task
 from django.conf import settings
@@ -9,34 +10,37 @@ from billing.repositories.bill import BillRepository
 from utils.auth_api.auth_service import AuthAPI
 from utils.schemas.bill import BillBaseSchema
 
-log = logging.getLogger(__name__)
+logger = logging.getLogger('celery')
+
+# Применяем настройки логирования
+logging_config.dictConfig(settings.LOGGING)
 
 
 @shared_task
 def say_hello():
-    logging.info('hello')
+    logger.info('hello')
     return 'success'
 
 
 @shared_task
 def autopay_periodic_task():
     """Задача для автопродление подписки."""
-    # Авторизуемся в сервисе Авторизации
+    logger.info('Авторизуемся в сервисе Авторизации')
     auth_service = AuthAPI(
         username=settings.AUTH_SERVICE_USERNAME, password=settings.AUTH_SERVICE_PASSWORD,
     )
-    # Получаем оканчивающиеся подписки пользователей, за три дня до окончания
+    logger.info('Получаем оканчивающиеся подписки пользователей, за три дня до окончания')
     subscriptions_end: list = auth_service.get_user_subscriptions_end(days=3)
     end_result = []
     for subscription in subscriptions_end:
-        # Готовим схему Оплаты
+        logger.info('Готовим схему Оплаты')
         bill_schema = BillBaseSchema(
             user_uuid=subscription.user_uuid,
             type=BillType.subscription,
             item_uuid=subscription.role_uuid,
         )
-        # Покупаем объект подписки для конкретного пользователя
+        logger.info(f'Покупаем объект подписки ({subscription.role_uuid}) для пользователя {subscription.user_uuid}')
         result: dict = BillRepository.buy_item(bill_schema=bill_schema)
-        log.info(result)
+        logger.info('Результат покупки:', extra=result)
         end_result.append(result)
     return json.dumps(end_result)

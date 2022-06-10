@@ -1,19 +1,8 @@
 version: '3.8'
 
 services:
-  nginx:
-    build: nginx
-    volumes:
-      - nginx_logs:/var/log/nginx
-      - static_volume:/home/app/billing/static
-    ports:
-      - "80:80"
-    depends_on:
-      - django_app
-    networks:
-      - external_movie_network
-
-  redis:
+  billing_redis:
+    container_name: billing_redis
     image: redis:6.2.6-alpine
     expose:
       - 6379
@@ -22,7 +11,8 @@ services:
     networks:
       - external_movie_network
 
-  postgres_db:
+  billing_postgres_db:
+    container_name: billing_postgres_db
     image: postgres:12.0-alpine
     volumes:
       - billing_postgres_data:/var/lib/postgresql/data/
@@ -42,27 +32,31 @@ services:
     networks:
       - external_movie_network
 
-  django_app:
+  billing_app:
+    container_name: billing_app
     build:
       context: .
       dockerfile: Dockerfile
-    command: >
-      sh -c 'python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000'
+    entrypoint: '/home/app/billing/entrypoint.sh'
     volumes:
-      - static_volume:/home/app/billing/static
+      - billing_billing_static_volume:/home/app/billing/static
+      - billing_billing_logs:/home/app/billing/logs
     expose:
       - 8000
+    ports:
+      - "8000:8000"
     env_file:
       - example.env
     depends_on:
-      postgres_db:
+      billing_postgres_db:
         condition: service_started
-      redis:
+      billing_redis:
         condition: service_started
     networks:
       - external_movie_network
 
-  celery_worker:
+  billing_celery_worker:
+    container_name: billing_celery_worker
     build:
       context: .
       dockerfile: Dockerfile
@@ -71,12 +65,13 @@ services:
     env_file:
       - example.env
     depends_on:
-      django_app:
+      billing_app:
         condition: service_started
     networks:
       - external_movie_network
 
-  celery_beat:
+  billing_celery_beat:
+    container_name: billing_celery_beat
     build:
       context: .
       dockerfile: Dockerfile
@@ -85,12 +80,13 @@ services:
     env_file:
       - example.env
     depends_on:
-      django_app:
+      billing_app:
         condition: service_started
     networks:
       - external_movie_network
 
-  flower:
+  billing_flower:
+    container_name: billing_flower
     build:
       context: .
       dockerfile: Dockerfile
@@ -104,8 +100,10 @@ services:
       - external_movie_network
 
 volumes:
-  nginx_logs:
-  static_volume:
+  billing_billing_static_volume:
+    external: true
+  billing_billing_logs:
+    external: true
   billing_postgres_data:
 
 networks:

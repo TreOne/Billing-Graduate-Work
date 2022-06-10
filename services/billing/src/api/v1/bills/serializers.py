@@ -1,7 +1,11 @@
+import logging
+
 from rest_framework import serializers
 
 from billing.models import Bill
 from billing.models.enums import BillType
+
+logger = logging.getLogger('billing')
 
 
 class BillCreateSerializer(serializers.ModelSerializer):
@@ -13,11 +17,13 @@ class BillCreateSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, data):
-        if self.Meta.model.objects.filter(
-            user_uuid=self.context['user_uuid'],
-            item_uuid=data['item_uuid'],
-            type=BillType.movie,
-        ).exists():
+        filters: dict = {
+            'user_uuid': self.context['user_uuid'],
+            'item_uuid': data['item_uuid'],
+            'type': BillType.movie
+        }
+        if self.Meta.model.objects.filter(**filters).exists():
+            logger.info(f'Пользователь пытается повторно купить фильм', extra=filters)
             raise serializers.ValidationError({'detail': 'Вы уже купили этот фильм'})
         return data
 

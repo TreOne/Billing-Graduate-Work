@@ -1,9 +1,17 @@
 import bisect
+import http
+import logging
 from typing import Any, NamedTuple
 
 import requests
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
+
+from billing.models.enums import BillType
+
+logger = logging.getLogger('billing')
+
+__all__ = ('MovieRepository',)
 
 
 class MovieData(NamedTuple):
@@ -32,8 +40,15 @@ class MovieRepository:
             url: str = f'{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}'
             response = requests.get(url=url)
             return response.json()
-        except Exception:
-            raise ValidationError({'detail': 'Сервис фильмов недоступен'})
+        except Exception as e:
+            message: str = 'Сервис фильмов недоступен'
+            logger.error(e, exc_info=True, extra={
+                'item_uuid': item_uuid,
+                'bill_type': BillType.movie,
+                'http_code': http.HTTPStatus.BAD_REQUEST,
+                'message': message
+            })
+            raise ValidationError({'detail': message})
 
     @classmethod
     def _determine_movie_cost(cls, rating: float) -> float:

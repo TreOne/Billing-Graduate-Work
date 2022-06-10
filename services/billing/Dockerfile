@@ -14,6 +14,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Копируем точку входа
+COPY entrypoint.sh .
+# Fix права на выполнение (для пользователей unix систем)
+RUN ["chmod", "+x", "entrypoint.sh"]
+# Fix окончания строк (для пользователей win систем)
+RUN dos2unix entrypoint.sh
+
 # Проверка оформления кода
 RUN pip install --upgrade pip
 
@@ -31,7 +38,9 @@ RUN adduser --system --group app
 # Создаем необходимые директории
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/billing
+ENV APP_LOGS=/home/app/billing/logs
 RUN mkdir $APP_HOME
+RUN mkdir $APP_LOGS
 RUN mkdir $APP_HOME/static
 WORKDIR $APP_HOME
 
@@ -42,11 +51,15 @@ COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
+# Копируем точку входа
+COPY --from=builder /usr/src/app/entrypoint.sh $APP_HOME
+
 # Копируем файлы проекта
 COPY ./src $APP_HOME
 
 # Изменяем владельца файлов на app
 RUN chown -R app:app $APP_HOME
+RUN chown -R app:app $APP_LOGS
 
 # Переключаемся на пользователя app
 USER app

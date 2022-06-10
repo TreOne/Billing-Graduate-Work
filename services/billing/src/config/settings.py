@@ -14,7 +14,9 @@ ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
 
 # CELERY CONFIGURATION
 # ------------------------------------------------------------------------------
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'amqp://guest:guest@localhost:5672/')
+CELERY_BROKER_URL = os.environ.get(
+    'CELERY_BROKER_URL', 'amqp://guest:guest@localhost:5672/'
+)
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -62,7 +64,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates',],
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,7 +95,9 @@ DATABASES = {
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
+    },
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
@@ -116,7 +122,10 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
     ],
-    'DEFAULT_THROTTLE_RATES': {'anon': '5/second', 'user': '12/second',},
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/second',
+        'user': '12/second',
+    },
 }
 
 SIMPLE_JWT = {
@@ -192,7 +201,9 @@ YOOKASSA_SECRET_KEY: str = os.environ.get('YOOKASSA_SECRET_KEY')
 YOOKASSA_PAYMENT_RETURN_URL: str = (
     f'{SITE_URL}{os.environ.get("YOOKASSA_PAYMENT_RETURN_URL")}'
 )
-YOOKASSA_NOTIFICATION_URL: str = (f'{SITE_URL}{os.environ.get("YOOKASSA_NOTIFICATION_URL")}')
+YOOKASSA_NOTIFICATION_URL: str = (
+    f'{SITE_URL}{os.environ.get("YOOKASSA_NOTIFICATION_URL")}'
+)
 
 # KAFKA
 KAFKA_HOST = os.environ.get('KAFKA_HOST')
@@ -206,6 +217,62 @@ MOVIE_SERVICE_GET_MOVIE: str = os.environ.get('MOVIE_SERVICE_GET_MOVIE')
 AUTH_SERVICE_USERNAME: str = os.environ.get('AUTH_SERVICE_USERNAME')
 AUTH_SERVICE_PASSWORD: str = os.environ.get('AUTH_SERVICE_PASSWORD')
 AUTH_SERVICE_URL: str = os.environ.get('AUTH_SERVICE_URL')
-AUTH_SERVICE_URL_SUBSCRIPTIONS_END: str = os.environ.get('AUTH_SERVICE_URL_SUBSCRIPTIONS_END')
+AUTH_SERVICE_URL_SUBSCRIPTIONS_END: str = os.environ.get(
+    'AUTH_SERVICE_URL_SUBSCRIPTIONS_END'
+)
 AUTH_SERVICE_URL_REFRESH: str = os.environ.get('AUTH_SERVICE_URL_REFRESH')
 AUTH_SERVICE_URL_LOGIN: str = os.environ.get('AUTH_SERVICE_URL_LOGIN')
+
+# Django Logs
+LOGS_BASE_DIR = BASE_DIR / 'logs'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    # 'filters': {
+    #     'require_debug_false': {
+    #         '()': 'django.utils.log.RequireDebugFalse'
+    #     }
+    # },
+    'formatters': {
+        'json': {'()': 'ecs_logging.StdlibFormatter'},
+        'console': {
+            'format': '[%(asctime)s] %(levelname)s|%(name)s|%(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'billing_handler': {
+            'level': 'INFO',
+            'formatter': 'json',
+            'class': 'logging.FileHandler',
+            'filename': LOGS_BASE_DIR / 'billing.json',
+        },
+        'celery_handler': {
+            'level': 'INFO',
+            'formatter': 'json',
+            'class': 'logging.FileHandler',
+            'filename': LOGS_BASE_DIR / 'celery.json',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'billing': {
+            'handlers': ['billing_handler'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'celery': {
+            'handlers': ['celery_handler'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}

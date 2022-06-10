@@ -1,4 +1,5 @@
-from typing import List, NamedTuple, Optional, TypedDict, Union
+import logging
+from typing import List, NamedTuple, TypedDict, Union
 
 from rest_framework.exceptions import ValidationError
 
@@ -15,6 +16,8 @@ from billing.repositories.user_autopay import UserAutoPayRepository
 from config.payment_service import payment_system
 from utils.schemas import PaymentParams
 from utils.schemas.bill import BillBaseSchema
+
+logger = logging.getLogger('billing')
 
 
 class BillItemData(NamedTuple):
@@ -45,6 +48,7 @@ class BillRepository(BaseRepository):
     @classmethod
     def get_user_bills(cls, user_uuid: str) -> List[Bill]:
         """Выдача оплат определенного пользователя."""
+        logger.info(f'Пользователь {user_uuid} попросил список оплат')
         return cls.MODEL_CLASS.objects.filter(user_uuid=user_uuid)
 
     @classmethod
@@ -62,12 +66,13 @@ class BillRepository(BaseRepository):
     @classmethod
     def buy_item(cls, bill_schema: BillBaseSchema) -> Union[AutoPayResult, NotAutoPayResult]:
         """Оплата Подписки или фильма."""
-        autopay_id: Optional[str] = UserAutoPayRepository.get_users_auto_pay(
-            user_uuid=bill_schema.user_uuid
-        )
-        if autopay_id:
-            return cls.buy_item_with_autopay(bill_schema, autopay_id)
+        user_uuid: str = bill_schema.user_uuid
+        autopay = UserAutoPayRepository.get_users_auto_pay(user_uuid=user_uuid)
+        if autopay:
+            logger.info('Пользователь оплатил через автоплатеж', extra=bill_schema.dict())
+            return cls.buy_item_with_autopay(bill_schema=bill_schema, autopay_id=str(autopay.id))
         else:
+            logger.info('Пользователь оплатил через ссылку на Юкассу', extra=bill_schema.dict())
             confirmation_url: str = cls.buy_item_without_autopay(bill_schema)
             return NotAutoPayResult(**{'confirmation_url': confirmation_url})
 
@@ -91,6 +96,7 @@ class BillRepository(BaseRepository):
             message: str = 'Автоплатеж проведен успешно.'
         else:
             message: str = 'ОШИБКА: Не удалось выполнить автоплатеж!'
+        logger.info(message, extra=bill_schema.dict())
         return AutoPayResult(**{'message': message, 'is_successful': is_successful})
 
     @classmethod
@@ -119,10 +125,11 @@ class BillRepository(BaseRepository):
             amount: float = role.get('price')
             description: str = f"Оплата подписки '{role.get('title_ru')}'."
         else:
-            raise ValidationError(
-                {'detail': "Неверный тип оплаты, выберите 'movie' или 'subscription'"}
-            )
+            message: str = 'Неверный тип оплаты, выберите "movie" или "subscription"'
+            logger.info(message, extra=bill_schema.dict())
+            raise ValidationError({'detail': message})
 
+        logger.info(f'{description}. Сумма: {amount}', extra=bill_schema.dict())
         return BillItemData(description=description, amount=amount)
 
     @classmethod
