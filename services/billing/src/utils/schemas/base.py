@@ -1,7 +1,7 @@
 import orjson
 from pydantic import BaseModel
 
-__all__ = ("FastJsonModel",)
+__all__ = ('FastJsonModel',)
 
 
 def orjson_dumps(v, *, default):

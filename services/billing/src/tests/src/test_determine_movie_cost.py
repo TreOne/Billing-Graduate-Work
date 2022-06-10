@@ -4,7 +4,7 @@ from billing.repositories.movie import MovieRepository
 
 
 @pytest.mark.parametrize(
-    "imdb_rating, expected_result",
+    'imdb_rating, expected_result',
     [
         (9.99, 100.0),
         (8.2, 90.0),

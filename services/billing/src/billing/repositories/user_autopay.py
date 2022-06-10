@@ -3,7 +3,7 @@ from typing import Optional
 from billing.models import UserAutoPay
 from billing.repositories.base import BaseRepository
 
-__all__ = ("UserAutoPayRepository",)
+__all__ = ('UserAutoPayRepository',)
 
 
 class UserAutoPayRepository(BaseRepository):

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from billing.models.enums import BillStatus
 from utils.schemas import PaymentParams
 
-__all__ = ("AbstractPaymentSystem",)
+__all__ = ('AbstractPaymentSystem',)
 
 
 class AbstractPaymentSystem(ABC):

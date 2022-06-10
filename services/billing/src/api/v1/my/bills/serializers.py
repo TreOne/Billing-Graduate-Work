@@ -7,9 +7,9 @@ class BillListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
         fields = (
-            "id",
-            "status",
-            "type",
-            "item_uuid",
-            "amount",
+            'id',
+            'status',
+            'type',
+            'item_uuid',
+            'amount',
         )

@@ -14,8 +14,8 @@ log = logging.getLogger(__name__)
 
 @shared_task
 def say_hello():
-    logging.info("hello")
-    return "success"
+    logging.info('hello')
+    return 'success'
 
 
 @shared_task
@@ -23,8 +23,7 @@ def autopay_periodic_task():
     """Задача для автопродление подписки."""
     # Авторизуемся в сервисе Авторизации
     auth_service = AuthAPI(
-        username=settings.AUTH_SERVICE_USERNAME,
-        password=settings.AUTH_SERVICE_PASSWORD,
+        username=settings.AUTH_SERVICE_USERNAME, password=settings.AUTH_SERVICE_PASSWORD,
     )
     # Получаем оканчивающиеся подписки пользователей, за три дня до окончания
     subscriptions_end: list = auth_service.get_user_subscriptions_end(days=3)

@@ -7,7 +7,7 @@ from yookassa.domain.response import PaymentResponse
 from billing.models.enums import BillStatus
 from utils.payment_system import AbstractPaymentSystem
 
-__all__ = ("YooKassaPaymentSystem",)
+__all__ = ('YooKassaPaymentSystem',)
 
 from utils.schemas import PaymentParams
 
@@ -48,7 +48,7 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
     def _create_payment(self, params: PaymentParams) -> PaymentResponse:
         """Создает платеж."""
         builder = PaymentRequestBuilder()
-        builder.set_amount({"value": params.amount, "currency": Currency.RUB})
+        builder.set_amount({'value': params.amount, 'currency': Currency.RUB})
 
         if params.autopay_id:
             # Автоплатеж
@@ -56,42 +56,35 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         else:
             # Требуется подтверждение оплаты пользователем
             builder.set_confirmation(
-                {"type": ConfirmationType.REDIRECT, "return_url": self._return_url}
+                {'type': ConfirmationType.REDIRECT, 'return_url': self._return_url}
             )
             if params.save_payment_method:
                 builder.set_save_payment_method(True)
-                builder.set_payment_method_data({"type": "bank_card"})
+                builder.set_payment_method_data({'type': 'bank_card'})
 
         builder.set_capture(True)  # Автоматический прием поступившего платежа
         builder.set_description(params.description)
         builder.set_metadata(
-            {
-                "bill_uuid": params.bill_uuid,
-                "user_uuid": params.user_uuid,
-            }
+            {'bill_uuid': params.bill_uuid, 'user_uuid': params.user_uuid,}
         )
 
         request = builder.build()
-        payment: PaymentResponse = Payment.create(
-            request, idempotency_key=params.bill_uuid
-        )
+        payment: PaymentResponse = Payment.create(request, idempotency_key=params.bill_uuid)
         return payment
 
     def _get_status_from_payment(self, payment: PaymentResponse) -> BillStatus:
         """Извлекает статус платежа из объекта PaymentResponse."""
         if payment.refunded_amount and payment.refunded_amount.value:
             return BillStatus.refunded
-        payment_status: BillStatus = self.convert_bill_status(
-            payment_status=payment.status
-        )
+        payment_status: BillStatus = self.convert_bill_status(payment_status=payment.status)
         return payment_status
 
     @staticmethod
     def convert_bill_status(payment_status: str) -> BillStatus:
-        if payment_status in ("pending", "waiting_for_capture"):
+        if payment_status in ('pending', 'waiting_for_capture'):
             return BillStatus.created
-        elif payment_status == "succeeded":
+        elif payment_status == 'succeeded':
             return BillStatus.paid
-        elif payment_status == "canceled":
+        elif payment_status == 'canceled':
             return BillStatus.canceled
-        raise ValueError("Failed to determine the payment status.")
+        raise ValueError('Failed to determine the payment status.')

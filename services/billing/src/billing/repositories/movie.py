@@ -20,8 +20,8 @@ class MovieRepository:
     def get_by_id(cls, item_uuid: str) -> MovieData:
         """Запрашивает информацию о фильме из сервиса контента."""
         data = cls._get_movie_info(item_uuid=item_uuid)
-        movie_title: str = data.get("title")
-        imdb_rating: float = data.get("imdb_rating")
+        movie_title: str = data.get('title')
+        imdb_rating: float = data.get('imdb_rating')
         movie_cost: float = cls._determine_movie_cost(rating=imdb_rating)
         return MovieData(movie_title=movie_title, movie_cost=movie_cost)
 
@@ -29,11 +29,11 @@ class MovieRepository:
     def _get_movie_info(cls, item_uuid: str) -> dict[str, Any]:
         """Запросить информацию о фильме из Сервиса Фильмов."""
         try:
-            url: str = f"{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}"
+            url: str = f'{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}'
             response = requests.get(url=url)
             return response.json()
         except Exception:
-            raise ValidationError({"detail": "Сервис фильмов недоступен"})
+            raise ValidationError({'detail': 'Сервис фильмов недоступен'})
 
     @classmethod
     def _determine_movie_cost(cls, rating: float) -> float:

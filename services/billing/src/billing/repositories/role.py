@@ -4,7 +4,7 @@ from rest_framework.exceptions import NotFound
 
 from utils import constants
 
-__all__ = ("RoleRepository",)
+__all__ = ('RoleRepository',)
 
 
 class RoleRepository:
@@ -15,9 +15,7 @@ class RoleRepository:
     @classmethod
     def get_by_id(cls, item_uuid: str) -> Optional[dict]:
         try:
-            role: dict = [
-                role for role in cls.MODEL_CLASS if role.get("uuid") == item_uuid
-            ][0]
+            role: dict = [role for role in cls.MODEL_CLASS if role.get('uuid') == item_uuid][0]
             return role
         except Exception:
             raise NotFound

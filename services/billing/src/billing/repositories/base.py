@@ -1,6 +1,6 @@
 from rest_framework.generics import get_object_or_404
 
-__all__ = ("BaseRepository",)
+__all__ = ('BaseRepository',)
 
 
 class BaseRepository:

@@ -2,7 +2,7 @@ from billing.models.enums import BillStatus
 from utils.payment_system import AbstractPaymentSystem
 from utils.schemas import PaymentParams
 
-__all__ = ("TestPaymentSystem",)
+__all__ = ('TestPaymentSystem',)
 
 
 class TestPaymentSystem(AbstractPaymentSystem):
@@ -10,7 +10,7 @@ class TestPaymentSystem(AbstractPaymentSystem):
 
     def create_confirmation_url(self, params: PaymentParams) -> str:
         """Создает ссылку для оплаты."""
-        return "https://example.com"
+        return 'https://example.com'
 
     def make_autopay(self, params: PaymentParams) -> bool:
         """Производит автоматическую оплату."""
