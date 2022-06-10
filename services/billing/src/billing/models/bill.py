@@ -1,3 +1,5 @@
+import logging
+
 from django.db import models
 from django.db.models import Q
 
@@ -8,6 +10,8 @@ __all__ = ('Bill',)
 
 from config.kafka_producer import producer
 from utils.schemas.bill import BillSchema
+
+logger = logging.getLogger('billing')
 
 
 class Bill(UUIDMixin, UpdateTimeMixin):
@@ -48,15 +52,17 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         # before save
         super().save(*args, **kwargs)
         # after save
+        key: str = f'bill.{self.status}'
         data = BillSchema(
             **{
                 'bill_uuid': str(self.pk),
-                'status': f'bill.{self.status}',
+                'status': key,
                 'user_uuid': str(self.user_uuid),
                 'type': self.type,
                 'item_uuid': str(self.item_uuid),
                 'amount': float(self.amount),
             }
         )
-        producer.produce(topic='bill', value=data.json(), key=f'bill.{self.status}')
+        producer.produce(topic='bill', value=data.json(), key=key)
         producer.flush()
+        logger.info(f'Сообщение {key} отправлено в Kafka', extra=data.dict())

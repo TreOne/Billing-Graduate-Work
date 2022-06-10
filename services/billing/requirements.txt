@@ -21,3 +21,4 @@ yookassa==2.3.1
 confluent-kafka==1.8.2
 kafka-python==2.0.2
 orjson==3.6.8
+ecs-logging==1.1.0

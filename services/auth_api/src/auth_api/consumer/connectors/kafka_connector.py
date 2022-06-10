@@ -1,9 +1,12 @@
+import logging
 from typing import Iterator
 
 from kafka import KafkaConsumer
 
 from auth_api.consumer.connectors.base import AbstractBrokerConnector
 from auth_api.consumer.models import BillMessage
+
+logger = logging.getLogger('auth_consumer')
 
 
 class KafkaConnector(AbstractBrokerConnector):
@@ -19,5 +22,7 @@ class KafkaConnector(AbstractBrokerConnector):
             try:
                 yield BillMessage.from_message(message)
             except KeyError as e:
-                print(f'Ошибка при обработке сообщения "{message.value}": {str(e)}')
+                logger.error(
+                    e, exc_info=True, extra={'Error processing messages': message.value.dict}
+                )
                 continue

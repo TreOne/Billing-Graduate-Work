@@ -1,6 +1,8 @@
 import http
 from http import HTTPStatus
 
+from typing import TypedDict
+
 import requests
 from django.conf import settings
 
@@ -8,13 +10,18 @@ from utils.auth_api.base import AbstractAuth
 from utils.schemas.user_subscribe import UserSubscribeSchema
 
 
+class LoginData(TypedDict):
+    username: str
+    password: str
+
+
 class AuthAPI(AbstractAuth):
     def __init__(self, username: str, password: str):
         self.api_url = settings.AUTH_SERVICE_URL
         self.__username = username
         self.__password = password
-        self.__refresh_token = ""
-        self.__access_token = ""
+        self.__refresh_token = ''
+        self.__access_token = ''
         self.__get_subscriptions_end = settings.AUTH_SERVICE_URL_SUBSCRIPTIONS_END
         self.__refresh_token_url = settings.AUTH_SERVICE_URL_REFRESH
         self.__login_url = settings.AUTH_SERVICE_URL_LOGIN
@@ -63,10 +70,9 @@ class AuthAPI(AbstractAuth):
 
     def _login(self) -> bool:
         url = self._abs_url(self.__login_url)
-        data = {
-            'username': self.__username,
-            'password': self.__password,
-        }
+        data: LoginData = LoginData(
+            username=self.__username, password=self.__password,
+        )
         response = requests.post(url, json=data)
         if response.status_code == http.HTTPStatus.OK:
             tokens = response.json()

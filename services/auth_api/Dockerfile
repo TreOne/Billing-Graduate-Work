@@ -46,7 +46,9 @@ RUN adduser --system --group app
 # Создаем необходимые директории
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/src
+ENV APP_LOGS=/home/app/logs
 RUN mkdir $APP_HOME
+RUN mkdir $APP_LOGS
 WORKDIR $APP_HOME
 
 # Устанавливаем зависимости
@@ -67,6 +69,6 @@ RUN pip install -e $APP_HOME
 
 # Изменяем владельца файлов на app
 RUN chown -R app:app $APP_HOME
-
+RUN chown -R app:app $APP_LOGS
 # Переключаемся на пользователя app
 USER app

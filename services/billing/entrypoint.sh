@@ -12,9 +12,10 @@ then
 fi
 
 echo "Prepare dev environment..."
-flask db upgrade
-flask createsuperuser -u admin -e admin@example.com -p password
-flask loaddata
+python manage.py collectstatic --no-input --clear
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser --noinput
 
 echo "Starting server..."
-exec flask run -h 0.0.0.0
+exec gunicorn config.wsgi:application --bind 0.0.0.0:8000
