@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta
 from http.client import BAD_REQUEST, CONFLICT, NOT_FOUND
 from typing import Optional
@@ -13,6 +14,8 @@ from auth_api.database import session
 from auth_api.extensions import db
 from auth_api.models.user import AuthHistory, Role, User, UsersRoles
 from auth_api.services.exceptions import ServiceException
+
+logger = logging.getLogger('auth_api')
 
 
 class UserServiceException(ServiceException):
@@ -121,6 +124,7 @@ class UserService:
         user = User(username=username, email=email, password=password)
         session.add(user)
         session.commit()
+        logger.info(f'User {user.username} is created!')
         return schema.dump(user)
 
     def get_users_with_ending_subscriptions(self, day: int):
@@ -163,13 +167,13 @@ class UserService:
         if expiration_months:
             date_expiration = datetime.utcnow() + timedelta(
                 days=expiration_months * 31
-            )  # TODO: Придумать способ лучше
+            )
         add_role = UsersRoles(
             users_uuid=user_uuid, roles_uuid=role_uuid, date_expiration=date_expiration,
         )
         session.add(add_role)
         session.commit()
-
+        logger.info(f'Add role {role_uuid} to user {user_uuid}. User roles: {user.roles}.')
         return user.roles
 
     def update_role_exp_date(self, user_uuid: str, role_uuid: str, expiration_months=1):
@@ -188,6 +192,7 @@ class UserService:
 
         session.commit()
         user_roles = session.query(User).get(user_uuid).roles
+        logger.info(f'Update role exp time {role_uuid} to user {user_uuid}. User roles: {user_roles}.')
         return user_roles
 
     def delete_user_role(self, user_uuid: str, role_uuid: str):
@@ -205,5 +210,5 @@ class UserService:
 
         session.add(user)
         session.commit()
-
+        logger.info(f'Delete role - {role_uuid} from user {user_uuid}.')
         return user.roles
