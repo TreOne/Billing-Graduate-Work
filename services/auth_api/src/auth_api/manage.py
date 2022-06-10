@@ -35,9 +35,13 @@ def createsuperuser(username, email, password):
         username=username, email=email, password=password, is_active=True, is_superuser=True,
     )
 
-    existing_superuser = session.query(User).filter(
-        or_(User.username == new_superuser.username, User.email == new_superuser.email),
-    ).first()
+    existing_superuser = (
+        session.query(User)
+        .filter(
+            or_(User.username == new_superuser.username, User.email == new_superuser.email),
+        )
+        .first()
+    )
 
     if existing_superuser:
         click.echo(f'{new_superuser.username} ({new_superuser.email}) already created!')
@@ -65,7 +69,7 @@ def loaddata():
     click.echo(f'Load roles: {len(roles)}')
 
     contract_admins_filename = os.path.join(dirname, 'settings/contract_admins.json')
-    role_admin = session.query(Role).get("c45ea0ef-f9b4-4569-af09-9ee7b0a9c16c")
+    role_admin = session.query(Role).get('c45ea0ef-f9b4-4569-af09-9ee7b0a9c16c')
     with open(contract_admins_filename) as f:
         admins = json.load(f)
     for admin in admins:

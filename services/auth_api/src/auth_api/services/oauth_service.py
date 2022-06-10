@@ -13,7 +13,6 @@ class OAuthServiceException(ServiceException):
 
 
 class OAuthService:
-
     def login_user_oauth(self, social_id: str, email: str):
         user = session.query(User).filter_by(social_id=social_id).first()
         if user is None:

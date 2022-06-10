@@ -6,9 +6,7 @@ LOG_DEFAULT_HANDLERS = [
 LOGGER_SETTINGS = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {'format': LOG_FORMAT}
-    },
+    'formatters': {'verbose': {'format': LOG_FORMAT}},
     'handlers': {
         'console': {
             'level': 'DEBUG',
@@ -16,8 +14,6 @@ LOGGER_SETTINGS = {
             'formatter': 'verbose',
         }
     },
-    'loggers': {
-        '': {'handlers': LOG_DEFAULT_HANDLERS, 'level': 'INFO'},
-    },
+    'loggers': {'': {'handlers': LOG_DEFAULT_HANDLERS, 'level': 'INFO'},},
     'root': {'level': 'INFO', 'formatter': 'verbose', 'handlers': LOG_DEFAULT_HANDLERS},
 }

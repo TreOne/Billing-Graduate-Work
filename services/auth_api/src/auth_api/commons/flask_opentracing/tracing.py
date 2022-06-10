@@ -183,9 +183,7 @@ class FlaskTracing(opentracing.Tracer):
             scope.span.set_tag(tags.HTTP_STATUS_CODE, response.status_code)
         if error is not None:
             scope.span.set_tag(tags.ERROR, True)
-            scope.span.log_kv(
-                {'event': tags.ERROR, 'error.object': error},
-            )
+            scope.span.log_kv({'event': tags.ERROR, 'error.object': error},)
 
         scope.close()
 

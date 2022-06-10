@@ -17,14 +17,17 @@ class AuthServiceException(ServiceException):
 
 
 class AuthService:
-
     def register_user(self, username: str, email: str, password: str):
         schema = UserSchema()
-        existing_user = session.query(User).filter(
-            or_(User.username == username, User.email == email),
-        ).first()
+        existing_user = (
+            session.query(User)
+            .filter(or_(User.username == username, User.email == email),)
+            .first()
+        )
         if existing_user:
-            raise AuthServiceException('Username or email is already taken!', http_code=CONFLICT)
+            raise AuthServiceException(
+                'Username or email is already taken!', http_code=CONFLICT
+            )
         user = User(username=username, email=email, password=password)
 
         session.add(user)

@@ -10,10 +10,12 @@ from auth_api.settings.settings import Settings
 
 
 def start_consuming(con: AbstractBrokerConnector, mh: MessageHandler):
-    logger.info("Start consuming...")
+    logger.info('Start consuming...')
     consumer = con.get_consumer()
     for bill_message in consumer:
-        logger.info(f"Success get message from kafka: {bill_message.title} - {bill_message.body}")
+        logger.info(
+            f'Success get message from kafka: {bill_message.title} - {bill_message.body}'
+        )
         mh.handle(bill_message)
 
 

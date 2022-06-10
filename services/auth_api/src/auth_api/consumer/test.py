@@ -11,17 +11,18 @@ from auth_api.settings.settings import Settings
 
 
 def start_consuming(con: AbstractBrokerConnector, mh: MessageHandler):
-    logger.info("Start consuming...")
+    logger.info('Start consuming...')
     consumer = con.get_consumer()
     for bill_message in consumer:
-        logger.info(f"Success get message from kafka: {bill_message.title} - {bill_message.body}")
+        logger.info(
+            f'Success get message from kafka: {bill_message.title} - {bill_message.body}'
+        )
         mh.handle(bill_message)
-
 
 
 if __name__ == '__main__':
     logging_config.dictConfig(LOGGER_SETTINGS)
-    logger = logging.getLogger("auth_api.consumer.test.py")
+    logger = logging.getLogger('auth_api.consumer.test.py')
     logger.setLevel(logging.INFO)
     settings = Settings()
     message_handler = MessageHandler()
@@ -60,7 +61,7 @@ if __name__ == '__main__':
                 type='subscription',
                 item_uuid='6014c570-7ee8-4636-9bca-0415442ca7b6',
             ),
-        )
+        ),
     ]
     connector = TestConnector(fake_messages, delay=1)
     start_consuming(connector, message_handler)

@@ -36,12 +36,10 @@ def configure_sentry(app_settings: Settings):
     sentry_sdk.init(
         dsn=app_settings.sentry_dsn,
         integrations=[FlaskIntegration()],
-
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.
         # We recommend adjusting this value in production.
         traces_sample_rate=1.0,
-
         # By default the SDK will try to use the SENTRY_RELEASE
         # environment variable, or infer a git commit
         # SHA as release, however you may want to set
@@ -66,8 +64,7 @@ def configure_app(app, app_settings: Settings):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = app_settings.alchemy.track_modifications
 
     logstash_handler = logstash.LogstashHandler(
-        host='logstash', port=5044, version=1,
-        tags=['auth_api'],
+        host='logstash', port=5044, version=1, tags=['auth_api'],
     )
 
     app.logger = logging.getLogger(__name__)
@@ -157,9 +154,7 @@ def configure_apispec(app):
         {
             'description': 'Ошибка в переданных данных. Подробности в тексте ошибки.',
             'content': {
-                'application/json': {
-                    'schema': {'$ref': '#/components/schemas/ErrorMessage'},
-                },
+                'application/json': {'schema': {'$ref': '#/components/schemas/ErrorMessage'},},
             },
         },
     )
@@ -168,9 +163,7 @@ def configure_apispec(app):
         {
             'description': 'Ошибка авторизации.',
             'content': {
-                'application/json': {
-                    'schema': {'$ref': '#/components/schemas/ErrorMessage'},
-                },
+                'application/json': {'schema': {'$ref': '#/components/schemas/ErrorMessage'},},
             },
         },
     )
@@ -179,9 +172,7 @@ def configure_apispec(app):
         {
             'description': 'Доступ запрещён.',
             'content': {
-                'application/json': {
-                    'schema': {'$ref': '#/components/schemas/ErrorMessage'},
-                },
+                'application/json': {'schema': {'$ref': '#/components/schemas/ErrorMessage'},},
             },
         },
     )
@@ -190,9 +181,7 @@ def configure_apispec(app):
         {
             'description': 'Объект не найден.',
             'content': {
-                'application/json': {
-                    'schema': {'$ref': '#/components/schemas/ErrorMessage'},
-                },
+                'application/json': {'schema': {'$ref': '#/components/schemas/ErrorMessage'},},
             },
         },
     )
@@ -201,9 +190,7 @@ def configure_apispec(app):
         {
             'description': 'Превышен лимит запросов.',
             'content': {
-                'application/json': {
-                    'schema': {'$ref': '#/components/schemas/ErrorMessage'},
-                },
+                'application/json': {'schema': {'$ref': '#/components/schemas/ErrorMessage'},},
             },
         },
     )

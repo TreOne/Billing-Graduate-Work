@@ -23,8 +23,8 @@ class UserService:
     def get_auth_history(self, user_uuid: str):
         auth_history = (
             db.session.query(AuthHistory)
-                .filter_by(user_uuid=user_uuid)
-                .order_by(AuthHistory.created_at.desc())
+            .filter_by(user_uuid=user_uuid)
+            .order_by(AuthHistory.created_at.desc())
         )
         return auth_history
 
@@ -33,14 +33,14 @@ class UserService:
 
         if totp_status == user.is_totp_enabled:
             raise UserServiceException(
-                "This status has already been established.", http_code=CONFLICT
+                'This status has already been established.', http_code=CONFLICT
             )
 
         secret = user.two_factor_secret
         totp = pyotp.TOTP(secret)
 
         if not totp.verify(totp_code):
-            raise UserServiceException("Wrong totp code.", http_code=BAD_REQUEST)
+            raise UserServiceException('Wrong totp code.', http_code=BAD_REQUEST)
 
         user.is_totp_enabled = totp_status
         session.commit()
@@ -58,7 +58,7 @@ class UserService:
 
         totp = pyotp.TOTP(secret)
         provisioning_url = totp.provisioning_uri(
-            name=user.username, issuer_name="PractixMovie"
+            name=user.username, issuer_name='PractixMovie'
         )
         return provisioning_url
 
@@ -66,20 +66,20 @@ class UserService:
         schema = UserSchema()
         user = session.query(User).get(user_uuid)
         if not user:
-            raise UserServiceException("User not found.", http_code=NOT_FOUND)
-        return {"user": schema.dump(user)}
+            raise UserServiceException('User not found.', http_code=NOT_FOUND)
+        return {'user': schema.dump(user)}
 
     def update_user(
-            self,
-            user_uuid,
-            email: Optional[str] = None,
-            username: Optional[str] = None,
-            password: Optional[str] = None,
+        self,
+        user_uuid,
+        email: Optional[str] = None,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
     ):
         schema = UserSchema()
         user = session.query(User).get(user_uuid)
         if not user:
-            raise UserServiceException("User not found.", http_code=NOT_FOUND)
+            raise UserServiceException('User not found.', http_code=NOT_FOUND)
         if email:
             user.email = email
         if username:
@@ -93,11 +93,9 @@ class UserService:
     def delete_user(self, user_uuid):
         user = session.query(User).get(user_uuid)
         if not user:
-            raise UserServiceException("User not found.", http_code=NOT_FOUND)
+            raise UserServiceException('User not found.', http_code=NOT_FOUND)
         if not user.is_active:
-            raise UserServiceException(
-                "The user is already blocked.", http_code=CONFLICT
-            )
+            raise UserServiceException('The user is already blocked.', http_code=CONFLICT)
 
         user.is_active = False
         session.commit()
@@ -113,12 +111,12 @@ class UserService:
         schema = UserSchema()
         existing_user = (
             session.query(User)
-                .filter(or_(User.username == username, User.email == email), )
-                .first()
+            .filter(or_(User.username == username, User.email == email),)
+            .first()
         )
         if existing_user:
             raise UserServiceException(
-                "Username or email is already taken!", http_code=CONFLICT
+                'Username or email is already taken!', http_code=CONFLICT
             )
         user = User(username=username, email=email, password=password)
         session.add(user)
@@ -129,18 +127,13 @@ class UserService:
         schema = ExpiringSubscriptionSchema(many=True)
         time_now = datetime.utcnow()
         date_expired = time_now + timedelta(days=day)
-        query = session.query(
-            User.uuid.label("user_uuid"),
-            Role.uuid.label("role_uuid")
-        ).join(
-            UsersRoles,
-            UsersRoles.users_uuid == User.uuid
-        ).join(
-            Role,
-            Role.uuid == UsersRoles.roles_uuid
-        ).filter(
-            UsersRoles.date_expiration.between(time_now, date_expired)
-        ).all()
+        query = (
+            session.query(User.uuid.label('user_uuid'), Role.uuid.label('role_uuid'))
+            .join(UsersRoles, UsersRoles.users_uuid == User.uuid)
+            .join(Role, Role.uuid == UsersRoles.roles_uuid)
+            .filter(UsersRoles.date_expiration.between(time_now, date_expired))
+            .all()
+        )
         return schema.dump(query)
 
     def get_user_roles(self, user_uuid: str):
@@ -150,10 +143,16 @@ class UserService:
         return user.roles
 
     def user_has_role(self, user_uuid: str, role_uuid: str):
-        user = session.query(UsersRoles).filter_by(users_uuid=user_uuid, roles_uuid=role_uuid).first()
+        user = (
+            session.query(UsersRoles)
+            .filter_by(users_uuid=user_uuid, roles_uuid=role_uuid)
+            .first()
+        )
         return bool(user)
 
-    def add_role_to_user(self, user_uuid: str, role_uuid: str, expiration_months: Optional[int] = None):
+    def add_role_to_user(
+        self, user_uuid: str, role_uuid: str, expiration_months: Optional[int] = None
+    ):
         user = session.query(User).get(user_uuid)
         if not user:
             raise UserServiceException('User not found.', http_code=NOT_FOUND)
@@ -163,11 +162,10 @@ class UserService:
         date_expiration = None
         if expiration_months:
             date_expiration = datetime.utcnow() + timedelta(
-                days=expiration_months * 31)  # TODO: Придумать способ лучше
+                days=expiration_months * 31
+            )  # TODO: Придумать способ лучше
         add_role = UsersRoles(
-            users_uuid=user_uuid,
-            roles_uuid=role_uuid,
-            date_expiration=date_expiration,
+            users_uuid=user_uuid, roles_uuid=role_uuid, date_expiration=date_expiration,
         )
         session.add(add_role)
         session.commit()
@@ -175,7 +173,11 @@ class UserService:
         return user.roles
 
     def update_role_exp_date(self, user_uuid: str, role_uuid: str, expiration_months=1):
-        user_role = session.query(UsersRoles).filter_by(users_uuid=user_uuid, roles_uuid=role_uuid).first()
+        user_role = (
+            session.query(UsersRoles)
+            .filter_by(users_uuid=user_uuid, roles_uuid=role_uuid)
+            .first()
+        )
         old_date_expiration = user_role.date_expiration
         if old_date_expiration < datetime.utcnow():
             old_date_expiration = datetime.utcnow()

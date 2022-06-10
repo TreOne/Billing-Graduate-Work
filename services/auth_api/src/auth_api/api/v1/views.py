@@ -415,7 +415,9 @@ def get_users_with_ending_subscriptions():
         401:
           $ref: '#/components/responses/Unauthorized'
     """
-    days_from_query = int(request.args.get("days", settings.views.expiring_subs_default_difference_in_days))
+    days_from_query = int(
+        request.args.get('days', settings.views.expiring_subs_default_difference_in_days)
+    )
     users = user_service.get_users_with_ending_subscriptions(days_from_query)
 
     return {'results': users}

@@ -72,9 +72,9 @@ def signup():
     """
     if not request.is_json:
         return jsonify({'msg': 'Missing JSON in request.'}), BAD_REQUEST
-    username = request.json.get("username")
-    email = request.json.get("email")
-    password = request.json.get("password")
+    username = request.json.get('username')
+    email = request.json.get('email')
+    password = request.json.get('password')
     if not any([email, username, password]):
         return {'msg': 'Email, username and password must be filled.'}, BAD_REQUEST
     registered_user = auth_service.register_user(username, email, password)
@@ -131,7 +131,7 @@ def login():
     totp_code = request.json.get('totp_code', '')
 
     access_token, refresh_token = auth_service.get_tokens(username, password, totp_code)
-    user_uuid = decode_token(refresh_token).get("user_uuid")
+    user_uuid = decode_token(refresh_token).get('user_uuid')
     user_agent = request.user_agent.string
     ip_address = request.remote_addr
     auth_service.add_to_history(user_uuid, user_agent, ip_address)

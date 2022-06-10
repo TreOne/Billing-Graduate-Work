@@ -11,12 +11,11 @@ users = JSONRPCBlueprint('users', __name__)
 @users.method('Users.index')
 def index(page: int, page_size: int) -> dict[str, Any]:
     schema = RpcUserSchema(many=True)
-    users = User.query.filter_by(
-        is_active=True,
-        is_superuser=False,
-    ).filter(
-        User.email is not None,
-    ).paginate(page, page_size)
+    users = (
+        User.query.filter_by(is_active=True, is_superuser=False,)
+        .filter(User.email is not None,)
+        .paginate(page, page_size)
+    )
     return {
         'users': schema.dump(users.items),
         'count': users.total,

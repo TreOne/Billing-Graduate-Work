@@ -118,7 +118,7 @@ class RoleResource(Resource):
 
     @user_has_role('administrator')
     def put(self, role_uuid):
-        new_name = request.json.get("name")
+        new_name = request.json.get('name')
         if not new_name:
             return {'msg': 'Missing "name" in request.'}, BAD_REQUEST
         role = self.role_service.update_role(role_uuid, new_name)
@@ -212,7 +212,7 @@ class RoleList(Resource):
 
     @user_has_role('administrator')
     def post(self):
-        name = request.json.get("name")
+        name = request.json.get('name')
         if not name:
             return {'msg': 'Missing "name" in request.'}, BAD_REQUEST
         role = self.role_service.create_role(name)

@@ -11,7 +11,6 @@ class RoleServiceException(ServiceException):
 
 
 class RoleService:
-
     def get_role(self, role_uuid: str):
         schema = RoleSchema()
         role = session.query(Role).get(role_uuid)

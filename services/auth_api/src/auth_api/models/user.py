@@ -50,10 +50,10 @@ class User(Base):
         'Role',
         secondary='links_users_roles',
         secondaryjoin=(
-            "and_("
-            "UsersRoles.roles_uuid == Role.uuid, "
-            "or_("
-            "UsersRoles.date_expiration == None, "
+            'and_('
+            'UsersRoles.roles_uuid == Role.uuid, '
+            'or_('
+            'UsersRoles.date_expiration == None, '
             f"UsersRoles.date_expiration > '{datetime.datetime.utcnow()}'))"
         ),
     )
