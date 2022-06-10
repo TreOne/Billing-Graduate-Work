@@ -1,5 +1,7 @@
 import logging
 
+from logging import config as logging_config
+from core.logger import LOGGING
 from core.settings import get_settings
 from services.auth_api.auth_service_dummy import DummyAuthAPI
 from services.auth_api.base import UserSchema
@@ -12,8 +14,8 @@ from services.notification_handlers import (
     send_refund_notification_to_user,
     send_refund_notification_to_admin,
 )
-
-logger = logging.getLogger(__name__)
+logging_config.dictConfig(LOGGING)
+logger = logging.getLogger('event_to_notification')
 
 
 def start_consume(consumer: AbstractConsumer, message_handler: MessageHandler):

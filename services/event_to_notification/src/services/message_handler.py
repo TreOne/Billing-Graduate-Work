@@ -7,10 +7,10 @@ from services.notification_api.base import AbstractNotificationService
 
 class MessageHandler:
     def __init__(
-        self,
-        user_auth_service: AbstractAuth,
-        notification_service: AbstractNotificationService,
-        settings: Settings,
+            self,
+            user_auth_service: AbstractAuth,
+            notification_service: AbstractNotificationService,
+            settings: Settings,
     ):
         self.__observers: dict[str, list[Callable]] = dict()
         self.user_auth_service = user_auth_service
