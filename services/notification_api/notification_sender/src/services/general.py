@@ -8,7 +8,7 @@ from connectors.rabbitmq import get_rmq_channel
 from connectors.redis_db import get_redis
 from settings.settings import get_settings
 
-logger = logging.getLogger('email_sender')
+logger = logging.getLogger('notification_sender')
 settings = get_settings()
 
 

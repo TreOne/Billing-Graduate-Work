@@ -11,13 +11,13 @@ LOGGING = {
             'level': 'INFO',
             'formatter': 'json',
             'class': 'logging.FileHandler',
-            'filename': log_dir / 'email_sender.json',
+            'filename': log_dir / 'notification_sender.json',
         },
         'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler',},
     },
     'loggers': {
         '': {'handlers': ['console'], 'level': 'INFO',},
-        'email_sender': {'handlers': ['app_handler'], 'level': 'INFO', 'propagate': False,},
+        'notification_sender': {'handlers': ['app_handler'], 'level': 'INFO', 'propagate': False,},
     },
     'root': {'level': 'INFO', 'handlers': ['console',],},
 }
