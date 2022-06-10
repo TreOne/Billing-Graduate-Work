@@ -73,63 +73,10 @@ services:
     networks:
       - external_movie_network
 
-  filebeat:
-    image: elastic/filebeat:7.12.0
-    environment:
-      ELASTICSEARCH_HOSTS: "http://elastic_logging:9200"
-      KIBANA_HOST: "http://kibana_logging"
-    volumes:
-      - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
-      - notification_api_logs:/var/harvested_logs/api:ro
-      - email_sender_logs:/var/harvested_logs/email_sender:ro
-    entrypoint: filebeat -e -strict.perms=false
-    depends_on:
-      elastic_logging:
-        condition: service_healthy
-    networks:
-     - external_movie_network
-
-  elastic_logging:
-    image: elasticsearch:7.12.0
-    environment:
-      xpack.security.enabled: "false"
-      bootstrap.memory_lock: "true"
-      network.host: 0.0.0.0
-      discovery.type: single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    healthcheck:
-      test: curl -s http://elastic_logging:9200/_cat/health >/dev/null || exit 1
-      interval: 5s
-      timeout: 20s
-      retries: 100
-    expose:
-      - 9200
-    volumes:
-      - elastic_logging_data:/tmp/elasticsearch/data
-    networks:
-      - external_movie_network
-
-  kibana_logging:
-    image: kibana:7.12.0
-    environment:
-      ELASTICSEARCH_URL: http://elastic_logging:9200
-      ELASTICSEARCH_HOSTS: '["http://elastic_logging:9200"]'
-    expose:
-      - 5601
-    depends_on:
-      elastic_logging:
-        condition: service_healthy
-    networks:
-      - external_movie_network
-
 volumes:
   notification_api_logs:
   email_sender_logs:
   rabbitmq_data:
-  elastic_logging_data:
 
 
 networks:
