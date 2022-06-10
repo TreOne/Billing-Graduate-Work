@@ -12,10 +12,6 @@ services:
     networks:
       - external_movie_network
 
-volumes:
-  event_to_notification_logs:
-                      external: true
-
 
 networks:
   external_movie_network:
