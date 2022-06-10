@@ -1,4 +1,5 @@
 import logging
+from logging import config as logging_config
 from http.client import TOO_MANY_REQUESTS
 
 import logstash
@@ -14,6 +15,7 @@ from auth_api.commons.fast_json import ORJSONDecoder, ORJSONEncoder
 from auth_api.commons.utils import is_rate_limit_exceeded
 from auth_api.extensions import apispec, db, jsonrpc, jwt, migrate, settings, tracing
 from auth_api.oauth.v1.views import blueprint as oauth_blueprint
+from auth_api.settings.logger import LOGGING
 from auth_api.settings.settings import Settings
 from auth_api.utils import RequestIdFilter
 
@@ -53,14 +55,9 @@ def configure_app(app, app_settings: Settings):
     app.config['SQLALCHEMY_DATABASE_URI'] = app_settings.alchemy.database_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = app_settings.alchemy.track_modifications
 
-    logstash_handler = logstash.LogstashHandler(
-        host='logstash', port=5044, version=1, tags=['auth_api'],
-    )
-
-    app.logger = logging.getLogger(__name__)
+    logging_config.dictConfig(LOGGING)
+    app.logger = logging.getLogger('auth_api')
     app.logger.setLevel(logging.INFO)
-    app.logger.addFilter(RequestIdFilter())
-    app.logger.addHandler(logstash_handler)
 
     app.before_request(before_request)
 
