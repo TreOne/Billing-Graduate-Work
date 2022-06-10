@@ -17,7 +17,11 @@ LOGGING = {
     },
     'loggers': {
         '': {'handlers': ['console'], 'level': 'INFO',},
-        'notification_sender': {'handlers': ['app_handler'], 'level': 'INFO', 'propagate': False,},
+        'notification_sender': {
+            'handlers': ['app_handler'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
     'root': {'level': 'INFO', 'handlers': ['console',],},
 }

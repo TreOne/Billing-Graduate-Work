@@ -165,9 +165,7 @@ class UserService:
             raise UserServiceException('Role not found.', http_code=NOT_FOUND)
         date_expiration = None
         if expiration_months:
-            date_expiration = datetime.utcnow() + timedelta(
-                days=expiration_months * 31
-            )
+            date_expiration = datetime.utcnow() + timedelta(days=expiration_months * 31)
         add_role = UsersRoles(
             users_uuid=user_uuid, roles_uuid=role_uuid, date_expiration=date_expiration,
         )
@@ -192,7 +190,9 @@ class UserService:
 
         session.commit()
         user_roles = session.query(User).get(user_uuid).roles
-        logger.info(f'Update role exp time {role_uuid} to user {user_uuid}. User roles: {user_roles}.')
+        logger.info(
+            f'Update role exp time {role_uuid} to user {user_uuid}. User roles: {user_roles}.'
+        )
         return user_roles
 
     def delete_user_role(self, user_uuid: str, role_uuid: str):

@@ -14,9 +14,7 @@ logger = logging.getLogger('api')
 
 
 @router.post(
-    path='/email',
-    name='Отправка письма.',
-    response_model=Response,
+    path='/email', name='Отправка письма.', response_model=Response,
 )
 async def email_registration(
     email: EmailNotificationSchema, email_service: EmailService = Depends(get_email_service)
@@ -26,9 +24,7 @@ async def email_registration(
 
 
 @router.post(
-    path='/websocket',
-    name='Отправка websocket уведомления.',
-    response_model=Response,
+    path='/websocket', name='Отправка websocket уведомления.', response_model=Response,
 )
 async def websocket_registration(
     websocket_notification: EmailNotificationSchema,
@@ -39,9 +35,7 @@ async def websocket_registration(
 
 
 @router.post(
-    path='/web-push',
-    name='Отправка web-push уведомления.',
-    response_model=Response,
+    path='/web-push', name='Отправка web-push уведомления.', response_model=Response,
 )
 async def webpush_registration(
     webpush_notification: EmailNotificationSchema,
