@@ -80,27 +80,3 @@ def loaddata():
         new_admin.roles.append(role_admin)
     session.commit()
     click.echo(f'Load admins: {len(admins)}')
-
-
-@click.command()
-@with_appcontext
-def loadadmins():
-    """Добавление администраторов."""
-    dirname = os.path.dirname(__file__)
-    contract_admins_filename = os.path.join(dirname, 'settings/contract_admins.json')
-    role_admin = session.query(Role).get("c45ea0ef-f9b4-4569-af09-9ee7b0a9c16c")
-    with open(contract_admins_filename) as f:
-        admins = json.load(f)
-    for admin in admins:
-        username = admin['login']
-        password = admin['password']
-
-        existing_admin = session.query(User).filter(User.username == username).first()
-        if existing_admin:
-            click.echo(f'{existing_admin.username} already created!')
-            return
-        new_admin = User(username=username, password=password)
-        session.add(new_admin)
-        new_admin.roles.append(role_admin)
-    session.commit()
-    click.echo(f'Load admins: {len(admins)}')
