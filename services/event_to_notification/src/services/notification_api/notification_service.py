@@ -7,6 +7,7 @@ from services.notification_api.base import AbstractNotificationService, Notifica
 
 class NotificationAPI(AbstractNotificationService):
     """Реализация интерфейса отправки уведомлений."""
+
     def __init__(self, api_url: str):
         self.api_url = api_url
 

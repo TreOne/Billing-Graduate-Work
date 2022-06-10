@@ -6,6 +6,7 @@ from typing import Optional
 @dataclass
 class UserSchema:
     """Represents incoming user model."""
+
     email: str
     username: str
 

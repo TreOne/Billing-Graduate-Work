@@ -6,6 +6,7 @@ from typing import Iterator
 @dataclass(frozen=True)
 class BrokerMessage:
     """Тип возвращаемого из потребителя сообщения."""
+
     key: str
     value: str
 

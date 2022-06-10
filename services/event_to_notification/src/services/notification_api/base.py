@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class Notification(BaseModel):
     """Исходящее сообщение."""
+
     recipient: str
     subject: str
     body: str
@@ -15,6 +16,7 @@ class Notification(BaseModel):
 
 class AbstractNotificationService(ABC):
     """Интерфейс отправки уведомлений."""
+
     @abstractmethod
     def send(self, notification: Notification) -> bool:
         """Отправляет уведомление, возвращает успешность отправки."""

@@ -12,12 +12,12 @@ logger = logging.getLogger(__name__)
 
 class ConsumerKafka(AbstractConsumer, ABC):
     def __init__(
-            self,
-            bootstrap_servers: str,
-            auto_offset_reset: str,
-            enable_auto_commit: str,
-            group_id: str,
-            topics: Optional[list[str]],
+        self,
+        bootstrap_servers: str,
+        auto_offset_reset: str,
+        enable_auto_commit: str,
+        group_id: str,
+        topics: Optional[list[str]],
     ):
         self.bootstrap_servers = bootstrap_servers
         self.auto_offset_reset = auto_offset_reset
@@ -31,7 +31,9 @@ class ConsumerKafka(AbstractConsumer, ABC):
         try:
             while True:
                 for message in self.consumer:
-                    yield BrokerMessage(key=message.key.decode('UTF-8'), value=message.value.decode('UTF-8'))
+                    yield BrokerMessage(
+                        key=message.key.decode('UTF-8'), value=message.value.decode('UTF-8')
+                    )
                 self.consumer.commit()
         finally:
             self.stop_consumer()

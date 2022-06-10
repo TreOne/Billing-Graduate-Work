@@ -2,7 +2,6 @@ from http import HTTPStatus
 from typing import Optional
 
 import requests
-from requests import request
 import logging
 
 from services.auth_api.base import AbstractAuth, UserSchema
@@ -32,7 +31,7 @@ class AuthAPI(AbstractAuth):
     def _abs_url(self, path: str) -> str:
         return f'{self.api_url}{path}'
 
-    def _get(self, path: str, headers=None) -> request:
+    def _get(self, path: str, headers=None) -> requests.request:
         url = self._abs_url(f'{path}')
         headers = headers or self._get_headers()
         response = requests.get(url, headers)
@@ -75,7 +74,7 @@ class AuthAPI(AbstractAuth):
             self.__access_token = tokens['access_token']
             return True
         else:
-            logger.error(f"Uth service login error , status{response.status_code}")
+            logger.error(f'Uth service login error , status{response.status_code}')
         return False
 
     def _get_headers(self):

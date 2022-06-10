@@ -3,6 +3,7 @@ from services.notification_api.base import AbstractNotificationService, Notifica
 
 class DummyNotificationAPI(AbstractNotificationService):
     """Реализация интерфейса отправки уведомлений."""
+
     def __init__(self):
         self.notifications: list[Notification] = []
 
