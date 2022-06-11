@@ -64,9 +64,7 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
 
         builder.set_capture(True)  # Автоматический прием поступившего платежа
         builder.set_description(params.description)
-        builder.set_metadata(
-            {'bill_uuid': params.bill_uuid, 'user_uuid': params.user_uuid,}
-        )
+        builder.set_metadata({'bill_uuid': params.bill_uuid})
 
         request = builder.build()
         payment: PaymentResponse = Payment.create(request, idempotency_key=params.bill_uuid)

@@ -21,13 +21,16 @@ class BillViewSet(viewsets.ViewSet):
 
     permission_classes = (IsAuthenticated,)
 
-    @extend_schema(request=YooKassaNotificationSerializer)
+    @extend_schema(
+        request=YooKassaNotificationSerializer,
+        description='Хук для уведомлений с YooKassa',
+        tags=['yookassa'],
+    )
     @action(methods=['POST'], permission_classes=[AllowAny], detail=False)
     def yookassa_notification_url(self, request: Request) -> Response:
         """Обработка уведомления об изменениях статуса Оплаты из сервиса Yookassa."""
         yookassa_object: dict = request.data['object']
         payment_id: str = yookassa_object['payment_method']['id']
-        user_uuid: str = yookassa_object['metadata']['user_uuid']
         bill_uuid: str = yookassa_object['metadata']['bill_uuid']
         is_token_saved: bool = yookassa_object['payment_method']['saved']
         bill_status: str = BillRepository.determine_bill_status(
@@ -39,8 +42,9 @@ class BillViewSet(viewsets.ViewSet):
 
         if all((is_token_saved, bill_status == BillStatus.paid, three_d_secure is False)):
             # save User's auto pay
+            bill_instance = BillRepository.get_by_id(item_uuid=bill_uuid)
             UserAutoPayRepository.save_users_auto_pay(
-                payment_id=payment_id, user_uuid=user_uuid,
+                payment_id=payment_id, user_uuid=bill_instance.user_uuid,
             )
         BillRepository.update_bill_status(bill_uuid=bill_uuid, bill_status=bill_status)
         return Response(status=status.HTTP_200_OK)
@@ -52,6 +56,7 @@ class BillViewSet(viewsets.ViewSet):
             200: BillAutoPaySerializer,
             400: BillAutoPaySerializer,
         },
+        tags=['bills'],
     )
     def create(self, request: Request) -> Response:
         """Метод на покупку фильмов и подписок."""
