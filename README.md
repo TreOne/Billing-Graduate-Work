@@ -4,6 +4,20 @@
 [![NotificationAPI - Style check](https://github.com/TreOne/billing/actions/workflows/notification-api.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/notification-api.yml)  
 [![NotificationAPISender - Style check](https://github.com/TreOne/billing/actions/workflows/notification-sender.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/notification-sender.yml)  
 
+### Запуск проекта
+Запустить основную инфраструктуру проекта
+```shell
+docker-compose -f docker-compose.yml up --detach
+```
+Дождаться запуска контейнера **kafka**, затем запустить остальные сервисы:
+```shell
+docker-compose -f services/auth_api/docker-compose.yml up --detach
+docker-compose -f services/billing/docker-compose.yml up --detach
+docker-compose -f services/event_to_notification/docker-compose.yml up --detach
+docker-compose -f services/notification_api/docker-compose.yml up --detach
+```
+
+
 # Биллинг
 Реализовать два метода работы с картами:
 1. Оплатить подписку
