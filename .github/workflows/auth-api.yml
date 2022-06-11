@@ -11,20 +11,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      python-version: "3.10"
       deploy-directory: services/auth_api
       working-directory: services/auth_api/src
-
-    strategy:
-      matrix:
-        python-version: ['3.8', '3.9', '3.10']
+      GITHUB_TOKEN: ${{ secrets.github_token }}
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ env.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.python-version }}
 
       - name: Create directories
         run: |
@@ -39,7 +37,7 @@ jobs:
         working-directory: ${{ env.deploy-directory }}
 
       - name: Linting
-        uses: wemake-services/wemake-python-styleguide
+        uses: wemake-services/wemake-python-styleguide@0.16.0
         with:
           reporter: 'github-pr-review'
           path: ${{ env.deploy-directory }}
