@@ -39,10 +39,6 @@ jobs:
           pip install mypy lxml
         working-directory: ${{env.deploy-directory}}
 
-      - name: Style checking
-        run: |
-          flake8 ${{env.working-directory}} --max-line-length 120 --exit-zero --format=html --htmldir=reports/styleguide/
-
       - name: Type checking
         run: |
           mypy --html-report reports/mypy/ ${{env.working-directory}}/* || true
