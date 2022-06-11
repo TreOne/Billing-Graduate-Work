@@ -36,13 +36,11 @@ jobs:
           pip install mypy lxml
         working-directory: ${{ env.deploy-directory }}
 
-      - name: Linting
+      - name: Linting review
         uses: wemake-services/wemake-python-styleguide@0.16.0
         with:
           reporter: 'github-pr-review'
-          path: ${{ env.deploy-directory }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ env.working-directory }}
 
       - name: Type checking
         run: |
