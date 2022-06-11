@@ -12,7 +12,7 @@ class MyBillViewSet(viewsets.ViewSet):
 
     permission_classes = (IsAuthenticated,)
 
-    @extend_schema(responses=BillListSerializer)
+    @extend_schema(responses=BillListSerializer, tags=['my'])
     def list(self, request: Request) -> Response:
         """Выдача оплат для пользователя."""
         user_uuid: str = request.user.id
