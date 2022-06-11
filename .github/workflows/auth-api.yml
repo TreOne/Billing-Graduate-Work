@@ -45,7 +45,7 @@ jobs:
           reporter: 'github-pr-review'
           path: ${{ env.deploy-directory }}
         env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Type checking
         run: |
