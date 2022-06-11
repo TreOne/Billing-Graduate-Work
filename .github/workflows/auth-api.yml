@@ -1,11 +1,6 @@
 name: AuthAPI - CI
 
 on:
-  push:
-    branches:
-      - test/ga-actions
-    paths:
-      - services/auth_api/src/**
   pull_request:
     branches:
       - test/ga-actions
