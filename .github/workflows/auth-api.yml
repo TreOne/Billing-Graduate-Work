@@ -39,7 +39,7 @@ jobs:
       - name: Lint with wemake-python-styleguide
         uses: wemake-services/wemake-python-styleguide@0.16.1
         with:
-          reporter: 'github-pr-review'
+          reporter: "github-pr-review"
 
       - name: Type checking
         run: |
