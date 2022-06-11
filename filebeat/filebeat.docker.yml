@@ -1,9 +1,9 @@
 filebeat.inputs:
   - type: log
     paths:
-      - /var/harvested_logs/api/api.json
+      - /var/harvested_logs/nginx/access-log-auth_api.json
     fields:
-      log_type: "api-log"
+      log_type: "access-log-auth_api-log"
     fields_under_root: true
     json.keys_under_root: true
     json.overwrite_keys: true
@@ -12,9 +12,75 @@ filebeat.inputs:
 
   - type: log
     paths:
-      - /var/harvested_logs/email_sender/email_sender.json
+      - /var/harvested_logs/auth/auth_api.json
     fields:
-      log_type: "email_sender-log"
+      log_type: "auth_api-log"
+    fields_under_root: true
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+
+  - type: log
+    paths:
+      - /var/harvested_logs/auth/auth_consumer.json
+    fields:
+      log_type: "auth_consumer-log"
+    fields_under_root: true
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+
+  - type: log
+    paths:
+      - /var/harvested_logs/billing/billing.json
+    fields:
+      log_type: "billing-log"
+    fields_under_root: true
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+
+  - type: log
+    paths:
+      - /var/harvested_logs/billing/celery.json
+    fields:
+      log_type: "celery-log"
+    fields_under_root: true
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+
+  - type: log
+    paths:
+      - /var/harvested_logs/event_to_notification/event_to_notification.json
+    fields:
+      log_type: "event_to_notification-log"
+    fields_under_root: true
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+
+  - type: log
+    paths:
+      - /var/harvested_logs/notification_api/notification_api.json
+    fields:
+      log_type: "notification_api-log"
+    fields_under_root: true
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+
+  - type: log
+    paths:
+      - /var/harvested_logs/notification_sender/notification_sender.json
+    fields:
+      log_type: "notification_sender-log"
     fields_under_root: true
     json.keys_under_root: true
     json.overwrite_keys: true
@@ -25,16 +91,6 @@ filebeat.inputs:
     paths:
       - /var/harvested_logs/api/uvicorn.json
     fields.log_type: "uvicorn-log"
-    fields_under_root: true
-    json.keys_under_root: true
-    json.overwrite_keys: true
-    json.add_error_key: true
-    json.expand_keys: true
-
-  - type: log
-    paths:
-      - /var/harvested_logs/nginx/access-log.json
-    fields.log_type: "nginx-log"
     fields_under_root: true
     json.keys_under_root: true
     json.overwrite_keys: true
@@ -62,15 +118,44 @@ processors:
       ignore_missing: true
 
   - drop_fields:
-      when.contains.log_type: api-log
+      when.contains.log_type: access-log-auth_api-log
       fields: [ "log", "process" ]
       ignore_missing: true
 
   - drop_fields:
-      when.contains.log_type: email_sender-log
+      when.contains.log_type: auth_api-log
       fields: [ "log", "process" ]
       ignore_missing: true
 
+  - drop_fields:
+      when.contains.log_type: auth_consumer-log
+      fields: [ "log", "process" ]
+      ignore_missing: true
+
+  - drop_fields:
+      when.contains.log_type: billing-log
+      fields: [ "log", "process" ]
+      ignore_missing: true
+
+  - drop_fields:
+      when.contains.log_type: celery-log
+      fields: [ "log", "process" ]
+      ignore_missing: true
+
+  - drop_fields:
+      when.contains.log_type: event_to_notification-log
+      fields: [ "log", "process" ]
+      ignore_missing: true
+
+  - drop_fields:
+      when.contains.log_type: notification_api-log
+      fields: [ "log", "process" ]
+      ignore_missing: true
+
+  - drop_fields:
+      when.contains.log_type: notification_sender-log
+      fields: [ "log", "process" ]
+      ignore_missing: true
 
 # Настройка Kibana
 setup.kibana.host: "${KIBANA_HOST}"
