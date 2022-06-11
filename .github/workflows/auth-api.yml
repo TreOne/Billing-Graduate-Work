@@ -1,0 +1,54 @@
+name: AuthAPI - CI
+
+on:
+  push:
+  pull_request:
+    branches:
+      - test/ga-actions
+    paths:
+      - services/auth_api/src/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      deploy-directory: services/auth_api
+      working-directory: services/auth_api/src
+
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Create directories
+        run: |
+          mkdir -p reports/styleguide/
+          mkdir -p reports/mypy/
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install mypy lxml
+        working-directory: ${{env.deploy-directory}}
+
+      - name: Style checking
+        run: |
+          flake8 ${{env.working-directory}} --max-line-length 120 --exit-zero --format=html --htmldir=reports/styleguide/
+
+      - name: Type checking
+        run: |
+          mypy --html-report reports/mypy/ ${{env.working-directory}}/* || true
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-verify-reports
+          path: reports/
