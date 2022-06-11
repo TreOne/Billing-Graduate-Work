@@ -11,6 +11,7 @@ services:
       - "5010:5010"  # auth_api
       - "5020:5020"  # billing_app
       - "5555:5555"  # billing_flower
+      - "5030:5030"  # notification_api
     networks:
       - movie_network
 

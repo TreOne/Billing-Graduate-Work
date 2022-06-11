@@ -17,6 +17,12 @@ docker-compose -f services/event_to_notification/docker-compose.yml up --detach
 docker-compose -f services/notification_api/docker-compose.yml up --detach
 ```
 
+### Что потыкать
+**AuthAPI Swagger** http://localhost:5010/swagger-ui  
+**NotificationAPI Swagger** http://localhost:5030/openapi  
+**Billing Swagger** http://localhost:5020/api/schema/swagger-ui  
+**Billing Django** http://localhost:5020/admin (логин: `admin`, пароль: `admin`)  
+**Billing Flower** *(Celery monitor)* http://localhost:5555  
 
 # Биллинг
 Реализовать два метода работы с картами:
