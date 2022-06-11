@@ -41,7 +41,7 @@ jobs:
         working-directory: ${{ env.deploy-directory }}
 
       - name: Linting
-        uses: wemake-services/wemake-python-styleguide
+        uses: wemake-services/wemake-python-styleguide@0.16.0
         with:
           reporter: 'github-pr-review'
           path: ${{ env.deploy-directory }}
