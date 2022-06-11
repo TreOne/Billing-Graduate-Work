@@ -37,11 +37,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install mypy lxml
-        working-directory: ${{env.deploy-directory}}
+        working-directory: ${{ env.deploy-directory }}
+
+      - name: Linting
+        uses: wemake-services/wemake-python-styleguide
+        with:
+          reporter: 'github-pr-review'
+          path: ${{ env.deploy-directory }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Type checking
         run: |
-          mypy --html-report reports/mypy/ ${{env.working-directory}}/* || true
+          mypy --html-report reports/mypy/ ${{ env.working-directory }}/* || true
 
       - name: Upload reports
         uses: actions/upload-artifact@v3
