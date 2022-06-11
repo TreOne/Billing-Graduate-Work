@@ -1,21 +1,21 @@
-name: AuthAPI - Style check
+name: NotificationAPISender - Style check
 
 on:
   push:
     branches:
       - main
     paths:
-      - services/auth_api/**
+      - services/notification_api/notification_sender/**
   pull_request:
     branches:
       - main
     paths:
-      - services/auth_api/**
+      - services/notification_api/notification_sender/**
   workflow_dispatch:
 
 env:
-  SRC_PATH: services/auth_api/src
-  DEPLOY_PATH: services/auth_api
+  SRC_PATH: services/notification_api/notification_sender/src
+  DEPLOY_PATH: services/notification_api/notification_sender
 
 jobs:
   style-checking:

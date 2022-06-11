@@ -1,21 +1,21 @@
-name: AuthAPI - Style check
+name: Event To Notification - Style check
 
 on:
   push:
     branches:
       - main
     paths:
-      - services/auth_api/**
+      - services/event_to_notification/**
   pull_request:
     branches:
       - main
     paths:
-      - services/auth_api/**
+      - services/event_to_notification/**
   workflow_dispatch:
 
 env:
-  SRC_PATH: services/auth_api/src
-  DEPLOY_PATH: services/auth_api
+  SRC_PATH: services/event_to_notification/src
+  DEPLOY_PATH: services/event_to_notification
 
 jobs:
   style-checking:
