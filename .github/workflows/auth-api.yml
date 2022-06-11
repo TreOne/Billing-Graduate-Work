@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{ env.deploy-directory }}
 
       - name: Lint with wemake-python-styleguide
-        uses: wemake-services/wemake-python-styleguide@0.16.0
+        uses: wemake-services/wemake-python-styleguide@0.16.1
         with:
           reporter: 'github-pr-review'
 
