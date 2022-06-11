@@ -1,3 +1,9 @@
+[![AuthAPI - Style check](https://github.com/TreOne/billing/actions/workflows/auth-api.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/auth-api.yml)  
+[![Billing - Style check](https://github.com/TreOne/billing/actions/workflows/billing.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/billing.yml)  
+[![Event To Notification - Style check](https://github.com/TreOne/billing/actions/workflows/event-to-notification.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/event-to-notification.yml)  
+[![NotificationAPI - Style check](https://github.com/TreOne/billing/actions/workflows/notification-api.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/notification-api.yml)  
+[![NotificationAPISender - Style check](https://github.com/TreOne/billing/actions/workflows/notification-sender.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/notification-sender.yml)  
+
 # Биллинг
 Реализовать два метода работы с картами:
 1. Оплатить подписку
