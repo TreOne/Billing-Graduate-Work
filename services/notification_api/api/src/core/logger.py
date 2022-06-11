@@ -11,11 +11,11 @@ LOGGING = {
         'uvicorn-access': {'()': 'uvicorn.logging.AccessFormatter', 'use_colors': None,},
     },
     'handlers': {
-        'api_handler': {
+        'notification_api_handler': {
             'level': 'INFO',
             'formatter': 'json',
             'class': 'logging.FileHandler',
-            'filename': log_dir / 'api.json',
+            'filename': log_dir / 'notification_api.json',
         },
         'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler',},
         'uvicorn-default': {
@@ -32,7 +32,7 @@ LOGGING = {
     },
     'loggers': {
         '': {'handlers': ['console'], 'level': 'INFO',},
-        'api': {'handlers': ['api_handler'], 'level': 'INFO', 'propagate': False,},
+        'notification_api': {'handlers': ['notification_api_handler'], 'level': 'INFO', 'propagate': False,},
         'uvicorn.error': {
             'handlers': ['uvicorn-default'],
             'level': 'INFO',

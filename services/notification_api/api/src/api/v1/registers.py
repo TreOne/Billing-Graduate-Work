@@ -10,7 +10,7 @@ from services.webpush import WebpushService
 from services.websocket import WebsocketService
 
 router = APIRouter(prefix='/send')
-logger = logging.getLogger('api')
+logger = logging.getLogger('notification_api')
 
 
 @router.post(

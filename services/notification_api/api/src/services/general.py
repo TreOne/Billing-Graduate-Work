@@ -9,7 +9,7 @@ from connectors.rabbitmq import get_rmq_channel
 from connectors.redis import get_redis
 from models.general import IncomingNotificationSchema, Response, StorageMessageSchema
 
-logger = logging.getLogger('api')
+logger = logging.getLogger('notification_api')
 
 
 class GeneralService(metaclass=ABCMeta):
