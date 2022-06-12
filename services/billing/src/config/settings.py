@@ -62,7 +62,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates',],
+        'DIRS': [BASE_DIR / 'templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,7 +116,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
     ],
-    'DEFAULT_THROTTLE_RATES': {'anon': '5/second', 'user': '12/second',},
+    'DEFAULT_THROTTLE_RATES': {'anon': '5/second', 'user': '12/second', },
 }
 
 SIMPLE_JWT = {
@@ -246,8 +246,8 @@ LOGGING = {
         },
     },
     'loggers': {
-        '': {'handlers': ['console'], 'level': 'DEBUG',},
-        'billing': {'handlers': ['billing_handler'], 'level': 'INFO', 'propagate': True,},
-        'celery': {'handlers': ['celery_handler'], 'level': 'INFO', 'propagate': True,},
+        '': {'handlers': ['console'], 'level': 'DEBUG', },
+        'billing': {'handlers': ['billing_handler'], 'level': 'INFO', 'propagate': True, },
+        'celery': {'handlers': ['celery_handler'], 'level': 'INFO', 'propagate': True, },
     },
 }
