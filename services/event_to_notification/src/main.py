@@ -22,6 +22,7 @@ def start_consume(consumer: AbstractConsumer, message_handler: MessageHandler):
     """Запуск обработки событий."""
     messages = consumer.consume()
     for message in messages:
+        logger.info('Message received.', extra={'key': message.key, 'value': message.value})
         message_handler.handle(title=message.key, message=message.value)
 
 

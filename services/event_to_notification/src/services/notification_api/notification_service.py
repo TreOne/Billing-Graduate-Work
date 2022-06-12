@@ -16,6 +16,7 @@ class NotificationAPI(AbstractNotificationService):
 
     def send(self, notification: Notification) -> bool:
         response = requests.post(self.api_url, data=notification.json())
+        logger.info('Sending a request to the notification service.', extra=notification.dict())
         if response.status_code != HTTPStatus.OK:
-            logging.error(f' Not able to  send notification to  user {notification.recipient}')
+            logger.error(f'Not able to send notification to user {notification.recipient}', exc_info=True)
         return response.status_code == HTTPStatus.OK
