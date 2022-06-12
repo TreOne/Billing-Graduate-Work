@@ -31,8 +31,6 @@ def rabbitmq_connect():
         credentials=credentials.PlainCredentials(
             username=settings.rabbitmq.user, password=settings.rabbitmq.password,
         ),
-        heartbeat=600,
-        blocked_connection_timeout=300,
     )
     logger.info('Establishing a connection to RabbitMQ.')
     rmq_connection = BlockingConnection(rmq_parameters)

@@ -4,6 +4,7 @@ from abc import ABCMeta, abstractmethod
 from http import HTTPStatus
 
 from fastapi import HTTPException
+from pika.exceptions import AMQPError
 
 from connectors.rabbitmq import get_rmq_channel
 from connectors.redis import get_redis
@@ -56,8 +57,11 @@ class GeneralService(metaclass=ABCMeta):
 
     def _publish_message(self, routing_key: str, message: StorageMessageSchema):
         """Публикует сообщение в RabbitMQ."""
-        self._rmq_channel.basic_publish(
-            exchange='general_exchange',
-            routing_key=routing_key,
-            body=message.json().encode('utf-8'),
-        )
+        try:
+            self._rmq_channel.basic_publish(
+                exchange='general_exchange',
+                routing_key=routing_key,
+                body=message.json().encode('utf-8'),
+            )
+        except AMQPError as e:
+            logger.error(e, exc_info=True, extra=message.dict())
