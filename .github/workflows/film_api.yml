@@ -1,21 +1,21 @@
-name: NotificationAPI - Style check
+name: FilmAPI - Style check
 
 on:
   push:
     branches:
       - main
     paths:
-      - services/notification_api/api/**
+      - services/film_api/**
   pull_request:
     branches:
       - main
     paths:
-      - services/notification_api/api/**
+      - services/film_api/**
   workflow_dispatch:
 
 env:
-  SRC_PATH: services/notification_api/api/src
-  DEPLOY_PATH: services/notification_api/api
+  SRC_PATH: services/film_api/src
+  DEPLOY_PATH: services/film_api
 
 jobs:
   style-checking:
