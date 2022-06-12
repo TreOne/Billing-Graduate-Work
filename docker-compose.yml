@@ -12,6 +12,7 @@ services:
       - "5020:5020"  # billing_app
       - "5555:5555"  # billing_flower
       - "5030:5030"  # notification_api
+      - "5601:5601"  # kibana_logging
     networks:
       - movie_network
 
@@ -67,6 +68,8 @@ services:
     depends_on:
       elastic_logging:
         condition: service_healthy
+      kibana_logging:
+        condition: service_healthy
 
   elastic_logging:
     image: elasticsearch:7.12.0
@@ -94,6 +97,11 @@ services:
     environment:
       ELASTICSEARCH_URL: http://elastic_logging:9200
       ELASTICSEARCH_HOSTS: '["http://elastic_logging:9200"]'
+    healthcheck:
+      test: curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'
+      interval: 5s
+      timeout: 20s
+      retries: 100
     expose:
       - 5601
     networks:

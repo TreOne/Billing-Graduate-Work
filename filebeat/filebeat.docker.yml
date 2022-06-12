@@ -164,7 +164,7 @@ setup.kibana.protocol: http
 # Настройка Elasticsearch
 output.elasticsearch:
   hosts: "${ELASTICSEARCH_HOSTS}"
-  index: "notifications-%{[log_type]}-%{+yyyy.MM.dd}"
+  index: "filebeat-%{[log_type]}-%{+yyyy.MM.dd}"
 
 ## Для отладки вместо "output.elasticsearch"
 #output.console:
@@ -173,9 +173,10 @@ output.elasticsearch:
 # Отключение "Index Lifecycle Management"
 setup.ilm.enabled: false
 
-setup.template:
-  name: 'api-log'
-  pattern: 'notifications-api-log-*'
-  fields: "fields.yml"
-  overwrite: true
-  enabled: true
+setup.template.name: filebeat
+setup.template.pattern: "filebeat-*"
+
+setup.dashboards.enabled: true
+setup.dashboards.retry.enabled: true
+setup.dashboards.retry.maximum: 10
+setup.dashboards.index: "filebeat-*"

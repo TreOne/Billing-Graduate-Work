@@ -23,6 +23,7 @@ docker-compose -f services/notification_api/docker-compose.yml up --detach
 **Billing Swagger** http://localhost:5020/api/schema/swagger-ui  
 **Billing Django** http://localhost:5020/admin (логин: `admin`, пароль: `admin`)  
 **Billing Flower** *(Celery monitor)* http://localhost:5555  
+**Kibana (logs)** http://localhost:5601  
 
 # Биллинг
 Реализовать два метода работы с картами:
