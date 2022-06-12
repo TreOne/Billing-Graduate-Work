@@ -27,7 +27,7 @@ class AuthAPI(AbstractAuth):
             logger.error(f"Can't retrieve {user_uuid},response status{response.status_code}")
             return None
         user_data = response.json().get('user')
-        return UserSchema(**user_data)
+        return UserSchema(email=user_data['email'], username=user_data['username'])
 
     def _abs_url(self, path: str) -> str:
         return f'{self.api_url}{path}'
