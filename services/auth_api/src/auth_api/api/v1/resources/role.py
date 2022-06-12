@@ -111,6 +111,7 @@ class RoleResource(Resource):
     def __init__(self):
         self.role_service = RoleService()
 
+    @user_has_role('administrator', 'editor')
     def get(self, role_uuid):
         role = self.role_service.get_role(role_uuid)
         return {'role': role}
@@ -203,7 +204,6 @@ class RoleList(Resource):
     def __init__(self):
         self.role_service = RoleService()
 
-    @user_has_role('administrator', 'editor')
     def get(self):
         roles = self.role_service.get_roles()
 
