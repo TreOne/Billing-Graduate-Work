@@ -5,12 +5,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from api.v1.bills.serializers import (
-    BillAutoPaySerializer,
-    BillConfirmUrlSerializer,
-    BillCreateRequestSerializer,
-    YooKassaNotificationSerializer,
-)
+from api.v1.bills.serializers import (BillAutoPaySerializer,
+                                      BillConfirmUrlSerializer,
+                                      BillCreateRequestSerializer,
+                                      YooKassaNotificationSerializer)
 from billing.models.enums import BillStatus
 from billing.repositories.bill import BillRepository
 from billing.repositories.user_autopay import UserAutoPayRepository
