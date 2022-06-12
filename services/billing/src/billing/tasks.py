@@ -10,10 +10,9 @@ from billing.repositories.bill import BillRepository
 from utils.auth_api.auth_service import AuthAPI
 from utils.schemas.bill import BillBaseSchema
 
-logger = logging.getLogger('celery')
-
 # Применяем настройки логирования
 logging_config.dictConfig(settings.LOGGING)
+logger = logging.getLogger('celery')
 
 
 @shared_task
