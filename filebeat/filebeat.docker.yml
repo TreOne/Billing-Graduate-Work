@@ -113,7 +113,7 @@ processors:
   - copy_fields:
       fields:
         - from: log.logger
-          to: logger
+          to: service_name
       fail_on_error: false
       ignore_missing: true
 
@@ -173,7 +173,7 @@ output.elasticsearch:
 # Отключение "Index Lifecycle Management"
 setup.ilm.enabled: false
 
-setup.template.name: filebeat
+setup.template.name: "filebeat-"
 setup.template.pattern: "filebeat-*"
 
 setup.dashboards.enabled: true
