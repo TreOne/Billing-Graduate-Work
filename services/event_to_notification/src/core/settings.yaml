@@ -9,7 +9,7 @@ notification_api:
   url: http://notification_api:8000/api/v1/send/email
 
 auth_api:
-  url: http://localhost/auth/
+  url: http://auth_api:5000/
   login: srv_bills_notif
   password: FdbQJum5RB1kK0YSBnVr
 

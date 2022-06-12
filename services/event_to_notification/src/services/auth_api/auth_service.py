@@ -3,6 +3,7 @@ from http import HTTPStatus
 from typing import Optional
 
 import requests
+import uuid
 
 from services.auth_api.base import AbstractAuth, UserSchema
 
@@ -34,7 +35,7 @@ class AuthAPI(AbstractAuth):
     def _get(self, path: str, headers=None) -> requests.request:
         url = self._abs_url(f'{path}')
         headers = headers or self._get_headers()
-        response = requests.get(url, headers)
+        response = requests.get(url, headers=headers)
 
         if response.status_code == 200:
             return response
@@ -48,12 +49,13 @@ class AuthAPI(AbstractAuth):
         return response
 
     def _refresh_tokens(self):
-        header = {
+        headers = {
             'Content-type': 'application/json',
             'Authorization': f'Bearer {self.__refresh_token}',
+            'X-Request-Id': str(uuid.uuid4()),
         }
         url = self._abs_url(self.__refresh_token_url)
-        response = requests.post(url, headers=header)
+        response = requests.post(url, headers=headers)
         if response.status_code == 200:
             tokens = response.json()
             self.__refresh_token = tokens['refresh_token']
@@ -67,7 +69,11 @@ class AuthAPI(AbstractAuth):
             'username': self.__username,
             'password': self.__password,
         }
-        response = requests.post(url, json=data)
+        headers = {
+            'Content-type': 'application/json',
+            'X-Request-Id': str(uuid.uuid4()),
+        }
+        response = requests.post(url, json=data, headers=headers)
         if response.status_code == 200:
             tokens = response.json()
             self.__refresh_token = tokens['refresh_token']
@@ -78,8 +84,9 @@ class AuthAPI(AbstractAuth):
         return False
 
     def _get_headers(self):
-        header = {
+        headers = {
             'Content-type': 'application/json',
             'Authorization': f'Bearer {self.__access_token}',
+            'X-Request-Id': str(uuid.uuid4()),
         }
-        return header
+        return headers
