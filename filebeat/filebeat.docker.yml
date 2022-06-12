@@ -178,5 +178,4 @@ setup.template.pattern: "filebeat-*"
 
 setup.dashboards.enabled: true
 setup.dashboards.retry.enabled: true
-setup.dashboards.retry.maximum: 10
 setup.dashboards.index: "filebeat-*"
