@@ -70,7 +70,7 @@ class UserService:
         user = session.query(User).get(user_uuid)
         if not user:
             raise UserServiceException('User not found.', http_code=NOT_FOUND)
-        return {'user': schema.dump(user)}
+        return schema.dump(user)
 
     def update_user(
         self,
