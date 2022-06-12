@@ -3,6 +3,7 @@
 [![Event To Notification - Style check](https://github.com/TreOne/billing/actions/workflows/event-to-notification.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/event-to-notification.yml)  
 [![NotificationAPI - Style check](https://github.com/TreOne/billing/actions/workflows/notification-api.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/notification-api.yml)  
 [![NotificationAPISender - Style check](https://github.com/TreOne/billing/actions/workflows/notification-sender.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/notification-sender.yml)  
+[![FilmAPI - Style check](https://github.com/TreOne/billing/actions/workflows/notification-api.yml/badge.svg)](https://github.com/TreOne/billing/actions/workflows/film-api.yml)  
 
 ### Запуск проекта
 Запустить основную инфраструктуру проекта
@@ -15,6 +16,9 @@ docker-compose -f services/auth_api/docker-compose.yml up --detach
 docker-compose -f services/billing/docker-compose.yml up --detach
 docker-compose -f services/event_to_notification/docker-compose.yml up --detach
 docker-compose -f services/notification_api/docker-compose.yml up --detach
+docker-compose -f services/notification_api/docker-compose.yml up --detach
+docker-compose -f services/film_api.yml/docker-compose.yml up --detach
+
 ```
 
 ### Что потыкать
