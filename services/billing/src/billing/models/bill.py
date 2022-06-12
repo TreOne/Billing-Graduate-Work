@@ -17,6 +17,7 @@ logger = logging.getLogger('billing')
 class Bill(UUIDMixin, UpdateTimeMixin):
     """Модель для хранения Оплат."""
 
+    __old_status = None
     status = models.CharField(
         verbose_name='Статус оплаты',
         choices=BillStatus.choices,
@@ -42,6 +43,10 @@ class Bill(UUIDMixin, UpdateTimeMixin):
             )
         ]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__old_status = self.status
+
     def __str__(self) -> str:
         return f'{self.pk}: {self.status} - {self.type}'
 
@@ -52,17 +57,20 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         # before save
         super().save(*args, **kwargs)
         # after save
-        key: str = f'bill.{self.status}'
-        data = BillSchema(
-            **{
-                'bill_uuid': str(self.pk),
-                'status': key,
-                'user_uuid': str(self.user_uuid),
-                'type': self.type,
-                'item_uuid': str(self.item_uuid),
-                'amount': float(self.amount),
-            }
-        )
-        producer.produce(topic='bill', value=data.json(), key=key)
-        producer.flush()
-        logger.info(f'Сообщение {key} отправлено в Kafka', extra=data.dict())
+        if self.status != self.__old_status:
+            key: str = f'bill.{self.status}'
+            data = BillSchema(
+                **{
+                    'bill_uuid': str(self.pk),
+                    'status': key,
+                    'user_uuid': str(self.user_uuid),
+                    'type': self.type,
+                    'item_uuid': str(self.item_uuid),
+                    'amount': float(self.amount),
+                }
+            )
+            producer.produce(topic='bill', value=data.json(), key=key)
+            producer.flush()
+            logger.info(f'Сообщение {key} отправлено в Kafka', extra=data.dict())
+            # update old status
+            self.__old_status = self.status
