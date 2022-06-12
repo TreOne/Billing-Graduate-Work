@@ -18,7 +18,6 @@ from utils.schemas.bill import BillBaseSchema
 
 
 class BillViewSet(viewsets.ViewSet):
-
     permission_classes = (IsAuthenticated,)
 
     @extend_schema(
@@ -69,7 +68,7 @@ class BillViewSet(viewsets.ViewSet):
         bill_type: str = request_serializer.get('type')
 
         bill_schema: BillBaseSchema = BillBaseSchema(
-            **{'user_uuid': user_uuid, 'type': bill_type, 'item_uuid': item_uuid,}
+            **{'user_uuid': user_uuid, 'type': bill_type, 'item_uuid': item_uuid, }
         )
         result: dict = BillRepository.buy_item(bill_schema=bill_schema)
 
