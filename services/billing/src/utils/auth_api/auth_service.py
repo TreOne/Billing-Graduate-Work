@@ -1,6 +1,5 @@
 import http
 from http import HTTPStatus
-
 from typing import TypedDict
 
 import requests
