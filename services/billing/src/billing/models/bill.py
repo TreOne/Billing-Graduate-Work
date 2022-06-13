@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import Q
 
 from billing.models.enums import BillStatus, BillType
-from billing.models.mixins import UpdateTimeMixin, UUIDMixin
+from billing.models.mixins import UUIDMixin, UpdateTimeMixin
 
 __all__ = ('Bill',)
 
@@ -72,8 +72,8 @@ class Bill(UUIDMixin, UpdateTimeMixin):
             )
             producer.produce(topic='bill', value=data.json(), key=key)
             producer.flush()
-            logger.info(f'Message {key} sent to Kafka.', extra=data.dict())
+            logger.info(f'Message {key} sent to Kafka, because "{current_status=}"!="{self.__old_status=}"', extra=data.dict())
             # update old status
             self.__old_status = current_status
         else:
-            logger.info('Bill status has not changed, message has not been sent to Kafka.')
+            logger.info(f'Bill status has not changed ["{self.__old_status}"=="{current_status}"].')
