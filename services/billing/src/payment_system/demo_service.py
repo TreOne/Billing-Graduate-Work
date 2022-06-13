@@ -19,3 +19,7 @@ class TestPaymentSystem(AbstractPaymentSystem):
     def get_payment_status(self, payment_id: str) -> BillStatus:
         """Возвращает статус платежа."""
         return BillStatus.paid
+
+    def refund_payment(self, payment_id: str, amount: float) -> None:
+        """Возврат платежа."""
+        return None

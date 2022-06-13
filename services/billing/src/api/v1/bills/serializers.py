@@ -62,20 +62,3 @@ class YooKassaNotificationSerializer(serializers.Serializer):
             },
         },
     )
-
-
-class YooKassaRefundNotificationSerializer(serializers.Serializer):
-    type = serializers.CharField(default='notification')
-    event = serializers.CharField(default='refund.succeeded')
-    object = serializers.JSONField(
-        default={
-            "id": "2a39936f-0015-5000-9000-1614d1c8241f",
-            "payment_id": "2a3992a4-000f-5000-9000-156087ef690b",
-            "status": "succeeded",
-            "created_at": "2022-06-13T18:19:27.838Z",
-            "amount": {
-                "value": "400.00",
-                "currency": "RUB"
-            },
-        },
-    )
