@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -17,4 +17,7 @@ class MyBillViewSet(viewsets.ViewSet):
         """Выдача оплат для пользователя."""
         user_uuid: str = request.user.id
         bills = BillRepository.get_user_bills(user_uuid=user_uuid)
-        return Response(BillListSerializer(bills, many=True).data)
+        return Response(
+            {"bills": BillListSerializer(bills, many=True).data},
+            status=status.HTTP_200_OK
+        )
