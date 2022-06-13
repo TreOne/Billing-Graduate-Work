@@ -17,6 +17,7 @@ from utils.schemas.bill import BillBaseSchema
 
 class BillViewSet(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
+    serializer_class = BillAutoPaySerializer
 
     @extend_schema(
         request=YooKassaNotificationSerializer,
@@ -69,14 +70,14 @@ class BillViewSet(viewsets.ViewSet):
         bill_schema: BillBaseSchema = BillBaseSchema(
             **{'user_uuid': user_uuid, 'type': bill_type, 'item_uuid': item_uuid, }
         )
-        result: dict = BillRepository.buy_item(bill_schema=bill_schema)
+        result, is_auto_paid = BillRepository.buy_item(bill_schema=bill_schema)
 
-        http_status = status.HTTP_200_OK
-        if result.get('confirmation_url'):
-            serializer = BillConfirmUrlSerializer(result)
-            return Response(data=serializer.data, status=http_status)
-        else:
+        http_status: int = status.HTTP_200_OK
+        if is_auto_paid:
             serializer = BillAutoPaySerializer(result)
             if result.get('is_successful') is False:
-                http_status = status.HTTP_400_BAD_REQUEST
+                http_status: int = status.HTTP_400_BAD_REQUEST
+            return Response(data=serializer.data, status=http_status)
+        else:
+            serializer = BillConfirmUrlSerializer(result)
             return Response(data=serializer.data, status=http_status)

@@ -2,30 +2,9 @@ import logging
 
 from rest_framework import serializers
 
-from billing.models import Bill
 from billing.models.enums import BillType
 
 logger = logging.getLogger('billing')
-
-
-class BillCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bill
-        fields = (
-            'type',
-            'item_uuid',
-        )
-
-    def validate(self, data):
-        filters: dict = {
-            'user_uuid': self.context['user_uuid'],
-            'item_uuid': data['item_uuid'],
-            'type': BillType.movie,
-        }
-        if self.Meta.model.objects.filter(**filters).exists():
-            logger.info('The user tries to re-purchase the movie.', extra=filters)
-            raise serializers.ValidationError({'detail': 'You have already bought this movie.'})
-        return data
 
 
 class BillCreateRequestSerializer(serializers.Serializer):
@@ -49,35 +28,53 @@ class YooKassaNotificationSerializer(serializers.Serializer):
     event = serializers.CharField(default='payment.succeeded')
     object = serializers.JSONField(
         default={
-            'id': '22d6d597-000f-5000-9000-145f6df21d6f',
-            'status': 'succeeded',
-            'paid': True,
-            'amount': {'value': '70.00', 'currency': 'RUB'},
-            'authorization_details': {
-                'rrn': '10000000000',
-                'auth_code': '000000',
-                'three_d_secure': {'applied': True},
+            "id": "2a386ba4-000f-5000-8000-16ffa705ce61",
+            "status": "succeeded",
+            "amount": {
+                "value": "400.00",
+                "currency": "RUB"
             },
-            'created_at': '2018-07-10T14:27:54.691Z',
-            'description': 'Заказ №72',
-            'expires_at': '2018-07-17T14:28:32.484Z',
-            'metadata': {},
-            'payment_method': {
-                'type': 'bank_card',
-                'id': '22d6d597-000f-5000-9000-145f6df21d6f',
-                'saved': False,
-                'card': {
-                    'first6': '555555',
-                    'last4': '4444',
-                    'expiry_month': '07',
-                    'expiry_year': '2021',
-                    'card_type': 'MasterCard',
-                    'issuer_country': 'RU',
-                    'issuer_name': 'Sberbank',
-                },
-                'title': 'Bank card *4444',
+            "income_amount": {
+                "value": "386.00",
+                "currency": "RUB"
             },
-            'refundable': False,
-            'test': False,
-        }
+            "description": "Оплата подписки 'Practix.Стандарт'.",
+            "recipient": {
+                "account_id": "912730",
+                "gateway_id": "1973714"
+            },
+            "payment_method": {
+                "type": "bank_card",
+                "id": "2a386960-000f-5000-a000-18ac5f2e05fa",
+                "saved": True,
+                "title": "Bank card *1111",
+                "card": {
+                    "first6": "411111",
+                    "last4": "1111",
+                    "expiry_year": "2027",
+                    "expiry_month": "11",
+                    "card_type": "Visa",
+                    "issuer_country": "US"
+                }
+            },
+            "captured_at": "2022-06-12T21:17:25.998Z",
+            "created_at": "2022-06-12T21:17:25.003Z",
+            "test": True,
+            "refunded_amount": {
+                "value": "0.00",
+                "currency": "RUB"
+            },
+            "paid": True,
+            "refundable": True,
+            "metadata": {
+                "bill_uuid": "db2d00cf-b6b4-4d90-86e3-4712bc13e969"
+            },
+            "authorization_details": {
+                "rrn": "348471162165653",
+                "auth_code": "145150",
+                "three_d_secure": {
+                    "applied": False
+                }
+            },
+        },
     )

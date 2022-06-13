@@ -1,6 +1,9 @@
 from utils.schemas import FastJsonModel
 
 
+__all__ = ('BillSchema', 'BillBaseSchema')
+
+
 class BillBaseSchema(FastJsonModel):
     """Параметры для сериализаций запроса на Оплату."""
 

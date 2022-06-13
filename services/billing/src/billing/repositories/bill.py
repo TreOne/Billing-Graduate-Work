@@ -3,7 +3,6 @@ from typing import List, NamedTuple, TypedDict, Union
 
 from rest_framework.exceptions import ValidationError
 
-from api.v1.bills.serializers import BillCreateSerializer
 from billing.models import Bill
 from billing.models.enums import BillType
 from billing.repositories.base import BaseRepository
@@ -14,8 +13,7 @@ __all__ = ('BillRepository',)
 
 from billing.repositories.user_autopay import UserAutoPayRepository
 from config.payment_service import payment_system
-from utils.schemas import PaymentParams
-from utils.schemas.bill import BillBaseSchema
+from utils.schemas import PaymentParams, BillBaseSchema
 
 logger = logging.getLogger('billing')
 
@@ -69,21 +67,25 @@ class BillRepository(BaseRepository):
             bill.update(status=bill_status)
 
     @classmethod
-    def buy_item(cls, bill_schema: BillBaseSchema) -> Union[AutoPayResult, NotAutoPayResult]:
+    def buy_item(cls, bill_schema: BillBaseSchema) -> tuple[Union[AutoPayResult, NotAutoPayResult], bool]:
         """Оплата Подписки или фильма."""
         user_uuid: str = bill_schema.user_uuid
         autopay = UserAutoPayRepository.get_users_auto_pay(user_uuid=user_uuid)
         if autopay:
+            is_auto_paid: bool = True
             logger.info('User paid via auto payment.', extra=bill_schema.dict())
-            return cls.buy_item_with_autopay(
+            result = cls.buy_item_with_autopay(
                 bill_schema=bill_schema, autopay_id=str(autopay.id)
             )
+            return result, is_auto_paid
         else:
+            is_auto_paid: bool = False
             logger.info(
                 'The user paid through a link to Yookassa.', extra=bill_schema.dict()
             )
             confirmation_url: str = cls.buy_item_without_autopay(bill_schema)
-            return NotAutoPayResult(**{'confirmation_url': confirmation_url})
+            result = NotAutoPayResult(**{'confirmation_url': confirmation_url})
+            return result, is_auto_paid
 
     @classmethod
     def buy_item_with_autopay(
@@ -144,11 +146,15 @@ class BillRepository(BaseRepository):
     @classmethod
     def _create_bill(cls, bill_schema: BillBaseSchema, amount: float) -> str:
         """Создаем в БД объект оплаты"""
-        user_uuid: str = bill_schema.user_uuid
-        serializer = BillCreateSerializer(
-            data=bill_schema.dict(), context={'user_uuid': user_uuid}
+        data: dict = bill_schema.dict()
+        if cls.MODEL_CLASS.objects.filter(**data).exists() and bill_schema.type == BillType.movie:
+            logger.info('The user tries to re-purchase the movie.', extra=data)
+            raise ValidationError({'detail': 'You have already bought this movie.'})
+        new_bill = cls.MODEL_CLASS.objects.create(
+            **{
+                "amount": amount,
+                **data
+            }
         )
-        serializer.is_valid(raise_exception=True)
-        bill = serializer.save(user_uuid=user_uuid, amount=amount)
-        bill_uuid: str = str(bill.id)
+        bill_uuid: str = str(new_bill.id)
         return bill_uuid
