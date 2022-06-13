@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from utils.schemas.user_subscribe import UserSubscribeSchema
+from utils.schemas import UserSubscribeSchema
 
 
 class AbstractAuth(ABC):
