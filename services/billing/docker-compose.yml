@@ -21,6 +21,11 @@ services:
         condition: service_started
     networks:
       - external_movie_network
+    healthcheck:
+      test: [ "CMD", "pg_isready -U billing" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
 
   billing_celery_worker:
     container_name: billing_celery_worker
@@ -36,14 +41,25 @@ services:
     depends_on:
       billing_app:
         condition: service_started
+      billing_postgres_db:
+        condition: service_started
+      billing_redis:
+        condition: service_started
     networks:
       - external_movie_network
+    healthcheck:
+      test: [ "CMD", "pg_isready -U billing" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
 
   billing_redis:
     container_name: billing_redis
     image: redis:6.2.6-alpine
     expose:
       - 6379
+    ports:
+      - "6379:6379"
     networks:
       - external_movie_network
 
@@ -58,11 +74,8 @@ services:
       - POSTGRES_PASSWORD=billing
     expose:
       - 5432
-    healthcheck:
-      test: [ "CMD", "pg_isready -U notification_planning" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+    ports:
+      - "5432:5432"
     networks:
       - external_movie_network
 
@@ -78,14 +91,26 @@ services:
     depends_on:
       billing_app:
         condition: service_started
+      billing_postgres_db:
+        condition: service_started
+      billing_redis:
+        condition: service_started
     networks:
       - external_movie_network
+    healthcheck:
+      test: [ "CMD", "pg_isready -U billing" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
 
   billing_flower:
     container_name: billing_flower
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      billing_app:
+        condition: service_started
     command: >
       sh -c "celery -A config flower"
     expose:
