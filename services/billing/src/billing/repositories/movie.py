@@ -41,7 +41,7 @@ class MovieRepository:
             response = requests.get(url=url)
             return response.json()
         except Exception as e:
-            message: str = 'Сервис фильмов недоступен'
+            message: str = 'Movie service unavailable.'
             logger.error(
                 e,
                 exc_info=True,

@@ -71,6 +71,6 @@ class Bill(UUIDMixin, UpdateTimeMixin):
             )
             producer.produce(topic='bill', value=data.json(), key=key)
             producer.flush()
-            logger.info(f'Сообщение {key} отправлено в Kafka', extra=data.dict())
+            logger.info(f'Message {key} sent to Kafka.', extra=data.dict())
             # update old status
             self.__old_status = self.status

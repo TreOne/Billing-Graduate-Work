@@ -23,8 +23,8 @@ class BillCreateSerializer(serializers.ModelSerializer):
             'type': BillType.movie,
         }
         if self.Meta.model.objects.filter(**filters).exists():
-            logger.info('Пользователь пытается повторно купить фильм', extra=filters)
-            raise serializers.ValidationError({'detail': 'Вы уже купили этот фильм'})
+            logger.info('The user tries to re-purchase the movie.', extra=filters)
+            raise serializers.ValidationError({'detail': 'You have already bought this movie.'})
         return data
 
 

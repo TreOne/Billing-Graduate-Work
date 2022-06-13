@@ -20,7 +20,7 @@ class UserAutoPayRepository(BaseRepository):
         auto_pay = cls.MODEL_CLASS.objects.filter(user_uuid=user_uuid)
         if not auto_pay.first():
             logger.info(
-                'Автоплатеж пользователя сохранен',
+                'User auto payment saved.',
                 extra={'payment': payment_id, 'user': user_uuid},
             )
             auto_pay = auto_pay.create(id=payment_id, user_uuid=user_uuid)
