@@ -45,7 +45,7 @@ class Bill(UUIDMixin, UpdateTimeMixin):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__old_status = self.status
+        self.__old_status: str = f"{self.pk} - {self.status}"
 
     def __str__(self) -> str:
         return f'{self.pk}: {self.status} - {self.type}'
@@ -57,7 +57,8 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         # before save
         super().save(*args, **kwargs)
         # after save
-        if self.status != self.__old_status:
+        current_status: str = f"{self.pk} - {self.status}"
+        if current_status != self.__old_status:
             key: str = f'bill.{self.status}'
             data = BillSchema(
                 **{
@@ -73,4 +74,6 @@ class Bill(UUIDMixin, UpdateTimeMixin):
             producer.flush()
             logger.info(f'Message {key} sent to Kafka.', extra=data.dict())
             # update old status
-            self.__old_status = self.status
+            self.__old_status = current_status
+        else:
+            logger.info('Bill status has not changed, message has not been sent to Kafka.')
