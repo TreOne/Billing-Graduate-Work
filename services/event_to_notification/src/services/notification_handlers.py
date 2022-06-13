@@ -35,6 +35,7 @@ def send_bill_notification_to_user(
         subject='Bill_Paid',
         body=notification_body,
         immediately=True,
+        log_it=True,
     )
     notification_service.send(notification)
 
@@ -63,6 +64,7 @@ def send_refund_notification_to_user(
         subject='Bill_refund',
         body=notification_body,
         immediately=True,
+        log_it=True,
     )
     notification_service.send(notification)
 
@@ -88,5 +90,6 @@ def send_refund_notification_to_admin(
         subject='Bill_refund',
         body=notification_body,
         immediately=True,
+        log_it=True,
     )
     notification_service.send(notification)

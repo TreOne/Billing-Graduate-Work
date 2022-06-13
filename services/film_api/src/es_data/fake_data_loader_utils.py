@@ -19,7 +19,7 @@ def generate_data(index: str, data: Dict) -> Dict:
 
 async def load_json_data(file_path: str, index: str, ) -> Dict[str, any]:
     async with aiofiles.open(f"{file_path}/{index}.json") as file:
-        data = await (file.read())
+        data = await file.read()
     result = json.loads(data)
     return result
 

@@ -1,6 +1,6 @@
 [{
   "uuid": "7ee0af24-1b85-4406-b442-04574d41dd3b", "imdb_rating": 7.9,  "title": "In Concert Cat Stevens: Moon & Star", "description": null, "actors_names": ["Alun Davies", "Danny Kortchmar", "Dr. John", "Gerry Conway"], "writers_names": null, "genres": [{
-    "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [{
+    "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [{
     "uuid": "02a0f55c-9a71-4703-b10e-80f6fb0e21b8", "full_name": "Joshua White"}], "actors": [{
     "uuid": "d4bd04a3-5161-496d-9ddb-f8d7b3311426", "full_name": "Danny Kortchmar"}, {
     "uuid": "ffe0d805-3595-4cc2-a892-f2bedbec4ac6", "full_name": "Alun Davies"}, {
@@ -8,8 +8,8 @@
     "uuid": "962ba445-e670-4f61-9ab1-5a8a5bb5319d", "full_name": "Dr. John"}], "writers": []},
 {
   "uuid": "395b09de-a2d9-4b8c-b69c-a6ee0da5d3d4", "imdb_rating": null,"title": "The Four Star Boarder", "description": null, "actors_names": ["Charley Chase", "Constance Bergen", "Grace Goodall", "T. Roy Barnes"], "writers_names": null, "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "10e494c3-b461-4b31-8e14-dcd23b9bec19", "full_name": "Charley Chase"}], "actors": [{
   "uuid": "10e494c3-b461-4b31-8e14-dcd23b9bec19", "full_name": "Charley Chase"}, {
   "uuid": "fb3d6338-5a62-43df-b87c-79865c04250f", "full_name": "T. Roy Barnes"}, {
@@ -17,7 +17,7 @@
   "uuid": "f482c99d-a2c6-4f6c-b128-b6f58854f9bf", "full_name": "Constance Bergen"}], "writers": []},
 {
   "uuid": "66279993-20c1-4512-bc6c-6d98b0967df6", "imdb_rating": 4.8, "title": "Lone Star Law Men", "description": "Duke is the leader of a gang of border bandits. When Marshal Brady is sent to investigate, he is shot. Found by Tom and sidekick Lopez, Tom gets Brady to make him his deputy. Duke makes Tom Sheriff and Tom sets a trap to capture the gang. But Duke is suspicious and changes plans and Tom quickly finds himself Duke's prisoner.", "actors_names": ["Betty Miles", "Frank Yaconelli", "Sugar Dawn", "Tom Keene"], "writers_names": ["Frances Kavanaugh", "Robert Emmett Tansey"], "genres": [{
-  "uuid": "0b105f87-e0a5-45dc-8ce7-f8632088f390", "full_name": "Western"}], "directors": [{
+  "uuid": "0b105f87-e0a5-45dc-8ce7-f8632088f390", "name": "Western"}], "directors": [{
   "uuid": "554f788e-0ec5-4272-88e6-d8f1054a8cf6", "full_name": "Robert Emmett Tansey"}], "actors": [{
   "uuid": "ad3ad5b4-9930-451e-a762-1dfa7cd8f48a", "full_name": "Tom Keene"}, {
   "uuid": "06e7145e-0283-4a22-8c5a-34f2a46f13e5", "full_name": "Frank Yaconelli"}, {
@@ -27,7 +27,7 @@
   "uuid": "554f788e-0ec5-4272-88e6-d8f1054a8cf6", "full_name": "Robert Emmett Tansey"}]},
 {
   "uuid": "e4f1672d-329d-4167-86e0-28f459aff68f", "imdb_rating": 5.9, "title": "North Star", "description": "A rich man flees to the north when he thinks he has killed another man. His dog runs away and is taken in by a reporter. The man's sister receives a letter and sets out to find her brother. She is accompanied by a would-be blackmailer. The dog comes to the rescue, and the brother discovers that he never killed the man.", "actors_names": ["Ken Maynard", "Strongheart the Dog", "Stuart Holmes", "Virginia Lee Corbin"], "writers_names": ["Charles Horan", "Rufus King"], "genres": [{
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "85b5e92d-3189-4345-8bd1-71f70867706e", "full_name": "Paul Powell"}], "actors": [{
   "uuid": "10af81c2-bf47-41d3-8bd5-503260f18900", "full_name": "Ken Maynard"}, {
   "uuid": "e3a6c3a7-587e-47e1-b5db-3526c823cb2e", "full_name": "Strongheart the Dog"}, {
@@ -37,8 +37,8 @@
   "uuid": "6215fbec-8faf-4fd7-bc08-f1c62f0a0e50", "full_name": "Charles Horan"}]},
 {
   "uuid": "3e21bf14-ae47-40f0-b71d-459ec61eb4f8", "imdb_rating": 6.6,"title": "Star Trek: The Game Show", "description": "You are stuck in the middle of one of Q's games as he makes you answer trivia about the 20th Century television science fiction phenomenon 'Star Trek'.",  "actors_names": ["Doug Stone", "John de Lancie", "Karen Cornwell", "T. Buffalo Wagnon"], "writers_names": ["Ahna Wagnon", "Alex Rosensweig", "Chairman Barnes", "H. Quinn", "Jim Wright", "Lisa Hazard", "Tim Lynch"], "genres": [{
-  "uuid": "fb58fd7f-7afd-447f-b833-e51e45e2a778", "full_name": "Game-Show"}, {
-  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "full_name": "Family"}], "directors": [{
+  "uuid": "fb58fd7f-7afd-447f-b833-e51e45e2a778", "name": "Game-Show"}, {
+  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "name": "Family"}], "directors": [{
   "uuid": "c8f4604d-b730-4b13-8588-92356bc22600", "full_name": "H. Quinn"}], "actors": [{
   "uuid": "c540c6d9-e110-4fec-a733-b90a18f3158a", "full_name": "Doug Stone"}, {
   "uuid": "f042db61-c492-4aae-9369-c1bb859dfc3d", "full_name": "T. Buffalo Wagnon"}, {
@@ -53,7 +53,7 @@
   "uuid": "61c4071b-6f1e-4897-992f-72f132226f83", "full_name": "Tim Lynch"}]},
 {
   "uuid": "429ecacb-d715-44bc-a3ff-2159468d99a9", "imdb_rating": 8.1,"title": "Ocean Star", "description": "City boys Trent and Dylan are packed off by their mother to live with father in a small town where life threatens to be unbelievably dull. Things are even worse than they imagined - the local kids are fiercer than the unfamiliar wildlife. Trent meets an old pearl diver who tells him the mystery of the Ocean Star, a priceless cluster of pearls he claims to have lost when his pearl boat was sunk in a cyclone 40 years ago. Trent eventually wins over the local kids and together they embark on a quest that takes them through the outback, a quest that will turn out to be more dangerous and exciting than they ever imagined.", "actors_names": ["Brooke Callaghan", "Jason Smith", "Joshua Brennan", "Kai Kamada-Laws"], "writers_names": ["Bruce Best", "Ro Hume"], "genres": [{
-  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "full_name": "Adventure"}], "directors": [], "actors": [{
+  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "name": "Adventure"}], "directors": [], "actors": [{
   "uuid": "be6c18b1-becb-43cd-85db-55175ddb44d6", "full_name": "Brooke Callaghan"}, {
   "uuid": "34a2958b-54fe-4abc-a990-1a3f56dfdba1", "full_name": "Joshua Brennan"}, {
   "uuid": "6e42fbab-435c-4edc-aa27-175f6f111ae4", "full_name": "Kai Kamada-Laws"}, {
@@ -62,8 +62,8 @@
   "uuid": "c7b6077a-b028-484a-9450-542b4a7cc198", "full_name": "Bruce Best"}]},
 {
   "uuid": "4090e081-2cad-4016-a8a9-cb15f38db64c", "imdb_rating": 6.0, "title": "The Star Trek Encyclopedia", "description": null, "actors_names": ["Majel Barrett", "Marj Dusay", "Mark Lenard"], "writers_names": ["Debbie Mirek", "Denise Okuda", "Gene Roddenberry", "Michael Okuda"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [], "actors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [], "actors": [{
   "uuid": "80f0ffa6-6358-464a-af53-16551c948f46", "full_name": "Marj Dusay"}, {
   "uuid": "2011cd38-8173-4958-8cf5-ea2628199d08", "full_name": "Mark Lenard"}, {
   "uuid": "05805e19-d307-4ed9-bc56-48bc41f2743e", "full_name": "Majel Barrett"}], "writers": [{
@@ -73,7 +73,7 @@
   "uuid": "d081bfd0-8109-4043-a7b2-cfbcc178b9ed", "full_name": "Debbie Mirek"}]},
 {
   "uuid": "54855a4a-d242-4b87-b549-7bd2df83d70c", "imdb_rating": 4.9,"title": "All-Star Birthday Party at Annapolis", "description": null, "actors_names": ["Bob Hope", "Christie Brinkley", "Gerry Cooney", "James Coburn"], "writers_names": ["Fred S. Fox", "Gig Henry", "James Lipton", "Robert L. Mills", "Seaman Jacobs"], "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "8790909f-3212-4e13-9c52-0f51d33076c8", "full_name": "Tim Kiley"}], "actors": [{
   "uuid": "7df18a38-6059-459b-b786-01a738ff3efc", "full_name": "Christie Brinkley"}, {
   "uuid": "513f340d-791a-4b9c-90e2-ca57128d2c4c", "full_name": "James Coburn"}, {
@@ -86,11 +86,11 @@
   "uuid": "a808079a-6a31-4f8f-ac1f-083cfd3dc137", "full_name": "Seaman Jacobs"}]},
 {
   "uuid": "332d9ee8-d90e-4764-9066-4358ab002137", "imdb_rating": 8.0,"title": "The Car's the Star", "description": "A nostalgic look at a popular make of car no longer in production.", "actors_names": ["Quentin Willson"], "writers_names": null, "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [], "actors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [], "actors": [{
   "uuid": "31f0779c-305d-497d-be97-43a4e72df20b", "full_name": "Quentin Willson"}], "writers": []},
 {
   "uuid": "ded3515c-3220-42f4-9ec6-0d04556229e9", "imdb_rating": 8.1, "title": "All-Star Party for Lucille Ball", "description": "Variety Clubs International hosted this tribute to Lucille ball. It brought Lucy and her husband, Gary Morton together on their anniversary, to present her with a humanitarian award. Lucy ...",  "actors_names": ["Desi Arnaz Jr.", "James Caan", "Lucie Arnaz", "Lucille Ball"], "writers_names": ["Paul Keyes"], "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "cc2b4b6e-c5b7-4b96-8a5b-25b05f682659", "full_name": "Dick McDonough"}], "actors": [{
   "uuid": "e22f0a9a-cd7c-4937-a44c-648b4a12f193", "full_name": "Lucille Ball"}, {
   "uuid": "6f93e82d-56ad-40a1-b3fc-393543de5073", "full_name": "Desi Arnaz Jr."}, {
@@ -99,7 +99,7 @@
   "uuid": "c17de384-8c55-46d8-b993-ee24e239d28e", "full_name": "Paul Keyes"}]},
 {
   "uuid": "2b301aa8-7c13-4be7-a552-d80c14af7487", "imdb_rating": 3.5,"title": "The All Star Impressions Show", "description": "Famous faces act out sketches impersonating other famous faces, and there is also an singing appearance by pop group JLS as themselves.", "actors_names": ["Diane Abbott", "Peter Dickson", "Stephen Mulhern", "Tony Blackburn"], "writers_names": ["Carl Carter", "James Harris", "Jane Lamacraft", "Marc Blakewill", "Martin Trenaman", "Matthew Leys", "Steven Burge", "Tony Cooke", "Tony Way"], "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "d74eda1d-bdcc-428c-9458-69646c5a7636", "full_name": "John F.D. Northover"}], "actors": [{
   "uuid": "31b84bca-0603-4b1d-a273-348f0085aa5f", "full_name": "Stephen Mulhern"}, {
   "uuid": "68ac2126-f65d-4ab4-bdca-fd4732c68919", "full_name": "Diane Abbott"}, {
@@ -116,8 +116,8 @@
   "uuid": "c13e57a1-b771-4855-9359-b2b759bd2760", "full_name": "Jane Lamacraft"}]},
 {
   "uuid": "68e0a8f5-c028-4d9f-9a52-f0e22303aa3b", "imdb_rating": 6.0,"title": "Beam Me Up - Die gro\u00dfe Star Trek Show", "description": null,  "actors_names": ["Bernhard Ho\u00ebcker", "Martin Netter", "Michael M\u00fcller", "Sonya Kraus"], "writers_names": null, "genres": [{
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "6c5c31a5-1700-4453-bf76-bb7369778a84", "full_name": "Holger T. Schmidt"}], "actors": [{
   "uuid": "09a3572f-b589-4364-9b3b-2990b33c6e60", "full_name": "Bernhard Ho\u00ebcker"}, {
   "uuid": "a2597aeb-a2e7-4a97-b36e-6d82a279782c", "full_name": "Michael M\u00fcller"}, {
@@ -125,50 +125,50 @@
   "uuid": "cffe22c3-cc99-4225-a94a-946997ec811e", "full_name": "Martin Netter"}], "writers": []},
 {
   "uuid": "ef74f021-4276-4747-8524-b428a7df787a", "imdb_rating": 6.3, "title": "Star Trek: Progeny", "description": "Set 50 years after the events of Star Trek: The Original Series, Star Trek: Progeny is reportedly based on the events from the episode \"Bread and Circuses\". The series takes place in the year 2316 and stars Cassie Scerbo as Livia Avitus, the granddaughter of the infamous Captain Kirk, who serves as a Special Agent for the Federation of Planets.",  "actors_names": ["Cassandra Scerbo"], "writers_names": ["Gene Roddenberry"], "genres": [{
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [], "actors": [{
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [], "actors": [{
   "uuid": "980dbe68-f0f9-46d3-866a-5badeca2d16a", "full_name": "Cassandra Scerbo"}], "writers": [{
   "uuid": "6960e2ca-889f-41f5-b728-1e7313e54d6c", "full_name": "Gene Roddenberry"}]},
 {
   "uuid": "b61fe652-c576-4140-a337-f41100ddf0b8", "imdb_rating": 5.1,"title": "Star Trek: Invincible", "description": "The story of the crew of the USS Invincible and her allies as they battle an enemy out of time and space.", "actors_names": ["Andrea Clarke", "Jack Marshall", "Jeffrey Horne", "Thom Stevens"], "writers_names": null, "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}, {
-  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "full_name": "Adventure"}], "directors": [], "actors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}, {
+  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "name": "Adventure"}], "directors": [], "actors": [{
   "uuid": "a03bc8e1-ea39-4353-aaa9-3706a3894b43", "full_name": "Jack Marshall"}, {
   "uuid": "1f27a02c-a4df-4b69-96ce-4a5d1563d7cd", "full_name": "Andrea Clarke"}, {
   "uuid": "bbdf41b0-5fdb-4540-af03-b6e5cf935dc9", "full_name": "Thom Stevens"}, {
   "uuid": "f68d4a39-4006-4836-9807-f7b231f06e3d", "full_name": "Jeffrey Horne"}], "writers": []},
 {
   "uuid": "3de5b433-d4ba-41f0-a64c-0277b3b74fbc", "imdb_rating": 5.7,"title": "Leaked Disney Star Wars 7 Trailer", "description": null, "actors_names": null, "writers_names": ["Lisa Lumar"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "303834e9-8a47-4850-9af4-c480095d092e", "full_name": "Lisa Lumar"}], "actors": [], "writers": [{
   "uuid": "303834e9-8a47-4850-9af4-c480095d092e", "full_name": "Lisa Lumar"}]},
 {
   "uuid": "42cb4e7b-9fa1-4dc0-95e2-08710cbf123c", "imdb_rating": 7.4,"title": "Mega Man: Upon a Star", "description": "The Mega Man characters are from the \"game world\", and they can appear in the \"real world\". Dr. Wily manages to exit the game world and tries to conquer the real world, and Mega Man has to stop him, learning about Japan while searching for Wily.",  "actors_names": ["Jim Byrnes", "Kathleen Barr", "Paul Dobson", "Sean Amsing"], "writers_names": null, "genres": [{
-  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "full_name": "Family"}], "directors": [], "actors": [{
+  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "name": "Family"}], "directors": [], "actors": [{
   "uuid": "f4fc7a65-ad68-4c0a-9635-249da775d118", "full_name": "Paul Dobson"}, {
   "uuid": "1392e563-6dee-4eed-85d2-39aa2ecb73e9", "full_name": "Jim Byrnes"}, {
   "uuid": "1ce9092c-7226-4522-ba41-3bdc9181e7ce", "full_name": "Sean Amsing"}, {
   "uuid": "129155e1-efd9-4034-9a78-0585da8211ec", "full_name": "Kathleen Barr"}], "writers": []},
 {
   "uuid": "6d22c585-0fca-4653-936e-302094c2adc7", "imdb_rating": 8.1,"title": "Mazzy Star: Fade Into You, Color Version", "description": "It features the band performing in front of a projection depicting white clouds in a black sky, and is interlaced with slow-motion footage of the band in various locales in the Mojave Desert.", "actors_names": ["David Roback", "Hope Sandoval", "Mazzy Star"], "writers_names": null, "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [{
   "uuid": "19b62aeb-01ff-475b-9edc-10d52b06c269", "full_name": "Kevin Kerslake"}], "actors": [{
   "uuid": "34ff0d7d-a765-4e3c-88bb-f36af1f8e178", "full_name": "Hope Sandoval"}, {
   "uuid": "009884ca-5a33-44ba-8fba-495a0055c70d", "full_name": "Mazzy Star"}, {
   "uuid": "91f5ed14-d841-49ca-a524-e6f6a9902510", "full_name": "David Roback"}], "writers": []},
 {
   "uuid": "2b980e9c-f266-44fa-a041-d1b161c2095a", "imdb_rating": 8.3, "title": "Han: A Star Wars Adventure", "description": "The rebel alliance task legendary pilot, Han, to find out the color of Darth Vader's socks - information essential to their plans to infiltrate the Death Star disguised as Darth Vader.", "actors_names": ["David Drogden", "Kurt Affair"], "writers_names": null, "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "f6b2c3d9-023e-4fa8-b9ac-94346f2bd108", "full_name": "Steve Woodier"}], "actors": [{
   "uuid": "f128804f-1710-413c-8351-c6d7e37801e2", "full_name": "Kurt Affair"}, {
   "uuid": "d1a9a585-1991-44c1-af2a-2b3011c710fc", "full_name": "David Drogden"}], "writers": []},
 {
   "uuid": "491fe2ab-66b3-4d82-a5c5-507a64457f40", "imdb_rating": 7.5, "title": "Mercedes 'Lucky Star'", "description": "Mercedes released a trailer for a new thriller called \"Lucky Star,\" which stars Benicio del Toro, in British movie theaters and on television. The 2\u00bd minute trailer, Directed by Michael ...",  "actors_names": ["Anna Christina", "Benicio Del Toro", "David Correa", "Jon Tamboro"], "writers_names": null, "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [{
   "uuid": "99bc3289-cc47-47cf-82e5-0197eae8889d", "full_name": "Michael Mann"}], "actors": [{
   "uuid": "e0ac91f0-7334-4a48-8e9b-8459ac3f541d", "full_name": "Anna Christina"}, {
   "uuid": "d40b6d80-3e87-4a24-95bd-fca118901b22", "full_name": "Jon Tamboro"}, {
@@ -176,7 +176,7 @@
   "uuid": "6aa1d231-eb59-4ae5-adfd-9b2cfd542c37", "full_name": "David Correa"}], "writers": []},
 {
   "uuid": "45e56b4b-ca69-4694-b5ab-71ac80ef12b4", "imdb_rating": 5.7, "title": "Atlantis: Secret Star Mappers of a Lost World", "description": "Go beyond the lost human history! A profile and examination of the recent findings of a highly advanced human settlement submerged at the end of the Ice Age when the sea level rose. The story of Atlantis has its roots in actual historical events!", "actors_names": ["David Childress", "Graham Hancock", "Maxine Asher", "William Henry"], "writers_names": ["Festus Farley"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "9ead29b6-9b10-44c6-846e-4f79f96dc984", "full_name": "Elliott Haimoff"}], "actors": [{
   "uuid": "f5292e3f-b14b-439c-b8de-15a899b36bd6", "full_name": "David Childress"}, {
   "uuid": "0b817638-703c-4bc3-a5fe-38087deded86", "full_name": "William Henry"}, {
@@ -185,8 +185,8 @@
   "uuid": "b26fd541-d0ee-4b24-aa61-4a771b022b48", "full_name": "Festus Farley"}]},
 {
   "uuid": "a4874497-1fcb-4590-8ce7-b677922637e0", "imdb_rating": 4.1, "title": "Star Appeal", "description": "Chinese activist filmmaker Cui Zi'en crafts the first all gay Chinese science fiction film with this fantastical tale of a lonely extraterrestrial who learns a tender lesson in earthly love after being taken in by a curious bisexual. When Xiao Bo first saw the curious alien, he was alone and naked on a long stretch of highway. He claimed to be from Mars, so Xiao Bo brought him home in order to teach him a thing or two about life on Earth. Dubbed \"ET\" by his human hosts, the curious alien soon reveals that he has been sent to this planet in order to learn as much as possible about physical interaction. Bisexual Xiao Bo has both a girlfriend and a boyfriend, neither of whom are particularly thrilled that Xiao Bo has brought home a new lover. Later, when Xiao Bo's girlfriend attempts to have a child with \"ET,\" the alien falls into a deep coma. Now the way to revive \"ET\" is for Xiao Bo to utter the words \"I love you.\" Once that happens, Xiao Bo resolves to teach his extraterrestrial friend the true meaning of Earthly Love before \"ET\" travels back to his home planet to reveal his passionate findings.", "actors_names": ["Bo Yu", "Guifeng Wang", "Jian Hou", "Xiwen Zhang"], "writers_names": ["Zi'en Cui"], "genres": [{
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "5b2c5270-05b7-432f-a60c-d386c8cceff3", "full_name": "Zi'en Cui"}], "actors": [{
   "uuid": "0b809ea3-f502-4cea-9b2c-0f8b84b2c361", "full_name": "Guifeng Wang"}, {
   "uuid": "b4e8bfc1-49af-40cc-b80e-af4997d414bf", "full_name": "Jian Hou"}, {
@@ -195,8 +195,8 @@
   "uuid": "5b2c5270-05b7-432f-a60c-d386c8cceff3", "full_name": "Zi'en Cui"}]},
 {
   "uuid": "1dcfed00-a0a1-4042-9811-66d7eb5d94bb", "imdb_rating": 6.4,"title": "Star Wars: Launch Bay - Meet the Makers", "description": "Presented as part of the STAR WARS: LAUNCH BAY experience at Disneyland and Disney's Hollywood Studios, \"Meet the Makers\" is a featurette exploring the past, present and future of the STAR WARS franchise, including interviews with the new generation of storytellers behind the Saga.", "actors_names": ["Dave Filoni", "Doug Chiang", "Gareth Edwards", "J.J. Abrams"], "writers_names": null, "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [{
   "uuid": "1f489274-3e20-4e62-8111-6db55ecef82f", "full_name": "Charles de Lauzirika"}], "actors": [{
   "uuid": "189f1d17-c928-492a-aa33-2212b5ad1555", "full_name": "Gareth Edwards"}, {
   "uuid": "32f131ef-cd32-4659-a037-bcff3f12ac0c", "full_name": "Dave Filoni"}, {
@@ -204,9 +204,9 @@
   "uuid": "b8dfac63-90a0-4eda-ae13-a25cbd46af82", "full_name": "Doug Chiang"}], "writers": []},
 {
   "uuid": "7ba359d3-1129-423f-a6be-3d91eee8aee4", "imdb_rating": 6.2,"title": "Inter Star Wars: The Awaking Force", "description": null, "actors_names": ["Daniil Andreev", "Eldar Bogunov", "Krolik Black", "Sergey A."], "writers_names": ["Sergey A."], "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "f39d7b6d-aef2-40b1-aaf0-cf05e7048011", "full_name": "Horror"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "f39d7b6d-aef2-40b1-aaf0-cf05e7048011", "name": "Horror"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "dc3e1680-ceae-463c-b547-76d1220a2818", "full_name": "Sergey A."}], "actors": [{
   "uuid": "dc3e1680-ceae-463c-b547-76d1220a2818", "full_name": "Sergey A."}, {
   "uuid": "e904c859-4b28-4381-8b6c-8391a3fd596f", "full_name": "Daniil Andreev"}, {
@@ -215,8 +215,8 @@
   "uuid": "dc3e1680-ceae-463c-b547-76d1220a2818", "full_name": "Sergey A."}]},
 {
   "uuid": "8167ee1a-61e2-4ec0-bb24-008822cde8cf", "imdb_rating": 5.4, "title": "All-Star Party for 'Dutch' Reagan", "description": "A televised event in honor of the 40th president, Ronald Reagan, the year he was sworn in for his second term of office.", "actors_names": ["Edie Adams", "June Allyson", "Leon Ames", "Steve Allen"], "writers_names": ["Paul Keyes"], "genres": [{
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "cc2b4b6e-c5b7-4b96-8a5b-25b05f682659", "full_name": "Dick McDonough"}], "actors": [{
   "uuid": "55062f51-4656-4110-8dd2-7ebad228a787", "full_name": "Leon Ames"}, {
   "uuid": "7ad0c1ab-9b5c-4e5f-8c3c-216ad32b5057", "full_name": "Edie Adams"}, {
@@ -225,19 +225,19 @@
   "uuid": "c17de384-8c55-46d8-b993-ee24e239d28e", "full_name": "Paul Keyes"}]},
 {
   "uuid": "e49c02da-e7ee-4da7-bae4-538a5dc7c0f2", "imdb_rating": 7.6,"title": "1987 NBA All-Star Game", "description": null,  "actors_names": ["Charles Barkley", "Kareem Abdul-Jabbar", "Larry Bird", "Mark Aguirre"], "writers_names": null, "genres": [{
-  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "full_name": "Sport"}], "directors": [], "actors": [{
+  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "name": "Sport"}], "directors": [], "actors": [{
   "uuid": "18cc968f-11d0-401e-9740-bfc64080d32e", "full_name": "Larry Bird"}, {
   "uuid": "4df78934-ac20-431d-8d45-6cebff0c9c6a", "full_name": "Mark Aguirre"}, {
   "uuid": "05c64f45-d003-4748-b591-91b5b2a61c9c", "full_name": "Charles Barkley"}, {
   "uuid": "7abc1fe0-73e5-4d84-b78a-ed386dca8c64", "full_name": "Kareem Abdul-Jabbar"}], "writers": []},
 {
   "uuid": "21faacab-9f72-4196-85fc-614d75952d09", "imdb_rating": 4.5, "title": "Sally Morgan: Star Psychic", "description": null, "actors_names": ["Craig Kelly", "Sally Morgan"], "writers_names": null, "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [], "actors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [], "actors": [{
   "uuid": "96e76678-a94d-4c1b-b167-9fa359f22d6e", "full_name": "Sally Morgan"}, {
   "uuid": "3fb6f3a3-85e0-4749-bf9f-f5d76a9e0492", "full_name": "Craig Kelly"}], "writers": []},
 {
   "uuid": "75ded9f4-1894-4996-8945-0023fe055bc0", "imdb_rating": 4.4, "title": "The Star Jones Reynolds Report", "description": null,  "actors_names": ["De Lacy Davis", "Keith Black", "Marion Bolden", "Star Jones"], "writers_names": ["Cindy Birch"], "genres": [{
-  "uuid": "31cabbb5-6389-45c6-9b48-f7f173f6c40f", "full_name": "Talk-Show"}], "directors": [{
+  "uuid": "31cabbb5-6389-45c6-9b48-f7f173f6c40f", "name": "Talk-Show"}], "directors": [{
   "uuid": "b52a9039-0fc1-48fa-85ec-58295522901a", "full_name": "Butch Robinson"}], "actors": [{
   "uuid": "441e731e-3218-4cfb-aae1-b29c406199eb", "full_name": "De Lacy Davis"}, {
   "uuid": "1a576850-3cbb-4d89-b07b-4b4f14e8dc5f", "full_name": "Keith Black"}, {
@@ -246,15 +246,15 @@
   "uuid": "5d77ab6c-56e4-4f3e-9f6e-c5d79e9dfefa", "full_name": "Cindy Birch"}]},
 {
   "uuid": "765659fe-df28-4bba-a923-d02d809a4c73", "imdb_rating": 6.6, "title": "Soul Star", "description": "Soulstar is a 3D shoot-'em up that combines several different types of gameplay into one game. Some levels in this game are on a fixed path, similar to Space Harrier or Star Fox. Other levels allow your space craft to hover freely around a 3D environment, and in other levels your craft transforms into a walker robot for close-up attacks. In Soulstar you are a warrior pilot known as Bryk Hammelt. It is your mission to prevent an alien aggressor known as the Myrkoids from draining the Soulstar system of its energy resources.", "actors_names": ["Guy Miller", "Yvonne Varnier"], "writers_names": ["Guy Miller"], "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [], "actors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [], "actors": [{
   "uuid": "68542399-5ae8-4839-916b-8a54a47906e2", "full_name": "Yvonne Varnier"}, {
   "uuid": "31834321-87b8-4044-87ad-dbadcfa6f644", "full_name": "Guy Miller"}], "writers": [{
   "uuid": "31834321-87b8-4044-87ad-dbadcfa6f644", "full_name": "Guy Miller"}]},
 {
   "uuid": "fe12e428-be67-4bb9-9629-4ab1385dc8be", "imdb_rating": 7.9,"title": "Crescent Star", "description": "In 1944, the Germans began rounding up the Jews of Rhodes. The Turkish Consul General, Selahattin Ulkumen, interceded on behalf of those Jewish who were Turkish nationals. By his efforts, 42 Jewish families were set free from the deportation to Auschwitz-Birkenau. In reprisal, German planes bombed the consulate building and Ulkumen's house, killing his staff and pregnant wife. His sacrifice made consul Selahattin Ulkumen the first non-Christian to be declared a Righteous Gentile by Yad Vashem, Israel's Holocaust memorial.", "actors_names": ["Darrell Geer", "Michael Bond", "Olga Christodoulou", "Saro Solis"], "writers_names": ["Turgut Turk Adiguzel"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "1ae39512-10fa-44ca-b239-55108d6644ef", "full_name": "Turgut Turk Adiguzel"}], "actors": [{
   "uuid": "53b36264-0517-4ad2-8382-dc8391925527", "full_name": "Olga Christodoulou"}, {
   "uuid": "84db9dee-d10f-4d6a-875b-346c49c4d5ed", "full_name": "Michael Bond"}, {
@@ -263,7 +263,7 @@
   "uuid": "1ae39512-10fa-44ca-b239-55108d6644ef", "full_name": "Turgut Turk Adiguzel"}]},
 {
   "uuid": "64d211e0-7073-4c5c-89cc-cb97ed91172e", "imdb_rating": 6.6,"title": "Texaco Star Theater: Opening Night", "description": null, "actors_names": ["Carol Burnett", "Debbie Allen", "Ken Berry", "Steve Allen"], "writers_names": ["Kenny Solms"], "genres": [{
-  "uuid": "9c91a5b2-eb70-4889-8581-ebe427370edd", "full_name": "Musical"}], "directors": [{
+  "uuid": "9c91a5b2-eb70-4889-8581-ebe427370edd", "name": "Musical"}], "directors": [{
   "uuid": "4bf4e033-3fad-42ea-aef1-4660237cbd12", "full_name": "Richard Benedict"}], "actors": [{
   "uuid": "845a2578-1163-4078-93cf-8891049a276d", "full_name": "Debbie Allen"}, {
   "uuid": "6acb616f-fec4-4de8-937a-1377580e8b2f", "full_name": "Steve Allen"}, {
@@ -272,7 +272,7 @@
   "uuid": "967c0511-54b6-4fba-8435-2ccfc3ed9170", "full_name": "Kenny Solms"}]},
 {
   "uuid": "37efbba5-7b32-4d12-a4d6-d27f5e37b1ce", "imdb_rating": 8.3, "title": "Star Tonight", "description": null,  "actors_names": ["Dennis Patrick", "Doreen Lang", "Kathleen Comegys", "Nancy Coleman"], "writers_names": null, "genres": [{
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [], "actors": [{
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [], "actors": [{
   "uuid": "36833b60-a9bd-4f14-ba6a-9bd0f15db3d5", "full_name": "Dennis Patrick"}, {
   "uuid": "c404a584-dc6f-4f6d-9950-ed4aa932ef24", "full_name": "Doreen Lang"}, {
   "uuid": "4e537c84-3bf3-440b-9291-ba3594a6063d", "full_name": "Kathleen Comegys"}, {
@@ -280,12 +280,12 @@
 {
   "uuid": "49c79cbf-5cf5-45df-95ef-89368152dc8d", "imdb_rating": 6.3,"title": "Star Trek: Pinball", "description": null,
   "directors": null, "actors_names": null, "writers_names": ["Alan Barasch"], "genres": [{
-  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "full_name": "Animation"}, {
-  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "full_name": "Family"}], "actors": [], "writers": [{
+  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "name": "Animation"}, {
+  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "name": "Family"}], "actors": [], "writers": [{
   "uuid": "8f78834b-8f94-4ea8-9053-e0c328e5a73d", "full_name": "Alan Barasch"}]},
 {
   "uuid": "31a801ea-e62e-4a7a-b7c4-d494df0df4ef", "imdb_rating": 6.6,"title": "Lone Star Struck", "description": null,   "actors_names": ["Erin Murphy", "Jana Lee Brockman", "Jason Magee", "Miles Fisher"], "writers_names": ["Nancy Fisher", "Stephen Lyons"], "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "e7cff886-1eb3-495e-8087-bc33bed72296", "full_name": "Rod Davis"}], "actors": [{
   "uuid": "9ab1997f-57b0-4420-9071-392a966619fd", "full_name": "Erin Murphy"}, {
   "uuid": "d026ba55-42bd-4d7d-b77e-3695aa517828", "full_name": "Jason Magee"}, {
@@ -295,15 +295,15 @@
   "uuid": "e1b53abc-975c-46c7-8388-8279d3b35cd9", "full_name": "Stephen Lyons"}]},
 {
   "uuid": "3431e396-04be-415f-8c8c-7f1dde2330c3", "imdb_rating": 6.5,"title": "All-Star Comedy Birthday Party from West Point", "description": null,  "actors_names": ["Bob Hope", "Dolores Hope", "George Bush", "Glen Campbell"], "writers_names": null, "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [], "actors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [], "actors": [{
   "uuid": "d076a929-dd17-41c8-b368-64297ff677ec", "full_name": "George Bush"}, {
   "uuid": "41a4ae10-fe3e-4e06-ba60-ac70d26fb52f", "full_name": "Bob Hope"}, {
   "uuid": "a4edca6b-0ec0-4937-b0e0-d477858b4a58", "full_name": "Dolores Hope"}, {
   "uuid": "bae43f2c-5f06-4a3e-ab10-271e2a023071", "full_name": "Glen Campbell"}], "writers": []},
 {
   "uuid": "0f077655-86d0-480b-ba37-a74bcbd786d6", "imdb_rating": 7.6,"title": "Antonio Carlos Jobim: An All-Star Tribute", "description": "Direct from Brazil in his last recorded performance, Antonio Carlos Jobim (1927-1994) is joined by an international delegation of jazz giants to recreate his classic melodies in a beautiful, concert-length \"Thank You.\" With over four hundred songs to his credit, including the unforgettable \"Girl From Ipanema,\" Jobim virtually singlehandedly brought the world the Bossa Nova. Adapting the percussive excitement of the Samba to the intimacy of the guitar while echoing the melodies and harmonies of Cool Jazz, Jobim's new sound quickly became a staple ingredient in the jazz cookbook, and in 1991 Jobim was inducted into the Songwriter's Hall of Fame.", "actors_names": ["Alex Acuna", "Gal Costa", "Herbie Hancock", "Ron Carter"], "writers_names": null, "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [{
   "uuid": "f87bbf28-a80f-4d70-a4f7-948be05ea448", "full_name": "Walter Salles"}], "actors": [{
   "uuid": "97dce1b8-de99-4702-b824-cc412adadd77", "full_name": "Ron Carter"}, {
   "uuid": "4e90533d-d057-4d15-b36f-f76dbb9bf2d2", "full_name": "Alex Acuna"}, {
@@ -311,10 +311,10 @@
   "uuid": "efc91cfe-cf4e-4f30-a55e-34c888fd7e9c", "full_name": "Gal Costa"}], "writers": []},
 {
   "uuid": "bd838cf2-751d-421f-a8ff-aa37bef071ab", "imdb_rating": 8.0, "title": "America's Five Star Heroes: Gods of War", "description": "The careers and World War II triumphs of the nine generals and admirals who achieved 5-star rank in the U.S. military.", "actors_names": ["Dwight D. Eisenhower", "Henry H. Arnold", "Omar N. Bradley", "William F. Halsey"], "writers_names": ["Norman Stahl"], "genres": [{
-  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "full_name": "Biography"}, {
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "eb7212a7-dd10-4552-bf7b-7a505a8c0b95", "full_name": "History"}, {
-  "uuid": "c020dab2-e9bd-4758-95ca-dbe363462173", "full_name": "War"}], "directors": [{
+  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "name": "Biography"}, {
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "eb7212a7-dd10-4552-bf7b-7a505a8c0b95", "name": "History"}, {
+  "uuid": "c020dab2-e9bd-4758-95ca-dbe363462173", "name": "War"}], "directors": [{
   "uuid": "f095c759-11a2-472c-99e7-22674b685025", "full_name": "Don Horan"}], "actors": [{
   "uuid": "c17e6619-2d90-4228-a5a2-eebf31a9b8d3", "full_name": "Omar N. Bradley"}, {
   "uuid": "75f3c0f7-0faa-4b57-b4cc-cbb1ab62b0a7", "full_name": "William F. Halsey"}, {
@@ -323,16 +323,16 @@
   "uuid": "0b60b2cd-b556-4f6e-ad81-805fb2bfb307", "full_name": "Norman Stahl"}]},
 {
   "uuid": "0e662af2-7ed0-45af-845e-ebc90a9d4610", "imdb_rating": 2.7,"title": "\u00c0 la recherche de la nouvelle star", "description": null,  "actors_names": ["Benjamin Castaldi", "Dove Attia", "Elsa Fayer", "J\u00e9r\u00f4me Anthony"], "writers_names": null, "genres": [{
-  "uuid": "e508c1c8-24c0-4136-80b4-340c4befb190", "full_name": "Reality-TV"}, {
-  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "full_name": "Family"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [], "actors": [{
+  "uuid": "e508c1c8-24c0-4136-80b4-340c4befb190", "name": "Reality-TV"}, {
+  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "name": "Family"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [], "actors": [{
   "uuid": "55977a4b-3ded-49c1-ad62-aecee703a8c7", "full_name": "J\u00e9r\u00f4me Anthony"}, {
   "uuid": "d88d11fd-d077-4673-9fbc-5dfce8fcfa80", "full_name": "Benjamin Castaldi"}, {
   "uuid": "f4e9b500-464c-4945-bb87-eb36ec87ccb8", "full_name": "Dove Attia"}, {
   "uuid": "ef0f7ba7-81e5-42f3-ae57-51bd7c588ed6", "full_name": "Elsa Fayer"}], "writers": []},
 {
   "uuid": "e6d78792-4a4c-4671-a9ba-d713153a3f7b", "imdb_rating": 7.1,"title": "Gene Tierney a Forgotten Star", "description": "Gene Tierney's life story would perfectly lend itself to a screenplay for a successful Hollywood movie with herself starring in it. She grew up in a well-to-do middle class family and began...", "actors_names": ["Cari Beauchamp", "Joseph McBride", "Martin Scorsese", "Molly Haskell"], "writers_names": ["Clara Kuperberg", "Julia Kuperberg"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "e2104a2b-60de-4bc9-ba2f-e39badc89af2", "full_name": "Clara Kuperberg"}, {
   "uuid": "2e6cc079-a485-453d-b422-5e8035e6c376", "full_name": "Julia Kuperberg(co-director)"}], "actors": [{
   "uuid": "b3487e58-5eee-4626-8b9d-26da6dc1688f", "full_name": "Cari Beauchamp"}, {
@@ -343,8 +343,8 @@
   "uuid": "0f924d98-da09-4d55-9e62-007c0d14b6db", "full_name": "Julia Kuperberg"}]},
 {
   "uuid": "c0f9dcf1-4110-407c-8fb9-acae55c72629", "imdb_rating": 7.6,"title": "Five Star Fouad", "description": "What if you robbed a bank and booked an Uber as the getaway car?",  "actors_names": ["Camille Mana", "Dominic West", "Ken Davitian"], "writers_names": ["Ollie Wolf"], "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [{
   "uuid": "4a7c8f14-058c-4f24-8b72-724766c77821", "full_name": "Ollie Wolf"}], "actors": [{
   "uuid": "fc616cc0-3961-44ff-ac27-9bfdcc28917f", "full_name": "Dominic West"}, {
   "uuid": "23cb0174-a641-47c7-a3d6-2ce09759b4be", "full_name": "Camille Mana"}, {
@@ -352,14 +352,14 @@
   "uuid": "4a7c8f14-058c-4f24-8b72-724766c77821", "full_name": "Ollie Wolf"}]},
 {
   "uuid": "bffeead4-4466-46b2-9f79-1b06cd06183e", "imdb_rating": 8.6,"title": "Kitakyushu Stories Chapter One: Kimi the Star", "description": "A young lady receives postcards from different cities all over the world. Each card has a unique and romantic message. She tries to determine the meaning of the postcards and why someone would send them to her.", "actors_names": ["Ayaka Nakamura"], "writers_names": ["M.J. Di Rocco"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "fa0bdbcb-681f-4ad8-83ab-570ceb488601", "full_name": "M.J. Di Rocco"}], "actors": [{
   "uuid": "eab87a30-f23f-412a-9069-4a9276b07a2a", "full_name": "Ayaka Nakamura"}], "writers": [{
   "uuid": "fa0bdbcb-681f-4ad8-83ab-570ceb488601", "full_name": "M.J. Di Rocco"}]},
 {
   "uuid": "850bc7c9-c73a-4ad5-b628-52915c3a4086", "imdb_rating": 5.6, "title": "Howie Mandel All-Star Comedy Gala", "description": null,   "actors_names": ["Alonzo Bodden", "Gina Brillon", "Howie Mandel", "Matt Donaher"], "writers_names": null, "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [], "actors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [], "actors": [{
   "uuid": "d7302577-b759-4916-90e3-cdf0ef79592e", "full_name": "Alonzo Bodden"}, {
   "uuid": "1071dc2b-0fd6-40be-9672-ef62297f2383", "full_name": "Howie Mandel"}, {
   "uuid": "fed3f8cf-decf-4705-ae29-6857fcfeb0f9", "full_name": "Gina Brillon"}, {
@@ -367,8 +367,8 @@
 {
   "uuid": "ab6aa3c1-fa9b-4959-8b19-1daae731b84b", "imdb_rating": 6.5,"title": "Star Power: The Creation of United Artists", "description": "Roddy McDowall narrates this retrospective of the careers of film pioneers D. W. Griffith, Mary Pickford, Douglas Fairbanks, and Charlie Chaplin, culminating in the formation of United Artists. Douglas Fairbanks, Jr., and Marc Wanamaker add insight to the film clips and archival footage.",
   "actors_names": ["Christopher Sanders", "Joy Noe", "Marc Wanamaker", "Roddy McDowall"], "writers_names": ["Hugh Munro Neely", "John J. Flynn"], "genres": [{
-  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "full_name": "Biography"}, {
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "name": "Biography"}, {
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "b8fec55d-25df-477b-adee-44916fcfb0ff", "full_name": "Hugh Munro Neely"}], "actors": [{
   "uuid": "e37e73d9-817d-4851-8d7b-6ac74d46842b", "full_name": "Roddy McDowall"}, {
   "uuid": "837509a4-03cf-4776-b644-d4aa3d22be33", "full_name": "Joy Noe"}, {
@@ -378,9 +378,9 @@
   "uuid": "ccfb13a8-3fb0-4223-8924-93838018a625", "full_name": "John J. Flynn"}]},
 {
   "uuid": "57b16fe9-4a0f-4621-a0de-db9b3332a1b6", "imdb_rating": 6.3,"title": "America's All-Star Tribute to Elizabeth Taylor", "description": null, "actors_names": ["Burt Bacharach", "Carole Bayer Sager", "Elizabeth Taylor", "June Allyson"], "writers_names": ["Ken Welch", "Mitzie Welch", "Stephen Pouliot"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "23de2f32-e952-430d-9e15-33ed6e69a801", "full_name": "Marty Pasetta"}], "actors": [{
   "uuid": "b4599c03-02ae-45a2-b9ce-99a9c62fcad7", "full_name": "Burt Bacharach"}, {
   "uuid": "370d8b1e-158c-4bb5-be36-5d3800d59b39", "full_name": "Carole Bayer Sager"}, {
@@ -392,8 +392,8 @@
 {
   "uuid": "0d03e753-cec7-4822-81f8-ec0499fb09d7", "imdb_rating": 6.5,"title": "Mr. Hollywood Star", "description": "This short chronicles the constant failure of an actor's relationship with women, and the surprising reason for it.",
  "actors_names": ["Jenny Oliver", "Joy Haven", "Lee Avant", "Steven Man"], "writers_names": ["Bartosz Werner"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "55f29e06-d58e-4017-b03c-c5c99e266c2d", "full_name": "Bartosz Werner"}], "actors": [{
   "uuid": "05757fc9-3a7c-4223-b63a-4a6ed04ee721", "full_name": "Jenny Oliver"}, {
   "uuid": "c0320abc-c9a1-4ff5-9ae0-5e5a1bbcab8d", "full_name": "Lee Avant"}, {
@@ -402,7 +402,7 @@
   "uuid": "55f29e06-d58e-4017-b03c-c5c99e266c2d", "full_name": "Bartosz Werner"}]},
 {
   "uuid": "6075b0cf-219a-4151-a5e6-d9ae09d514ad", "imdb_rating": 6.5, "title": "North from the Lone Star", "description": "Kirby is taking over Deadwood and his next victim is Wilson. But Wild Bill arrives just in time to foil Kirby's plan. Kirby makes Bill the town Marshal and Bill arrests Wilson when he shoots one of Kirby's men. It looks like Bill is on Kirby's side until he shuts down Kirby's saloon. This calls for a showdown and Bill and Cannonball go off to face Kirby and his gang,",   "actors_names": ["Bill Elliott", "Dorothy Fay", "Dub Taylor", "Richard Fiske"], "writers_names": ["Charles F. Royal"], "genres": [{
-  "uuid": "0b105f87-e0a5-45dc-8ce7-f8632088f390", "full_name": "Western"}], "directors": [{
+  "uuid": "0b105f87-e0a5-45dc-8ce7-f8632088f390", "name": "Western"}], "directors": [{
   "uuid": "9060f0a3-6cc3-4808-b4a9-d77ae1b0808d", "full_name": "Lambert Hillyer"}], "actors": [{
   "uuid": "887345a0-5311-4860-a901-b7228a4f946a", "full_name": "Dub Taylor"}, {
   "uuid": "b58c88b9-94cb-4dc0-bead-fe44c6f6004e", "full_name": "Bill Elliott"}, {
@@ -411,7 +411,7 @@
   "uuid": "7fa9e64c-440b-4fc4-8eba-54f0c60f5d0b", "full_name": "Charles F. Royal"}]},
 {
   "uuid": "92ea2386-2ef1-4ba9-a390-3120a0f8aa7f", "imdb_rating": 7.5, "title": "Movie Star, American Style or; LSD, I Hate You", "description": "Producer/director Albert Zugsmith's acid-therapy \"comedy,\" complete with a tinted trip sequence \"in hilarious LSD color.\" A suicidal film star named Honey Bunny is sent by her producer to a...",  "actors_names": ["Del Moore", "Frank Delfino", "Steven Rogers", "T.C. Jones"], "writers_names": ["Albert Zugsmith", "Graham Lee Mahin", "Lulu Talmadge"], "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "e9440587-9dae-48ca-bca4-6822a6835e50", "full_name": "Albert Zugsmith"}], "actors": [{
   "uuid": "13947db0-3e9f-4207-83d1-926baabc08b8", "full_name": "Del Moore"}, {
   "uuid": "06ebd992-1c71-46f3-a9a0-e2144a8847e7", "full_name": "Steven Rogers"}, {
@@ -422,15 +422,15 @@
   "uuid": "5e808349-a4c2-460c-8f2d-4169e195f8df", "full_name": "Lulu Talmadge"}]},
 {
   "uuid": "0a393c53-5387-4f1e-9200-5a09eb57362a", "imdb_rating": 3.2,"title": "Star Academy", "description": "In this Flemish variation on the Pop idol format, would-be pop stars from the public at large are selected by progressive elimination while receiving general artist coaching and various specialist classes from showbiz professionals. The winner of the 'Academy' is to be launched for real, a shot at 'stardom'.",  "actors_names": ["Elke Vanelderen", "Louis Anaf", "Paul Ambach", "Walter Grootaers"], "writers_names": null, "genres": [{
-  "uuid": "fb58fd7f-7afd-447f-b833-e51e45e2a778", "full_name": "Game-Show"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [], "actors": [{
+  "uuid": "fb58fd7f-7afd-447f-b833-e51e45e2a778", "name": "Game-Show"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [], "actors": [{
   "uuid": "7944a49f-b381-4e7c-8518-df49f30d2296", "full_name": "Louis Anaf"}, {
   "uuid": "69ac97cb-82c7-4f80-b1b4-c4588461a89a", "full_name": "Paul Ambach"}, {
   "uuid": "90ec9001-4857-4fee-a655-9c02dbbade99", "full_name": "Elke Vanelderen"}, {
   "uuid": "a455cfbf-0073-4bfb-8f06-31576bee2bdc", "full_name": "Walter Grootaers"}], "writers": []},
 {
   "uuid": "40138657-00bc-4f53-adec-9bfc888bceb1", "imdb_rating": null, "title": "The Child Star Jinx", "description": null,  "actors_names": ["Andrew Breitbart", "Ann Bryson", "Drew Barrymore", "Peter C. Borsari"], "writers_names": ["Andrew Abbott", "Russell Leven"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "a7ff0bb5-b6aa-4b3f-8d09-60cbe381b242", "full_name": "Andrew Abbott"}, {
   "uuid": "44de1c79-277c-4143-a463-1d4917e6da04", "full_name": "Russell Leven"}], "actors": [{
   "uuid": "9e5ea0b6-c635-4183-afe6-51e8e33219cb", "full_name": "Andrew Breitbart"}, {
@@ -441,27 +441,27 @@
   "uuid": "44de1c79-277c-4143-a463-1d4917e6da04", "full_name": "Russell Leven"}]},
 {
   "uuid": "4731e7c5-353b-4e44-b393-bf3139aa2a69", "imdb_rating": 7.5,"title": "Star Magic Presents", "description": null,  "actors_names": ["Carla Humphries", "Dino Imperial", "Lauren Young", "Victor Basa"], "writers_names": null, "genres": [{
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [], "actors": [{
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [], "actors": [{
   "uuid": "089eae66-1a27-41e5-bef6-3f741d20fa91", "full_name": "Victor Basa"}, {
   "uuid": "a4c79441-3dcf-4808-a0d2-f1acc6fbab8d", "full_name": "Dino Imperial"}, {
   "uuid": "df4184a2-3d5a-4bdf-8a3f-4ae0f60cc688", "full_name": "Lauren Young"}, {
   "uuid": "d0f3557e-2680-447f-91e3-5c627fe4ef7f", "full_name": "Carla Humphries"}], "writers": []},
 {
   "uuid": "2e70a94e-8718-43f8-801b-d2adec3ffbb1", "imdb_rating": 7.9,"title": "World Premiere 'Star Wars III: Revenge of the Sith'", "description": null,  "actors_names": null, "writers_names": ["Brodie Ransom"], "genres": [{
-  "uuid": "f24fd632-b1a5-4273-a835-0119bd12f829", "full_name": "News"}], "directors": [{
+  "uuid": "f24fd632-b1a5-4273-a835-0119bd12f829", "name": "News"}], "directors": [{
   "uuid": "d1682bff-a536-4a3e-8b31-6db439b2a331", "full_name": "Brodie Ransom"}], "actors": [], "writers": [{
   "uuid": "d1682bff-a536-4a3e-8b31-6db439b2a331", "full_name": "Brodie Ransom"}]},
 {
   "uuid": "667dbe90-4648-47fc-83a9-ca7c71392a4e", "imdb_rating": 7.2, "title": "2001 MLB All-Star Game", "description": null,  "actors_names": ["Jeanne Zelasko", "Joe Buck", "Steve Lyons", "Tim McCarver"], "writers_names": null, "genres": [{
-  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "full_name": "Sport"}], "directors": [], "actors": [{
+  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "name": "Sport"}], "directors": [], "actors": [{
   "uuid": "7b0c328c-53b0-4cb1-abb3-cca0e5a0b0ec", "full_name": "Joe Buck"}, {
   "uuid": "588d0675-3159-4142-8b1b-5c0a29a909c7", "full_name": "Jeanne Zelasko"}, {
   "uuid": "b8824198-efb9-4869-972f-e7f3b9e3dd90", "full_name": "Steve Lyons"}, {
   "uuid": "c144ced4-4740-4863-83da-c091bd58ef11", "full_name": "Tim McCarver"}], "writers": []},
 {
   "uuid": "0542917e-c045-42f8-b59f-80972c377800", "imdb_rating": 4.2, "title": "Star Wars Pathways: Chapter I - Path of Betrayal", "description": "A Jedi Knight searches for his missing Padawan on the barren ice planet Dais VI only to find someone from his past out for revenge.", "actors_names": ["Charles Olson", "Justin Baughman", "Maron Wong", "Robert Speicher"], "writers_names": ["Christopher Pico"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "6bf95b07-2612-464e-b8f1-cb4f3b790541", "full_name": "Christopher Pico"}], "actors": [{
   "uuid": "d7df1a54-0f4a-494d-a705-a64380951cfd", "full_name": "Maron Wong"}, {
   "uuid": "e6a6e4d0-60bc-4c31-9ffb-54b2f273a3eb", "full_name": "Justin Baughman"}, {
@@ -470,7 +470,7 @@
   "uuid": "6bf95b07-2612-464e-b8f1-cb4f3b790541", "full_name": "Christopher Pico"}]},
 {
   "uuid": "196804b8-a035-4fbe-afa4-59ccdfde8d65", "imdb_rating": 7.2,"title": "Reunification: 25 Years After Star Trek - The Next Generation", "description": "A spectacular reunion of the Star Trek: The Next Generation cast, brought together in celebration of the 25th anniversary of the series. This historic reunion features all of the best known cast regulars, joining together for the first time in years for a candid, intimate discussion about the legacy of the series, including Patrick Stewart (Captain Jean-Luc Picard), Jonathan Frakes (Commander William T. Riker, LeVar Burton (Lt. Commander Geordi La Forge), Marina Sirtis (Counselor Deanna Troi), Brent Spiner (Lt. Commander Data), Michael Dorn (Lieutenant Worf), Gates McFadden (Dr. Beverly Crusher) and Wil Wheaton (Wesley Crusher).", "actors_names": ["Gates McFadden", "Jonathan Frakes", "LeVar Burton", "Michael Dorn"], "writers_names": ["Robert Meyer Burnett", "Roger Lay Jr."], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "3abbe0ac-9d12-4b30-ac9f-9c8fafbe472b", "full_name": "Roger Lay Jr."}], "actors": [{
   "uuid": "9607e3fa-d667-45d0-abd1-a81709b67896", "full_name": "Michael Dorn"}, {
   "uuid": "fc9f27d2-aaee-46e6-b263-40ec8d2dd355", "full_name": "LeVar Burton"}, {
@@ -480,9 +480,9 @@
   "uuid": "3abbe0ac-9d12-4b30-ac9f-9c8fafbe472b", "full_name": "Roger Lay Jr."}]},
 {
   "uuid": "2bfe2cca-86e5-44d3-954f-4c215d43fc8b", "imdb_rating": 8.1, "title": "Goal Star", "description": null,   "actors_names": ["Ari Shamai", "Shiye Feigenboim", "Shlomi Koriat", "Svika Pick"], "writers_names": ["Eliav Goldfryd", "Yaron Lictenstein", "Ziv Shemesh"], "genres": [{
-  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "full_name": "Sport"}, {
-  "uuid": "e508c1c8-24c0-4136-80b4-340c4befb190", "full_name": "Reality-TV"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [], "actors": [{
+  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "name": "Sport"}, {
+  "uuid": "e508c1c8-24c0-4136-80b4-340c4befb190", "name": "Reality-TV"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [], "actors": [{
   "uuid": "9409f679-b713-420c-ba53-fdcc121e4266", "full_name": "Svika Pick"}, {
   "uuid": "77ff4122-c405-4896-a873-223e44f5dfe6", "full_name": "Shiye Feigenboim"}, {
   "uuid": "25eabeb1-f1ef-48aa-9e38-a93939afcb9c", "full_name": "Shlomi Koriat"}, {
@@ -492,9 +492,9 @@
   "uuid": "b78ba582-1cbf-44c1-9e57-3df675ff3bbd", "full_name": "Eliav Goldfryd"}]},
 {
   "uuid": "76ab440d-373c-4431-9cce-e71bf8dce462", "imdb_rating": 8.0,"title": "The Shooting Star Salesman", "description": "An embittered, magical salesman attempts to revive his shooting star business in a modern, fast paced society.", "actors_names": ["Elijah Velarde", "Jason Gedrick", "Sydney Tamiia Poitier", "Yancey Arias"], "writers_names": ["Joel Ceballos", "William Camacho III"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "full_name": "Family"}, {
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "name": "Family"}, {
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "8769b2dd-132a-484f-bf95-308cd2e2f944", "full_name": "Kico Velarde"}], "actors": [{
   "uuid": "f61314c7-e145-4f6f-8355-c03bebe380d7", "full_name": "Sydney Tamiia Poitier"}, {
   "uuid": "53dfa2cd-7f4d-459b-8fd4-a9bde4e664ba", "full_name": "Elijah Velarde"}, {
@@ -504,15 +504,15 @@
   "uuid": "b7f6885d-259d-49fa-9911-e08be80d470a", "full_name": "William Camacho III"}]},
 {
   "uuid": "d755d600-296a-4c91-98b9-17107a5e63f5", "imdb_rating": 8.7, "title": "A Gold Star Kid", "description": "9 years old Matt is finding a 20 euro bill on the pavement. Matt is seeing a soldier in the restaurant which reminds his late father who was a soldier, and he changes his mind to pay it ...",  "actors_names": ["Nils Bento-Connault", "Rachid Oumakhlouf"], "writers_names": ["Reshan Fernando"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "8d026eb1-aaab-4b1f-b9f9-cd64bb6d46fc", "full_name": "Reshan Fernando"}], "actors": [{
   "uuid": "e424a80e-4cf6-4ada-8409-f82056a54564", "full_name": "Nils Bento-Connault"}, {
   "uuid": "d115d4c3-daf9-45ba-8034-1eb07b3be2f3", "full_name": "Rachid Oumakhlouf"}], "writers": [{
   "uuid": "8d026eb1-aaab-4b1f-b9f9-cd64bb6d46fc", "full_name": "Reshan Fernando"}]},
 {
   "uuid": "b5363f75-138f-4133-b61c-62cf035b4466", "imdb_rating": 3.8, "title": "Shaquille O'neal All-star Comedy Jam: Live from Sin City", "description": "Shaquille O'Neal presents host Lavell Crawford (\"Breaking Bad,\" Mike and Dave Need Wedding Dates, and American Ultra) with special guests K-Dubb, Cocoa Brown, Donnell Rawlings, and ...",   "actors_names": ["Cocoa Brown", "Donnell Rawlings", "Earthquake", "Lavell Crawford"], "writers_names": null, "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "f09c267a-1a38-46c2-8b1a-35721b96ec34", "full_name": "Leslie Small"}], "actors": [{
   "uuid": "eb78adbd-6fbe-4f04-9b0e-9dddd07c028c", "full_name": "Cocoa Brown"}, {
   "uuid": "7f13f7d5-a466-4e99-a961-e6132d1393be", "full_name": "Donnell Rawlings"}, {
@@ -520,13 +520,13 @@
   "uuid": "e92ee037-ace9-4521-9fb8-93d962be4ad8", "full_name": "Lavell Crawford"}], "writers": []},
 {
   "uuid": "21371dea-02cd-4936-853b-cb42651cca86", "imdb_rating": 6.2, "title": "Alex Jones Explains the Star Wars Prequels", "description": "Carl Benjamin, aka Sargon of Akkad, is surprised and amused to find that Alex Jones's interpretation of the \"Star Wars\" prequels makes them sound more interesting than they actually are.", "actors_names": ["Alex Jones", "Carl Benjamin"], "writers_names": null, "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [], "actors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [], "actors": [{
   "uuid": "858c3dfd-7f92-42a0-a916-047fb2babb36", "full_name": "Carl Benjamin"}, {
   "uuid": "48ea6986-cfb1-49ff-a94b-0cc3d495346f", "full_name": "Alex Jones"}], "writers": []},
 {
   "uuid": "629fd480-3267-423b-a143-5f3a180c3ed3", "imdb_rating": 8.5,"title": "Star Trek: Bridge Crew", "description": null, "actors_names": ["Jye Frasca", "Mary Elizabeth McGlynn", "Miley Yamamoto", "Oliver Vaquer"], "writers_names": ["Jay Posey"], "genres": [{
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "0b84e44a-a17b-4b3e-8226-248bf3fd1979", "full_name": "Brian Tate"}, {
   "uuid": "4aa3a5c7-2a6e-4396-924f-4e0a17a726e0", "full_name": "David Votypka"}], "actors": [{
   "uuid": "2179080d-b584-467f-9076-7e5b03986dd8", "full_name": "Miley Yamamoto"}, {
@@ -536,10 +536,10 @@
   "uuid": "6c587bbf-9056-4415-8865-193f3a4a1d6b", "full_name": "Jay Posey"}]},
 {
   "uuid": "8c6fc75b-0004-41c5-9e9b-36ffff653f55", "imdb_rating": 5.2, "title": "Star Trek: Deception", "description": "Star Trek: Deception is the story of two Starfleet officers, Commander Stoven and Lieutenant Miller, who are transporting a Klingon prisoner to a detention center aboard a Danube Class Runabout, only to be ambushed by a Klingon Bird of Prey en route to their destination. Unwilling to give up their prisoner, the officers soon find themselves staring down the barrel of Klingon disruptor cannons as they battle for their very lives and attempt to escape.", "actors_names": ["Jaymes Sygrove", "Leo Tierney", "Rick Huggins", "Stu Lucas"], "writers_names": ["Leo Tierney"], "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}, {
-  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "full_name": "Adventure"}], "directors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}, {
+  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "name": "Adventure"}], "directors": [{
   "uuid": "0475c9ae-2998-4ce4-88a4-735f3e70cb97", "full_name": "Leo Tierney"}], "actors": [{
   "uuid": "1329a551-86b6-4aea-aef3-b6bb77a0a118", "full_name": "Rick Huggins"}, {
   "uuid": "0475c9ae-2998-4ce4-88a4-735f3e70cb97", "full_name": "Leo Tierney"}, {
@@ -548,7 +548,7 @@
   "uuid": "0475c9ae-2998-4ce4-88a4-735f3e70cb97", "full_name": "Leo Tierney"}]},
 {
   "uuid": "03b0c429-a63f-4045-a485-538a36c89264", "imdb_rating": 6.0,"title": "Pop Star", "description": "When a former teen idol succeeds at a major comeback he has a violent meltdown in his penthouse suite at a fashionable hotel.",  "actors_names": ["Bongkoj Khongmalai", "Monthol Jira", "Nirut Sirichanya"], "writers_names": ["Robert La Force"], "genres": [{
-  "uuid": "526769d7-df18-4661-9aa6-49ed24e9dfd8", "full_name": "Thriller"}], "directors": [{
+  "uuid": "526769d7-df18-4661-9aa6-49ed24e9dfd8", "name": "Thriller"}], "directors": [{
   "uuid": "cf50fdfa-54d7-4d0c-9463-a5bb892d490d", "full_name": "Robert La Force"}], "actors": [{
   "uuid": "21778021-0ec3-4172-a85a-305dff51ab6e", "full_name": "Bongkoj Khongmalai"}, {
   "uuid": "02ef4094-0a0d-428b-94a5-1c99d74acff6", "full_name": "Monthol Jira"}, {
@@ -556,8 +556,8 @@
   "uuid": "cf50fdfa-54d7-4d0c-9463-a5bb892d490d", "full_name": "Robert La Force"}]},
 {
   "uuid": "c4ab2597-a7a1-41a9-a4ec-40a012d4010c", "imdb_rating": 4.5, "title": "A Star is Born", "description": null,  "actors_names": ["Anto Durovic", "Nemanja Acimovic", "Nikola Bercek", "The Decemberists"], "writers_names": ["Vanja Kovacevic"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [{
   "uuid": "4dad2eff-76da-4ec3-b92b-be31cad9a3e0", "full_name": "Vanja Kovacevic"}], "actors": [{
   "uuid": "84211b9d-852a-4e24-b045-9d7175fde2e2", "full_name": "The Decemberists"}, {
   "uuid": "4ce7aa75-95b1-4b27-902c-6c73fd967dee", "full_name": "Anto Durovic"}, {
@@ -566,8 +566,8 @@
   "uuid": "4dad2eff-76da-4ec3-b92b-be31cad9a3e0", "full_name": "Vanja Kovacevic"}]},
 {
   "uuid": "ea9a96db-e224-4b95-8da8-985a8f8c183c", "imdb_rating": 6.5,"title": "The Hypothetical Star Wars Holiday Special", "description": null, "actors_names": ["Chris Batstone", "Jason Alexander", "Keith David", "Nick Corirossi"], "writers_names": ["Charles Ingram", "Nick Corirossi"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "431ec081-43f6-41ed-8a59-20fa5506d307", "full_name": "Nick Corirossi"}, {
   "uuid": "1f33e237-0f88-4858-a6b2-720c93a8dbba", "full_name": "Charles Ingram"}], "actors": [{
   "uuid": "477b4187-9b8a-4199-86d7-b00a996db901", "full_name": "Keith David"}, {
@@ -578,8 +578,8 @@
   "uuid": "1f33e237-0f88-4858-a6b2-720c93a8dbba", "full_name": "Charles Ingram"}]},
 {
   "uuid": "82374933-7716-4d6d-aa27-e9e19c1c6c24", "imdb_rating": 7.2,"title": "Star Wars: Qui-Gon Jinn II", "description": "Qu-Gon Jinn's adventures get more dangerous as he has to save his apprentice Obi-Wan from a prison on Hoth. Meanwhile Darth Sidious starts planning his grand plan to create a galactic empire. The film is the second chapter in a trilogy.", "actors_names": ["David Anghel", "Emilio Janhunen Calder\u00f3n", "Jonas Svensson", "Pauli Janhunen Calder\u00f3n"], "writers_names": ["David Anghel"], "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}, {
   "uuid": "08524e56-38a3-411a-8c30-dfca9b54aca0", "full_name": "Pauli Janhunen Calder\u00f3n"}], "actors": [{
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}, {
@@ -589,7 +589,7 @@
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}]},
 {
   "uuid": "101f757a-df82-4f5e-bb2f-a217746f2c42", "imdb_rating": 7.7,"title": "Star Wars: Qui-Gon Jinn", "description": "The early adventures of the Jedi Qui-Gon Jinn. It also tells the origin story of the Sith master Darth Andeddu. The film is the first chapter in a trilogy.",  "actors_names": ["David Anghel", "Emilio Janhunen Calder\u00f3n", "Jonas Svensson", "Pauli Janhunen Calder\u00f3n"], "writers_names": ["David Anghel"], "genres": [{
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}, {
   "uuid": "08524e56-38a3-411a-8c30-dfca9b54aca0", "full_name": "Pauli Janhunen Calder\u00f3n"}], "actors": [{
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}, {
@@ -599,9 +599,9 @@
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}]},
 {
   "uuid": "9e3c4a97-0bca-4d0c-af93-dad143407d0f", "imdb_rating": 8.1, "title": "Star Street: The Adventures of the Star Kids", "description": null, "actors_names": ["Allison Argo", "Charles Adler", "Gregg Berger", "Jack Angel"], "writers_names": ["Rens Benerink"], "genres": [{
-  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "full_name": "Animation"}, {
-  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "full_name": "Family"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [], "actors": [{
+  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "name": "Animation"}, {
+  "uuid": "55c723c1-6d90-4a04-a44b-e9792040251a", "name": "Family"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [], "actors": [{
   "uuid": "b68ecf46-f509-4861-a3fa-3cb7bbbea346", "full_name": "Allison Argo"}, {
   "uuid": "547c018f-8585-43b8-9799-00a534c886a5", "full_name": "Jack Angel"}, {
   "uuid": "e2b9d017-37a0-4b58-b17d-07da6317d436", "full_name": "Gregg Berger"}, {
@@ -609,8 +609,8 @@
   "uuid": "89919d0b-3ec2-470f-962b-11a4bd14a420", "full_name": "Rens Benerink"}]},
 {
   "uuid": "5edfd118-fc47-4aac-af3b-3f658e38c824", "imdb_rating": 7.6, "title": "Star Trek: Score", "description": "A look behind the scenes at creating the score for \"Star Trek\".",  "actors_names": ["Bruce Greenwood", "Eric Bana", "Leonard Nimoy", "Michael Giacchino"], "writers_names": ["M. David Melvin"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [], "actors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [], "actors": [{
   "uuid": "959d148c-022b-427f-a68b-bbe58674fe65", "full_name": "Eric Bana"}, {
   "uuid": "7417278f-8fd3-4fef-a301-04b65844c4f8", "full_name": "Michael Giacchino"}, {
   "uuid": "967a13ac-a6e5-4f0d-8f66-e8fc55827d83", "full_name": "Bruce Greenwood"}, {
@@ -618,8 +618,8 @@
   "uuid": "6d1b08e4-62a0-43c7-9e6e-640f876649ce", "full_name": "M. David Melvin"}]},
 {
   "uuid": "2ab51367-7f9f-4c6f-9f1d-85d5bbc2db54", "imdb_rating": 5.0, "title": "I Was a Network Star", "description": null,  "actors_names": ["Darryl M. Bell", "Debbie Allen", "Lisa Bonet", "Tempestt Bledsoe"], "writers_names": ["Debbie Allen"], "genres": [{
-  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "full_name": "Biography"}, {
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "name": "Biography"}, {
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "845a2578-1163-4078-93cf-8891049a276d", "full_name": "Debbie Allen"}], "actors": [{
   "uuid": "d8135e59-396b-4924-b4af-d747f282b16a", "full_name": "Tempestt Bledsoe"}, {
   "uuid": "845a2578-1163-4078-93cf-8891049a276d", "full_name": "Debbie Allen"}, {
@@ -628,14 +628,14 @@
   "uuid": "845a2578-1163-4078-93cf-8891049a276d", "full_name": "Debbie Allen"}]},
 {
   "uuid": "28bae088-edbd-4a74-a887-4f5111ff2e37", "imdb_rating": 5.9, "title": "Star Control 3", "description": null, "actors_names": ["Franchelle Stewart Dorn", "J.R. Lyston", "Mark Redfield", "Paul Skotarski"], "writers_names": null, "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}], "directors": [], "actors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}], "directors": [], "actors": [{
   "uuid": "dd1a8394-d6a2-4e58-9b2b-84b600e48879", "full_name": "Franchelle Stewart Dorn"}, {
   "uuid": "6885d8cd-88b4-415a-8cc0-fd611b14f7ab", "full_name": "Mark Redfield"}, {
   "uuid": "8e8564e7-2b07-4eab-9495-b91bf30af4f5", "full_name": "Paul Skotarski"}, {
   "uuid": "ef3a0349-461e-47b7-8534-a04c0445ced8", "full_name": "J.R. Lyston"}], "writers": []},
 {
   "uuid": "d154ff42-ee7f-4d01-972c-02ac11b3fb8f", "imdb_rating": 7.3, "title": "The Butcher, the Star and the Orphan", "description": null,  "actors_names": ["Elisabeth Mortensen", "G\u00e9rard Croce", "Rosa Fumetto", "Val\u00e9rie Kling"], "writers_names": ["Jean Bach", "J\u00e9r\u00f4me Savary", "Roland Topor"], "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "cf30a819-5c1d-4198-b776-bdd16d43aefc", "full_name": "J\u00e9r\u00f4me Savary"}], "actors": [{
   "uuid": "dcb8e052-e3a4-4430-bd5e-fdb0bee3b5c6", "full_name": "G\u00e9rard Croce"}, {
   "uuid": "388bb96d-6e06-4f33-ba80-73aac90062b4", "full_name": "Rosa Fumetto"}, {
@@ -646,14 +646,14 @@
   "uuid": "cf30a819-5c1d-4198-b776-bdd16d43aefc", "full_name": "J\u00e9r\u00f4me Savary"}]},
 {
   "uuid": "2680437f-dd09-49c2-a72c-06139a1c89bb", "imdb_rating": 7.2,"title": "Star of the Family", "description": "Fire Captain Buddy Krebs' 16-year-old daughter Jennie Lee begins getting show-business offers because of her singing talents in the country/pop genre. This scares Buddy because he does not want his daughter to grow up too fast. Adding to his troubles, are (1) his wife runs off with a bellhop, (2) his 17-year-old son has muscle instead of brains in his head, (3) his crew down at the firehouse are \"strange\": Feldmand tells his mother he is a doctor instead of a fireman, Rosetti has only sex on the brain and Max, a Hispanic, speaks fractured English. Finally, his daughter signs with a manager named Moose; the name fits the description of the woman.", "actors_names": ["Brian Dennehy", "George DelHoyo", "Katherine Saltzberg", "Michael Dudikoff"], "writers_names": null, "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [], "actors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [], "actors": [{
   "uuid": "0f2a28ec-adef-40bf-8249-5cc12a207711", "full_name": "Michael Dudikoff"}, {
   "uuid": "71106de7-1446-441b-8388-44e3ec746f20", "full_name": "Katherine Saltzberg"}, {
   "uuid": "e85506b5-42bc-4c50-afa8-3cffdddc1073", "full_name": "Brian Dennehy"}, {
   "uuid": "7d66cabf-accb-485a-80f8-280cd6dc893a", "full_name": "George DelHoyo"}], "writers": []},
 {
   "uuid": "e9bba41c-d091-4d4f-890f-ae4e22dde857", "imdb_rating": 8.2, "title": "Lone Star Raiders", "description": "Dust storms and drought make herding horses a tough job for the boys. When the new owner of the ranch, Lydia Phelps, shows up, the ranch is in dire financial straits. The Martin Ranch has ...",  "actors_names": ["Bob Steele", "June Johnson", "Robert Livingston", "Rufe Davis"], "writers_names": ["Barry Shipman", "Charles F. Royal", "Joseph Moncure March", "William Colt MacDonald"], "genres": [{
-  "uuid": "0b105f87-e0a5-45dc-8ce7-f8632088f390", "full_name": "Western"}], "directors": [{
+  "uuid": "0b105f87-e0a5-45dc-8ce7-f8632088f390", "name": "Western"}], "directors": [{
   "uuid": "79c1ed59-76ef-4634-bd06-c6987b0ed7a8", "full_name": "George Sherman"}], "actors": [{
   "uuid": "50ab70d7-df04-489a-aedb-04dcf1736107", "full_name": "Rufe Davis"}, {
   "uuid": "b72cc3fb-ae04-42cf-9009-4c3042a21f3f", "full_name": "June Johnson"}, {
@@ -665,7 +665,7 @@
   "uuid": "aa6478ab-ce3e-4ada-8657-0ee4b213efd2", "full_name": "Joseph Moncure March"}]},
 {
   "uuid": "34346467-9a98-4079-83b0-81822f1c98b3", "imdb_rating": 5.8, "title": "The Falling Star", "description": null,  "actors_names": ["Dieter Borsche", "Gisela Uhlen", "Paul Dahlke", "Werner Krauss"], "writers_names": ["Harald Braun", "Herbert Witt"], "genres": [{
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "5f21dbc1-49e4-4684-bf4f-f75d472e1ccf", "full_name": "Harald Braun"}], "actors": [{
   "uuid": "8b445fef-ff2d-47e4-973f-082ba4a5a1c6", "full_name": "Gisela Uhlen"}, {
   "uuid": "9461e413-a5ee-45d7-9f0a-4b56c5abe411", "full_name": "Paul Dahlke"}, {
@@ -675,15 +675,15 @@
   "uuid": "76636d3f-a5c8-440b-b843-8fc8aec939a4", "full_name": "Herbert Witt"}]},
 {
   "uuid": "479f20b0-58d1-4f16-8944-9b82f5b1f22a", "imdb_rating": 5.3, "title": "The Soap-Suds Star", "description": "Some of the vaudeville manager's \"star acts\" had failed to make good, others were still detained abroad. The manager called his press agent in, scolded him and ordered him to secure a vaudeville team, adding that \"they must be extremely funny and extremely cheap.\" Within a short time the agent returned and proudly announced he had found \"an absolute novelty, and a joint salary of $15.\" \"I dodged all the agencies,\" he explained, \"and down on one of the side streets I ran across an old-time ham actor. I followed him. He went into a laundry and tried to get his duds out without paying for them. Well, the woman who ran the joint was a regular comedy queen. She didn't say much, but she certainly was full of 'pep.' She nearly wrecked the laundry with that actor, and I never laughed so much in my life. When I offered them an engagement the man balked, but the woman accepted for both of them, saying he could work out his laundry bill anyhow.\" The manager tried the act out, and it made a big hit. The morning papers gave much space to the \"Soap Suds Star,\" Sophie, the laundress. Much to his dismay, however, the press agent found the manager in an extremely bad humor. \"It's all your fault,\" he said bitterly, \"You get me to hire amateurs, and now they are going to be married, and quit vaudeville for the classics.\" \"I think it a dandy idea,\" said the agent. \"Sophie as Juliet would coin money for any manager. Why not try them out in the balcony scene\" The manager, impressed, retained his \"Soap Suds Star,\" and his leading man. Sophie s bad temper, however, spoiled her artistic career. She was on the job as Juliet, all right, but Romeo nearly missed the performance, and when he did appear he wore his street clothes, explaining with an alcoholic smile that he had been out with the boys and really had no time to dress. Sophie left her art to chastise him, but after a lively chase he escaped by leaping into the river, and the one-time actress returned to her laundry, believing she was a widow. But her husband came back and Sophie forgave him. Then, finding that his clothes had been well sprinkled in the river, she ironed him out, and gave him a life position in the laundry.", "actors_names": ["Carey L. Hastings", "Reg Perry"], "writers_names": ["Lloyd Lonergan"], "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [], "actors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [], "actors": [{
   "uuid": "daf187a0-31ce-4f4d-a2ae-8c99a3eb9757", "full_name": "Reg Perry"}, {
   "uuid": "812f1a37-c02f-4c5c-9957-e69c7aac8b7a", "full_name": "Carey L. Hastings"}], "writers": [{
   "uuid": "1362e238-0a82-405d-bf48-85a5687c2efd", "full_name": "Lloyd Lonergan"}]},
 {
   "uuid": "d356fc39-aeaf-4fec-acd3-061ccc582306", "imdb_rating": 6.0, "title": "An All-Star Tribute to Elizabeth Taylor", "description": null,  "actors_names": ["Debby Boone", "Elizabeth Taylor", "June Allyson", "Robert Blake"], "writers_names": ["Bob Howard", "Marc London", "Paul Keyes"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [{
   "uuid": "cc2b4b6e-c5b7-4b96-8a5b-25b05f682659", "full_name": "Dick McDonough"}], "actors": [{
   "uuid": "ae13ea66-b2ca-45a1-8942-af849ae5bdc7", "full_name": "Elizabeth Taylor"}, {
   "uuid": "e373b513-5899-4213-8b8b-aedc0c4027b0", "full_name": "Robert Blake"}, {
@@ -694,16 +694,16 @@
   "uuid": "dcd3f0e6-d9c4-4eb9-90ad-58ca7850a92b", "full_name": "Marc London"}]},
 {
   "uuid": "bf16076e-c903-463e-abef-de1c9c32aefe", "imdb_rating": 4.4, "title": "Star Trek: Disco Generation", "description": "As every interplantary disco diva knows, the Borg can be beat ... if ya got the beat.", "actors_names": null, "writers_names": null, "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}, {
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}, {
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "903c0cfd-a96a-480d-aa7d-74201d42b646", "full_name": "Gordon Wong"}], "actors": [], "writers": []},
 {
   "uuid": "e37dacc2-8669-4f40-990e-c4e2ab98ae8c", "imdb_rating": 8.5, "title": "Star Raiders", "description": "3-D space video game for the Atari 800 computer system.", "actors_names": null, "writers_names": null, "genres": [{
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "b9906216-dba9-4a4a-82d9-c5c9a56bfa98", "full_name": "Doug Neubauer"}], "actors": [], "writers": []},
 {
   "uuid": "4ade6055-c805-46ca-83be-9db6a1e8cf89", "imdb_rating": 5.5, "title": "Star 34", "description": "A young Eastern couple fall heir to a Kansas farm, on which they must reside for a certain time in order to qualify for inheritance. Their visits to well over a hundred scenic and historical points of Kansas lead the couple to permanent residence there.",  "actors_names": ["Dan Palmquist", "Herk Harvey", "James Lantz", "Shirley Rae"], "writers_names": null, "genres": [{
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [{
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [{
   "uuid": "f0d96e37-5080-4971-ad5f-b059f6d617a1", "full_name": "Herk Harvey"}, {
   "uuid": "f23df4b1-8bca-4374-8a58-e9c76f7337c3", "full_name": "Arthur H. Wolf"}], "actors": [{
   "uuid": "d8f033f7-b9aa-4e75-9d7d-b9117f1c9dff", "full_name": "James Lantz"}, {
@@ -712,8 +712,8 @@
   "uuid": "f0d96e37-5080-4971-ad5f-b059f6d617a1", "full_name": "Herk Harvey"}], "writers": []},
 {
   "uuid": "896682f4-4100-4af5-b740-8db06ed4cfe2", "imdb_rating": 7.1,"title": "Bye Bye Star-Club", "description": null,"actors_names": ["Ginger Baker", "Jack Bruce", "Pamela Birch", "Pete Best"], "writers_names": null, "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [{
   "uuid": "0c427c1f-afc2-442a-bf1c-3a6b721f3d4b", "full_name": "Axel Engstfeld"}], "actors": [{
   "uuid": "87d2bb2d-816f-487a-944c-dc2c9e2fcabc", "full_name": "Ginger Baker"}, {
   "uuid": "b2324222-e102-4451-b8ed-ef7e53741600", "full_name": "Jack Bruce"}, {
@@ -721,8 +721,8 @@
   "uuid": "4e2571ba-5312-484c-b9c1-bf48bf3088b6", "full_name": "Pete Best"}], "writers": []},
 {
   "uuid": "9ad55eb5-6078-4933-b746-42f23cf6a244", "imdb_rating": 7.8, "title": "Bob Hope: Hollywood's Brightest Star", "description": null, "actors_names": ["Bud Abbott", "Desi Arnaz", "Hy Averback", "Lucille Ball"], "writers_names": ["Les Brown Jr."], "genres": [{
-  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "full_name": "Biography"}, {
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "ca124c76-9760-4406-bfa0-409b1e38d200", "name": "Biography"}, {
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "243316e1-5c52-4027-a781-8cba96835fc2", "full_name": "Tom Weshelski"}, {
   "uuid": "627dccc5-7c06-4d58-a830-d6d56073d1aa", "full_name": "Les Brown Jr."}], "actors": [{
   "uuid": "e22f0a9a-cd7c-4937-a44c-648b4a12f193", "full_name": "Lucille Ball"}, {
@@ -732,13 +732,13 @@
   "uuid": "627dccc5-7c06-4d58-a830-d6d56073d1aa", "full_name": "Les Brown Jr."}]},
 {
   "uuid": "b5a56842-df30-4313-b22f-4c492196e6c3", "imdb_rating": 7.2, "title": "Deep Inside Clint Star", "description": null, "actors_names": ["Clint Morrill"], "writers_names": ["Clint Morrill"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "d4607082-0452-4f2f-b5b0-d1432098dba6", "full_name": "Clint Morrill"}], "actors": [{
   "uuid": "d4607082-0452-4f2f-b5b0-d1432098dba6", "full_name": "Clint Morrill"}], "writers": [{
   "uuid": "d4607082-0452-4f2f-b5b0-d1432098dba6", "full_name": "Clint Morrill"}]},
 {
   "uuid": "8629bada-6df6-417c-b7bb-2e5a604be798", "imdb_rating": 9.2,"title": "Rifftrax: The Star Wars Holiday Special", "description": "Mike Nelson, Kevin Murphy, and Bill Corbett are here to try to make sense of the alarming characters and nightmarish performances that make up 'The Star Wars Holiday Special' from 1978.",  "actors_names": ["Art Carney", "Bill Corbett", "Diahann Carroll", "Harvey Korman"], "writers_names": ["Conor Lastowka", "Michael J. Nelson", "Sean Thomason"], "genres": [{
-  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "full_name": "Comedy"}], "directors": [{
+  "uuid": "5373d043-3f41-4ea8-9947-4b746c601bbd", "name": "Comedy"}], "directors": [{
   "uuid": "dc448893-7942-4677-a557-d8b1aa728ccf", "full_name": "Steve Binder"}], "actors": [{
   "uuid": "68fe5e53-0fa8-4d28-9602-43b9dc8b0a54", "full_name": "Harvey Korman"}, {
   "uuid": "d1e82618-5b12-4fbb-b952-9a883c1d051b", "full_name": "Bill Corbett"}, {
@@ -749,21 +749,21 @@
   "uuid": "63f5affd-7158-437d-9f91-06b43f211fe6", "full_name": "Michael J. Nelson"}]},
 {
   "uuid": "6c9311bf-21da-4959-b137-745230ae523a", "imdb_rating": 7.6,"title": "The Brightest Star in the Sky", "description": null,  "actors_names": ["Cao Xi Yue", "Janice Wu", "Junfeng Niu", "Zitao Huang"], "writers_names": null, "genres": [{
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [], "actors": [{
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [], "actors": [{
   "uuid": "65f690f0-5cd8-495c-9612-0c604a087212", "full_name": "Janice Wu"}, {
   "uuid": "1a82897e-fa64-42e8-9a43-619dc52199ad", "full_name": "Junfeng Niu"}, {
   "uuid": "9029a4af-9412-4e49-bf44-6e279fa31616", "full_name": "Zitao Huang"}, {
   "uuid": "56ac2c6e-5828-44e0-b255-a74e76d0af85", "full_name": "Cao Xi Yue"}], "writers": []},
 {
   "uuid": "ec0399e9-abcd-46b7-94d9-f1d8a6c515e9", "imdb_rating": 4.6,"title": "You're a Star", "description": "TV show to find the Republic of Ireland's entry for the Eurovision. Winner is decided by public vote.",  "actors_names": ["Michael Leonard", "Mickey Harte", "Ray D'Arcy", "Simon Casey"], "writers_names": null, "genres": [{
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [], "actors": [{
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [], "actors": [{
   "uuid": "2f67d7e2-195c-4f89-b197-bf065d9a4a61", "full_name": "Michael Leonard"}, {
   "uuid": "400178ba-6189-4adf-8ab6-1d67e8bbfa7a", "full_name": "Ray D'Arcy"}, {
   "uuid": "0234f9d6-ccb5-4c31-a4c0-97f494bb68e8", "full_name": "Mickey Harte"}, {
   "uuid": "0acdc0f8-dda1-48e4-9602-10cd900247af", "full_name": "Simon Casey"}], "writers": []},
 {
   "uuid": "4fdffe40-e77f-4fb2-96ad-47319e3ddd2a", "imdb_rating": 6.6,"title": "Star Trek: Starfleet Command: Orion Pirates", "description": null, "actors_names": ["Corey Burton", "Jennifer Hale", "John Mariano", "Maurice LaMarche"], "writers_names": ["David Ferrell"], "genres": [{
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [], "actors": [{
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [], "actors": [{
   "uuid": "00395304-dd52-4c7b-be0d-c2cd7a495684", "full_name": "Jennifer Hale"}, {
   "uuid": "5ab43d10-3e0c-427d-a8f4-528a504500fa", "full_name": "John Mariano"}, {
   "uuid": "b205193d-3697-4d82-b750-5dc624d4cbac", "full_name": "Maurice LaMarche"}, {
@@ -771,9 +771,9 @@
   "uuid": "d1155857-0d84-4a2f-a631-4c0ce6411d4b", "full_name": "David Ferrell"}]},
 {
   "uuid": "6894afe9-1d20-4c73-a518-05f461b04237", "imdb_rating": 7.8,"title": "Phantasy Star Online Version 2", "description": null,  "actors_names": null, "writers_names": ["Akinori Nishiyama", "Attushi Kano", "Daisuke Mori", "Hidenobu Hasebe"], "genres": [{
-  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "full_name": "Animation"}, {
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "full_name": "Adventure"}], "directors": [{
+  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "name": "Animation"}, {
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "120a21cf-9097-479e-904a-13dd7198c1dd", "name": "Adventure"}], "directors": [{
   "uuid": "dc27e6db-cfd0-4e17-a802-eeca0a587b6b", "full_name": "Takao Miyoshi"}], "actors": [], "writers": [{
   "uuid": "82b37126-e13d-4200-bad9-9d32a19d9eda", "full_name": "Akinori Nishiyama"}, {
   "uuid": "9b458abc-2f80-415b-9ef9-65f2b316d1e6", "full_name": "Attushi Kano"}, {
@@ -781,7 +781,7 @@
   "uuid": "776de0e1-aa41-4bd4-aa63-f4a4ac832f0b", "full_name": "Daisuke Mori"}]},
 {
   "uuid": "5ab52ab0-c848-4bc7-8318-9feec379fd94", "imdb_rating": null,"title": "Rock Star", "description": "ROCK STAR: Shot by famed cinematographer, Jim Fealy (\"Chop Suey\", \"Doom Generation\") at fashion photographer Steven Klein's studio, ROCK STAR features Theo (of all-girl punk band Lunachicks) as Heaven Scent, an agorophobic rock star preparing for a big show at Madison Square Garden as a calvacade of transsexuals, punk rockers on motorbikes, rival musicians, and a bitchy dominatrix and her Russian muscle slave, drop by her loft. Including rockers Miss Guy (of Toilet Boys); Chloe Dzubilo and Gyda Gash (of Transsisters); Gina, Squid, and Chip (of Lunachicks); Jonny Cragg (of Spacehog); with actor Michael Cavadias ( \"Wonder Boys\"), James Chinlund (CK1 and CK Jeans model / Set designer) and painter Walt Paper as the spirit of Klaus Nomi. It also features hair and make-up by Clyde Haygood, and styling by Victoria Bartlett.", "actors_names": ["Biagio Black", "Genice Carroll", "Michael Cavadias", "Victoria Bartlett"], "writers_names": ["Ned Ambler"], "genres": [{
-  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "full_name": "Drama"}], "directors": [{
+  "uuid": "1cacff68-643e-4ddd-8f57-84b62538081a", "name": "Drama"}], "directors": [{
   "uuid": "d653f3d1-a157-4d65-91cc-33e471945bf3", "full_name": "Ned Ambler"}], "actors": [{
   "uuid": "ede3f1f9-3806-4adb-a2f9-ab7888bdc991", "full_name": "Michael Cavadias"}, {
   "uuid": "e304279a-a97b-438b-a761-28ae4d512da5", "full_name": "Genice Carroll"}, {
@@ -790,7 +790,7 @@
   "uuid": "d653f3d1-a157-4d65-91cc-33e471945bf3", "full_name": "Ned Ambler"}]},
 {
   "uuid": "83af8d01-580a-462e-8c96-2171385935cc", "imdb_rating": 7.5,"title": "Jimmy Kimmel Live's All-Star Salute to Jimmy Kimmel Live!", "description": "A Primetime Special in which Jimmy Kimmel interviews Jimmy Kimmel and shows clips from his years as a host and beyond.",  "actors_names": ["Danilo Di Julio", "Jimmy Kimmel", "Simone Bargetze", "Skylar Collins"], "writers_names": ["Gary Greenberg", "Jacob Lentz", "Jimmy Kimmel", "Jonathan Bines", "Paul Raff", "Rick Rosner", "Sal Iacono", "Steve O'Donnell", "Tony Barbieri", "Will Burke"], "genres": [{
-  "uuid": "31cabbb5-6389-45c6-9b48-f7f173f6c40f", "full_name": "Talk-Show"}], "directors": [], "actors": [{
+  "uuid": "31cabbb5-6389-45c6-9b48-f7f173f6c40f", "name": "Talk-Show"}], "directors": [], "actors": [{
   "uuid": "b973eef0-d33d-4a74-ade9-d400b8e6b845", "full_name": "Danilo Di Julio"}, {
   "uuid": "93c99c84-603f-4e2c-9eba-244288d26ba9", "full_name": "Skylar Collins"}, {
   "uuid": "0d90531b-5e58-4073-8c2e-420c6be6faac", "full_name": "Jimmy Kimmel"}, {
@@ -807,8 +807,8 @@
   "uuid": "3bce9808-720b-423c-920f-fe01de0d9587", "full_name": "Gary Greenberg"}]},
 {
   "uuid": "8f128d84-dd99-4d0d-a9c8-df11f87ac133", "imdb_rating": 4.6, "title": "All-Star American Destiny Trek", "description": null,"actors_names": ["Jess Harnell", "Jill Talley", "Tom Kenny", "Will Arnett"], "writers_names": ["Ethan T. Berlin"], "genres": [{
-  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "full_name": "Animation"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [{
+  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "name": "Animation"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [{
   "uuid": "f9b1ccbd-ecb7-4fb5-9e7e-57efe95b9308", "full_name": "Eric Bryant"}], "actors": [{
   "uuid": "2a6edccf-354d-4417-b454-8b3ceef91309", "full_name": "Jess Harnell"}, {
   "uuid": "46142ca2-9968-4cbc-acbd-82b214eebf14", "full_name": "Jill Talley"}, {
@@ -817,7 +817,7 @@
   "uuid": "e9192a37-a9ae-4834-9910-f086d3e54b21", "full_name": "Ethan T. Berlin"}]},
 {
   "uuid": "f06315d4-eab6-4fdc-b768-7c046cedfd9b", "imdb_rating": 2.1, "title": "Starmania. \u00d6sterreich sucht den neuen Star", "description": null,  "actors_names": ["Arabella Kiesbauer", "Gernot Pachernigg", "Nadine Beiler", "Thomas Neuwirth"], "writers_names": ["Mischa Zickler"], "genres": [{
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [], "actors": [{
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [], "actors": [{
   "uuid": "3d35f60e-9ec8-4148-b894-1d1913159b7c", "full_name": "Nadine Beiler"}, {
   "uuid": "50596339-355b-4abb-9955-645f3e3ecf34", "full_name": "Arabella Kiesbauer"}, {
   "uuid": "2da3981e-6b78-4430-b693-b2a9bd791e68", "full_name": "Gernot Pachernigg"}, {
@@ -825,8 +825,8 @@
   "uuid": "f155d2b9-3714-4a3e-8dc3-ed8a0e0466c8", "full_name": "Mischa Zickler"}]},
 {
   "uuid": "e3f52dc7-721c-453c-adab-53ae26bd88a1", "imdb_rating": 6.8, "title": "Star Trek: Aliens", "description": "A behind the scenes look at the aliens of the film.", "actors_names": ["Barney Burman", "Bruce Greenwood", "Eric Bana", "Kasia Kowalczyk"], "writers_names": ["M. David Melvin"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [], "actors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [], "actors": [{
   "uuid": "842ffd85-c2d7-49cd-be4b-de796a863cd9", "full_name": "Kasia Kowalczyk"}, {
   "uuid": "967a13ac-a6e5-4f0d-8f66-e8fc55827d83", "full_name": "Bruce Greenwood"}, {
   "uuid": "9076aa12-bcb5-4487-886e-52decb1fb5c6", "full_name": "Barney Burman"}, {
@@ -834,38 +834,38 @@
   "uuid": "6d1b08e4-62a0-43c7-9e6e-640f876649ce", "full_name": "M. David Melvin"}]},
 {
   "uuid": "e5fa58c0-d4f9-4454-be72-0ef0df56be9d", "imdb_rating": 8.0, "title": "Star Warriors", "description": "A galactic criminal and a space patrol officer forms an unlikely duo as they try to discover a powerful (and valuable) weapon before an evil Alien commander does.",  "actors_names": null, "writers_names": null, "genres": [{
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "72f2b5d6-aad5-4baf-b954-9df1b14aac0a", "full_name": "Lewis Coz"}], "actors": [], "writers": []},
 {
   "uuid": "97bddcae-bf97-4c4f-be11-f0d7e060c230", "imdb_rating": 6.4,"title": "2007 MLB All-Star Game", "description": null,  "actors_names": ["Joe Buck", "Jose Mota", "Ken Rosenthal", "Tim McCarver"], "writers_names": null, "genres": [{
-  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "full_name": "Sport"}], "directors": [], "actors": [{
+  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "name": "Sport"}], "directors": [], "actors": [{
   "uuid": "7b0c328c-53b0-4cb1-abb3-cca0e5a0b0ec", "full_name": "Joe Buck"}, {
   "uuid": "3eb7aee7-d4f9-4901-a427-902a02866aed", "full_name": "Ken Rosenthal"}, {
   "uuid": "f84e2365-d9e8-4ba1-8e00-78f4ba510d8a", "full_name": "Jose Mota"}, {
   "uuid": "c144ced4-4740-4863-83da-c091bd58ef11", "full_name": "Tim McCarver"}], "writers": []},
 {
   "uuid": "2dd036a4-f5d0-4e81-8073-a36da2a684b7", "imdb_rating": 5.5, "title": "Mega Star", "description": null, "actors_names": ["Evi Adam", "Ioanna Kanellopoulou", "Konstadinos Aggelidis", "Orestis Andreadakis"], "writers_names": null, "genres": [{
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}], "directors": [], "actors": [{
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}], "directors": [], "actors": [{
   "uuid": "0f5df313-bfe5-450b-942c-3844214b7c41", "full_name": "Ioanna Kanellopoulou"}, {
   "uuid": "8a9a01be-46c4-469d-983a-d455cc5259db", "full_name": "Konstadinos Aggelidis"}, {
   "uuid": "77272381-58bd-4f23-b276-6ab2bc0e999e", "full_name": "Orestis Andreadakis"}, {
   "uuid": "5017122c-949b-4d49-86c3-c8e7565da9bf", "full_name": "Evi Adam"}], "writers": []},
 {
   "uuid": "6764dd98-6546-4ccf-95c5-74a63e980768", "imdb_rating": 6.7, "title": "Star Camp", "description": null,"actors_names": ["Jesse 'Casper' Brown", "Mandy Rain", "William May"], "writers_names": null, "genres": [{
-  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "full_name": "Music"}, {
-  "uuid": "e508c1c8-24c0-4136-80b4-340c4befb190", "full_name": "Reality-TV"}], "directors": [], "actors": [{
+  "uuid": "56b541ab-4d66-4021-8708-397762bff2d4", "name": "Music"}, {
+  "uuid": "e508c1c8-24c0-4136-80b4-340c4befb190", "name": "Reality-TV"}], "directors": [], "actors": [{
   "uuid": "790ca905-bdbe-45db-a54a-e83fbf7e245d", "full_name": "Mandy Rain"}, {
   "uuid": "4a66a797-9547-4fc8-9419-e2661a27e9c7", "full_name": "William May"}, {
   "uuid": "fdea653d-8cd7-4e69-889c-a04998e237d4", "full_name": "Jesse 'Casper' Brown"}], "writers": []},
 {
   "uuid": "edc66eec-eda9-4541-af98-4ec4012a740d", "imdb_rating": 6.3, "title": "The Falling Star", "description": null,  "actors_names": null, "writers_names": ["Nicolas Jacquet"], "genres": [{
-  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "full_name": "Animation"}, {
-  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "full_name": "Short"}], "directors": [{
+  "uuid": "6a0a479b-cfec-41ac-b520-41b2b007b611", "name": "Animation"}, {
+  "uuid": "a886d0ec-c3f3-4b16-b973-dedcf5bfa395", "name": "Short"}], "directors": [{
   "uuid": "6830a68a-1945-4d74-b9a0-9f3bf3b3f78e", "full_name": "Nicolas Jacquet"}], "actors": [], "writers": [{
   "uuid": "6830a68a-1945-4d74-b9a0-9f3bf3b3f78e", "full_name": "Nicolas Jacquet"}]},
 {
   "uuid": "7bfff4ff-2692-41d0-a669-fbfbdaddcd72", "imdb_rating": 7.5, "title": "A Football Star Called Divine: Life and Work of Ademir da Guia", "description": null,  "actors_names": ["Ademir da Guia", "Alberto Helena Jr.", "G\u00e9rson", "Ugo Giorgetti"], "writers_names": ["Cl\u00e1udio Schuster", "Penna Filho"], "genres": [{
-  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "full_name": "Documentary"}], "directors": [{
+  "uuid": "6d141ad2-d407-4252-bda4-95590aaf062a", "name": "Documentary"}], "directors": [{
   "uuid": "2b3d7ae4-0f47-46f3-ab23-7db146834974", "full_name": "Penna Filho"}], "actors": [{
   "uuid": "dd0f880c-cadb-467d-bba4-8e4805239b2e", "full_name": "G\u00e9rson"}, {
   "uuid": "273e4bf6-0c37-4f7f-b9fa-d84f82e08070", "full_name": "Alberto Helena Jr."}, {
@@ -875,15 +875,15 @@
   "uuid": "8bb26b52-1e33-4fe5-8a5d-a650755c3596", "full_name": "Cl\u00e1udio Schuster"}]},
 {
   "uuid": "d0e7e53a-8de1-4a21-b869-4ff8fc0e846e", "imdb_rating": 6.5,"title": "1983 MLB All-Star Game", "description": null,   "actors_names": ["Bob Costas", "Joe Altobelli", "Joe Garagiola", "Vin Scully"], "writers_names": null, "genres": [{
-  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "full_name": "Sport"}], "directors": [], "actors": [{
+  "uuid": "2f89e116-4827-4ff4-853c-b6e058f71e31", "name": "Sport"}], "directors": [], "actors": [{
   "uuid": "d6e4407c-afc7-4e22-b9b7-7fbfb04df455", "full_name": "Joe Altobelli"}, {
   "uuid": "b3538c40-d28f-4ba9-9784-34ba952904ab", "full_name": "Vin Scully"}, {
   "uuid": "45190b38-35c8-4ae4-b94d-42febc145096", "full_name": "Joe Garagiola"}, {
   "uuid": "947748ec-e90f-4c8f-bd43-594700d33dbc", "full_name": "Bob Costas"}], "writers": []},
 {
   "uuid": "3bdae84f-9a04-4b04-9f7c-c05582d529e5", "imdb_rating": 7.2, "title": "Star Wars: Qui-Gon Jinn III", "description": "The Jedi temple gets attacked by an army of Siths. It's up to Qui-Gon Jinn and Obi-Wan Kenobi to stop the invasion. Meanwhile Darth Sidious seeks after a new apprentice.",  "actors_names": ["David Anghel", "Emilio Janhunen Calder\u00f3n", "Marina Janhunen Calder\u00f3n", "Pauli Janhunen Calder\u00f3n"], "writers_names": ["David Anghel"], "genres": [{
-  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "full_name": "Action"}, {
-  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "full_name": "Sci-Fi"}], "directors": [{
+  "uuid": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff", "name": "Action"}, {
+  "uuid": "6c162475-c7ed-4461-9184-001ef3d9f26e", "name": "Sci-Fi"}], "directors": [{
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}, {
   "uuid": "08524e56-38a3-411a-8c30-dfca9b54aca0", "full_name": "Pauli Janhunen Calder\u00f3n"}], "actors": [{
   "uuid": "06c281cf-c2be-46b7-930c-8f4975f07b02", "full_name": "David Anghel"}, {

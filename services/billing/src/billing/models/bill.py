@@ -52,10 +52,8 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         """
         Расширение метода сохранения, для отправки сообщений в Kafka.
         """
-        logger.info(f'Bill before saving [{self.pk}]')
         super().save(*args, **kwargs)
         # Отправляем сообщение при обновлении статуса
-        logger.info(f'Bill after saving [{self.pk}]')
         self._produce_bill_message()
 
     def _produce_bill_message(self):

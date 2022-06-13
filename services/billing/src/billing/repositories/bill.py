@@ -46,7 +46,6 @@ class BillRepository(BaseRepository):
     @classmethod
     def get_user_bills(cls, user_uuid: str) -> List[Bill]:
         """Выдача оплат определенного пользователя."""
-        logger.info(f'User {user_uuid} asked for a list of bills.')
         return cls.MODEL_CLASS.objects.filter(user_uuid=user_uuid)
 
     @classmethod
@@ -136,7 +135,6 @@ class BillRepository(BaseRepository):
             logger.info(message, extra=bill_schema.dict())
             raise ValidationError({'detail': message})
 
-        logger.info(f'{description}. Amount: {amount}.', extra=bill_schema.dict())
         return BillItemData(description=description, amount=amount)
 
     @classmethod
