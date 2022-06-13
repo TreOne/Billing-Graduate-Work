@@ -51,6 +51,7 @@ class BillRepository(BaseRepository):
     @classmethod
     def refund_bill(cls, bill_uuid: str) -> None:
         bill: Bill = cls.get_by_id(item_uuid=bill_uuid)
+        logger.info(f'Refund bill with {bill_uuid=}. Payment {bill.payment_uuid=} & {bill.amount=}')
         payment_system.refund_payment(
             payment_id=bill.payment_uuid,
             amount=bill.amount,

@@ -11,7 +11,8 @@ from api.v1.bills.serializers import (
     BillAutoPaySerializer,
     BillConfirmUrlSerializer,
     BillCreateRequestSerializer,
-    YooKassaNotificationSerializer, )
+    YooKassaNotificationSerializer,
+)
 from billing.models.enums import BillStatus, YooKassaPaymentStatus
 from billing.repositories.bill import BillRepository
 from billing.repositories.user_autopay import UserAutoPayRepository
