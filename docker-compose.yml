@@ -9,10 +9,10 @@ services:
       - billing_static:/home/app/admin_panel/static
     ports:
       - "5010:5010"  # auth_api
-#      - "5020:5020"  # billing_app
-#      - "5555:5555"  # billing_flower
-#      - "5030:5030"  # notification_api
-#      - "5601:5601"  # kibana_logging
+      - "5020:5020"  # billing_app
+      - "5555:5555"  # billing_flower
+      - "5030:5030"  # notification_api
+      - "5601:5601"  # kibana_logging
       - "5088:5088"  # film_api
     networks:
       - movie_network

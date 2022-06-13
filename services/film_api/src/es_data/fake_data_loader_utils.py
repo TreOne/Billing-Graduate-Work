@@ -46,4 +46,3 @@ async def es_fake_data_loader(settings, es_client: AsyncElasticsearch) -> None:
     for index in settings.es_indexes:
         await create_es_index(elastic_client=es_client, index=index)
         await load_fake_data(elastic_client=es_client, index=index)
-
