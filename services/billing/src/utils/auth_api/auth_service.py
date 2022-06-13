@@ -6,7 +6,7 @@ import requests
 from django.conf import settings
 
 from utils.auth_api.base import AbstractAuth
-from utils.schemas.user_subscribe import UserSubscribeSchema
+from utils.schemas import UserSubscribeSchema
 
 
 class LoginData(TypedDict):

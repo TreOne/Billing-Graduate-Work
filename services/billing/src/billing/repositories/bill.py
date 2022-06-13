@@ -3,7 +3,6 @@ from typing import List, NamedTuple, TypedDict, Union
 
 from rest_framework.exceptions import ValidationError
 
-from api.v1.bills.serializers import BillCreateSerializer
 from billing.models import Bill
 from billing.models.enums import BillType
 from billing.repositories.base import BaseRepository
@@ -14,8 +13,7 @@ __all__ = ('BillRepository',)
 
 from billing.repositories.user_autopay import UserAutoPayRepository
 from config.payment_service import payment_system
-from utils.schemas import PaymentParams
-from utils.schemas.bill import BillBaseSchema
+from utils.schemas import BillBaseSchema, PaymentParams
 
 logger = logging.getLogger('billing')
 
@@ -48,7 +46,7 @@ class BillRepository(BaseRepository):
     @classmethod
     def get_user_bills(cls, user_uuid: str) -> List[Bill]:
         """Выдача оплат определенного пользователя."""
-        logger.info(f'Пользователь {user_uuid} попросил список оплат')
+        logger.info(f'User {user_uuid} asked for a list of bills.')
         return cls.MODEL_CLASS.objects.filter(user_uuid=user_uuid)
 
     @classmethod
@@ -59,31 +57,31 @@ class BillRepository(BaseRepository):
     @classmethod
     def update_bill_status(cls, bill_uuid: str, bill_status: str) -> None:
         """Обновление статуса Оплаты."""
-        bill = cls.MODEL_CLASS.objects.filter(id=bill_uuid).exclude(status=bill_status)
-        logger.info('Уведомление со стороны YooKassa')
-        if bill:
-            logger.info(
-                f'Обновление статуса на "{bill_status}" для платежа => {bill_uuid}',
-                extra={'bill_uuid': bill_uuid, 'bill_status': bill_status},
-            )
-            bill.update(status=bill_status)
+        bill = cls.MODEL_CLASS.objects.get(id=bill_uuid)
+        logger.info(f'Bill [{bill_uuid=}] status update to "{bill_status}".')
+        bill.status = bill_status
+        bill.save()
 
     @classmethod
-    def buy_item(cls, bill_schema: BillBaseSchema) -> Union[AutoPayResult, NotAutoPayResult]:
+    def buy_item(
+        cls, bill_schema: BillBaseSchema
+    ) -> tuple[Union[AutoPayResult, NotAutoPayResult], bool]:
         """Оплата Подписки или фильма."""
         user_uuid: str = bill_schema.user_uuid
         autopay = UserAutoPayRepository.get_users_auto_pay(user_uuid=user_uuid)
         if autopay:
-            logger.info('Пользователь оплатил через автоплатеж', extra=bill_schema.dict())
-            return cls.buy_item_with_autopay(
+            is_auto_paid: bool = True
+            logger.info('User paid via auto payment.', extra=bill_schema.dict())
+            result = cls.buy_item_with_autopay(
                 bill_schema=bill_schema, autopay_id=str(autopay.id)
             )
+            return result, is_auto_paid
         else:
-            logger.info(
-                'Пользователь оплатил через ссылку на Юкассу', extra=bill_schema.dict()
-            )
+            is_auto_paid: bool = False
+            logger.info('The user paid through a link to Yookassa.', extra=bill_schema.dict())
             confirmation_url: str = cls.buy_item_without_autopay(bill_schema)
-            return NotAutoPayResult(**{'confirmation_url': confirmation_url})
+            result = NotAutoPayResult(**{'confirmation_url': confirmation_url})
+            return result, is_auto_paid
 
     @classmethod
     def buy_item_with_autopay(
@@ -102,9 +100,9 @@ class BillRepository(BaseRepository):
         )
         is_successful: bool = payment_system.make_autopay(params=auto_payment_params)
         if is_successful:
-            message: str = 'Автоплатеж проведен успешно.'
+            message: str = 'Auto payment completed successfully.'
         else:
-            message: str = 'ОШИБКА: Не удалось выполнить автоплатеж!'
+            message: str = 'ERROR: Failed to complete auto payment!'
         logger.info(message, extra=bill_schema.dict())
         return AutoPayResult(**{'message': message, 'is_successful': is_successful})
 
@@ -128,27 +126,29 @@ class BillRepository(BaseRepository):
         """Возвращает данные для оплаты в зависимости от типа оплаты."""
         if bill_schema.type == BillType.movie:
             movie_title, amount = MovieRepository.get_by_id(item_uuid=bill_schema.item_uuid)
-            description: str = f"Оплата фильма '{movie_title}'."
+            description: str = f"Movie payment '{movie_title}'."
         elif bill_schema.type == BillType.subscription:
             role = RoleRepository.get_by_id(item_uuid=bill_schema.item_uuid)
             amount: float = role.get('price')
-            description: str = f"Оплата подписки '{role.get('title_ru')}'."
+            description: str = f"Subscription payment '{role.get('title_ru')}'."
         else:
-            message: str = 'Неверный тип оплаты, выберите "movie" или "subscription"'
+            message: str = 'Invalid bill type, select "movie" or "subscription".'
             logger.info(message, extra=bill_schema.dict())
             raise ValidationError({'detail': message})
 
-        logger.info(f'{description}. Сумма: {amount}', extra=bill_schema.dict())
+        logger.info(f'{description}. Amount: {amount}.', extra=bill_schema.dict())
         return BillItemData(description=description, amount=amount)
 
     @classmethod
     def _create_bill(cls, bill_schema: BillBaseSchema, amount: float) -> str:
         """Создаем в БД объект оплаты"""
-        user_uuid: str = bill_schema.user_uuid
-        serializer = BillCreateSerializer(
-            data=bill_schema.dict(), context={'user_uuid': user_uuid}
-        )
-        serializer.is_valid(raise_exception=True)
-        bill = serializer.save(user_uuid=user_uuid, amount=amount)
-        bill_uuid: str = str(bill.id)
+        data: dict = bill_schema.dict()
+        if (
+            cls.MODEL_CLASS.objects.filter(**data).exists()
+            and bill_schema.type == BillType.movie
+        ):
+            logger.info('The user tries to re-purchase the movie.', extra=data)
+            raise ValidationError({'detail': 'You have already bought this movie.'})
+        new_bill = cls.MODEL_CLASS.objects.create(**{'amount': amount, **data})
+        bill_uuid: str = str(new_bill.id)
         return bill_uuid

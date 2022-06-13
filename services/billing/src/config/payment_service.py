@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from utils.payment_system import AbstractPaymentSystem, YooKassaPaymentSystem
+from payment_system import AbstractPaymentSystem, YooKassaPaymentSystem
 
 
 def get_payment_service() -> AbstractPaymentSystem:

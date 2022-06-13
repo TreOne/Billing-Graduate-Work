@@ -5,7 +5,7 @@ from yookassa.domain.request import PaymentRequestBuilder
 from yookassa.domain.response import PaymentResponse
 
 from billing.models.enums import BillStatus
-from utils.payment_system import AbstractPaymentSystem
+from payment_system import AbstractPaymentSystem
 
 __all__ = ('YooKassaPaymentSystem',)
 

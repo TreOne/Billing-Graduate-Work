@@ -38,10 +38,10 @@ class MovieRepository:
         """Запросить информацию о фильме из Сервиса Фильмов."""
         try:
             url: str = f'{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}'
-            response = requests.get(url=url)
+            response: requests.Response = requests.get(url=url)
             return response.json()
-        except Exception as e:
-            message: str = 'Сервис фильмов недоступен'
+        except requests.exceptions.HTTPError as e:
+            message: str = 'Movie service unavailable.'
             logger.error(
                 e,
                 exc_info=True,

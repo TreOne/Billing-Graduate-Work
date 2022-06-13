@@ -2,6 +2,8 @@ from typing import Optional
 
 from utils.schemas import FastJsonModel
 
+__all__ = ('PaymentParams',)
+
 
 class PaymentParams(FastJsonModel):
     """Параметры для создания платежа."""

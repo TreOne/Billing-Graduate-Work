@@ -1,3 +1,5 @@
+import logging
+
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -5,18 +7,24 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from api.v1.bills.serializers import (BillAutoPaySerializer,
-                                      BillConfirmUrlSerializer,
-                                      BillCreateRequestSerializer,
-                                      YooKassaNotificationSerializer)
+from api.v1.bills.serializers import (
+    BillAutoPaySerializer,
+    BillConfirmUrlSerializer,
+    BillCreateRequestSerializer,
+    YooKassaNotificationSerializer,
+)
 from billing.models.enums import BillStatus
 from billing.repositories.bill import BillRepository
 from billing.repositories.user_autopay import UserAutoPayRepository
 from utils.schemas.bill import BillBaseSchema
 
 
+logger = logging.getLogger('billing')
+
+
 class BillViewSet(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
+    serializer_class = BillAutoPaySerializer
 
     @extend_schema(
         request=YooKassaNotificationSerializer,
@@ -26,6 +34,7 @@ class BillViewSet(viewsets.ViewSet):
     @action(methods=['POST'], permission_classes=[AllowAny], detail=False)
     def yookassa_notification_url(self, request: Request) -> Response:
         """Обработка уведомления об изменениях статуса Оплаты из сервиса Yookassa."""
+        logger.info('Notice from YooKassa.', extra=request.data)
         yookassa_object: dict = request.data['object']
         payment_id: str = yookassa_object['payment_method']['id']
         bill_uuid: str = yookassa_object['metadata']['bill_uuid']
@@ -44,7 +53,8 @@ class BillViewSet(viewsets.ViewSet):
                 payment_id=payment_id, user_uuid=bill_instance.user_uuid,
             )
         BillRepository.update_bill_status(bill_uuid=bill_uuid, bill_status=bill_status)
-        return Response(status=status.HTTP_200_OK)
+        response: dict = {'msg': 'ok'}
+        return Response(data=response, status=status.HTTP_200_OK)
 
     @extend_schema(
         request=BillCreateRequestSerializer,
@@ -66,16 +76,16 @@ class BillViewSet(viewsets.ViewSet):
         bill_type: str = request_serializer.get('type')
 
         bill_schema: BillBaseSchema = BillBaseSchema(
-            **{'user_uuid': user_uuid, 'type': bill_type, 'item_uuid': item_uuid, }
+            **{'user_uuid': user_uuid, 'type': bill_type, 'item_uuid': item_uuid,}
         )
-        result: dict = BillRepository.buy_item(bill_schema=bill_schema)
+        result, is_auto_paid = BillRepository.buy_item(bill_schema=bill_schema)
 
-        http_status = status.HTTP_200_OK
-        if result.get('confirmation_url'):
-            serializer = BillConfirmUrlSerializer(result)
-            return Response(data=serializer.data, status=http_status)
-        else:
+        http_status: int = status.HTTP_200_OK
+        if is_auto_paid:
             serializer = BillAutoPaySerializer(result)
             if result.get('is_successful') is False:
-                http_status = status.HTTP_400_BAD_REQUEST
+                http_status: int = status.HTTP_400_BAD_REQUEST
+            return Response(data=serializer.data, status=http_status)
+        else:
+            serializer = BillConfirmUrlSerializer(result)
             return Response(data=serializer.data, status=http_status)

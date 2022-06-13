@@ -1,5 +1,5 @@
 from billing.models.enums import BillStatus
-from utils.payment_system import AbstractPaymentSystem
+from payment_system import AbstractPaymentSystem
 from utils.schemas import PaymentParams
 
 __all__ = ('TestPaymentSystem',)

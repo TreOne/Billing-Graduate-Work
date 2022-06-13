@@ -16,9 +16,9 @@ services:
       - example.env
     depends_on:
       billing_postgres_db:
-        condition: service_started
+        condition: service_healthy
       billing_redis:
-        condition: service_started
+        condition: service_healthy
     networks:
       - external_movie_network
 
@@ -36,6 +36,10 @@ services:
     depends_on:
       billing_app:
         condition: service_started
+      billing_postgres_db:
+        condition: service_healthy
+      billing_redis:
+        condition: service_healthy
     networks:
       - external_movie_network
 
@@ -46,6 +50,11 @@ services:
       - 6379
     networks:
       - external_movie_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
 
   billing_postgres_db:
     container_name: billing_postgres_db
@@ -58,13 +67,13 @@ services:
       - POSTGRES_PASSWORD=billing
     expose:
       - 5432
-    healthcheck:
-      test: [ "CMD", "pg_isready -U notification_planning" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
     networks:
       - external_movie_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U billing" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
 
   billing_celery_beat:
     container_name: billing_celery_beat
@@ -78,6 +87,10 @@ services:
     depends_on:
       billing_app:
         condition: service_started
+      billing_postgres_db:
+        condition: service_healthy
+      billing_redis:
+        condition: service_healthy
     networks:
       - external_movie_network
 
@@ -86,6 +99,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      billing_app:
+        condition: service_started
     command: >
       sh -c "celery -A config flower"
     expose:
