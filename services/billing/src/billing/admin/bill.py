@@ -27,5 +27,6 @@ class BillAdmin(admin.ModelAdmin):
         'type',
         'item_uuid',
         'amount',
+        'payment_uuid',
     )
     list_per_page = 50

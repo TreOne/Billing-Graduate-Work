@@ -28,6 +28,7 @@ class Bill(UUIDMixin, UpdateTimeMixin):
     )
     item_uuid = models.UUIDField(verbose_name='uuid Объекта')
     amount = models.DecimalField(verbose_name='Сумма оплаты', max_digits=16, decimal_places=2,)
+    payment_uuid = models.UUIDField(verbose_name='uuid Платежа с Yookassa', null=True, blank=True)
 
     class Meta:
         db_table = 'bill'
