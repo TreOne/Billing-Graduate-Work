@@ -30,7 +30,7 @@ class RoleRepository:
                     'item_uuid': item_uuid,
                     'bill_type': BillType.subscription,
                     'http_code': http.HTTPStatus.NOT_FOUND,
-                    'message': 'Такого подписки нет',
+                    'message': 'This subscription does not exist.',
                 },
             )
             raise NotFound
