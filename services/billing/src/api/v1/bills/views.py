@@ -1,3 +1,5 @@
+import logging
+
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -17,6 +19,9 @@ from billing.repositories.user_autopay import UserAutoPayRepository
 from utils.schemas.bill import BillBaseSchema
 
 
+logger = logging.getLogger('billing')
+
+
 class BillViewSet(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = BillAutoPaySerializer
@@ -29,6 +34,7 @@ class BillViewSet(viewsets.ViewSet):
     @action(methods=['POST'], permission_classes=[AllowAny], detail=False)
     def yookassa_notification_url(self, request: Request) -> Response:
         """Обработка уведомления об изменениях статуса Оплаты из сервиса Yookassa."""
+        logger.info('Notice from YooKassa.', extra=request.data)
         yookassa_object: dict = request.data['object']
         payment_id: str = yookassa_object['payment_method']['id']
         bill_uuid: str = yookassa_object['metadata']['bill_uuid']

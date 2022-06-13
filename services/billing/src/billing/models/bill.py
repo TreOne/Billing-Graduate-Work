@@ -16,8 +16,6 @@ logger = logging.getLogger('billing')
 
 class Bill(UUIDMixin, UpdateTimeMixin):
     """Модель для хранения Оплат."""
-
-    __old_status = None
     status = models.CharField(
         verbose_name='Статус оплаты',
         choices=BillStatus.choices,
@@ -45,7 +43,7 @@ class Bill(UUIDMixin, UpdateTimeMixin):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__old_status: str = f'{self.pk} - {self.status}'
+        self._old_status: str = self.status
 
     def __str__(self) -> str:
         return f'{self.pk}: {self.status} - {self.type}'
@@ -54,26 +52,24 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         """
         Расширение метода сохранения, для отправки сообщений в Kafka.
         """
-        # before save
+        logger.info(f'Bill before saving [{self.pk}]')
         super().save(*args, **kwargs)
-        # after save
-        current_status: str = f'{self.pk} - {self.status}'
-        if current_status != self.__old_status:
-            key: str = f'bill.{self.status}'
-            data = BillSchema(
-                **{
-                    'bill_uuid': str(self.pk),
-                    'status': key,
-                    'user_uuid': str(self.user_uuid),
-                    'type': self.type,
-                    'item_uuid': str(self.item_uuid),
-                    'amount': float(self.amount),
-                }
-            )
-            producer.produce(topic='bill', value=data.json(), key=key)
-            producer.flush()
-            logger.info(f'Message {key} sent to Kafka, because "{current_status=}"!="{self.__old_status=}"', extra=data.dict())
-            # update old status
-            self.__old_status = current_status
-        else:
-            logger.info(f'Bill status has not changed ["{self.__old_status}"=="{current_status}"].')
+        # Отправляем сообщение при обновлении статуса
+        logger.info(f'Bill after saving [{self.pk}]')
+        self._produce_bill_message()
+
+    def _produce_bill_message(self):
+        key: str = f'bill.{self.status}'
+        data = BillSchema(
+            **{
+                'bill_uuid': str(self.pk),
+                'status': key,
+                'user_uuid': str(self.user_uuid),
+                'type': self.type,
+                'item_uuid': str(self.item_uuid),
+                'amount': float(self.amount),
+            }
+        )
+        producer.produce(topic='bill', value=data.json(), key=key)
+        producer.flush()
+        logger.info(f'Message {key} sent to Kafka.', extra=data.dict())

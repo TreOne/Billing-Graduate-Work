@@ -57,14 +57,10 @@ class BillRepository(BaseRepository):
     @classmethod
     def update_bill_status(cls, bill_uuid: str, bill_status: str) -> None:
         """Обновление статуса Оплаты."""
-        bill = cls.MODEL_CLASS.objects.filter(id=bill_uuid).exclude(status=bill_status)
-        logger.info('Notice from YooKassa.')
-        if bill:
-            logger.info(
-                f'Status update to "{bill_status}" for bill => {bill_uuid}.',
-                extra={'bill_uuid': bill_uuid, 'bill_status': bill_status},
-            )
-            bill.update(status=bill_status)
+        bill = cls.MODEL_CLASS.objects.get(id=bill_uuid)
+        logger.info(f'Bill [{bill_uuid=}] status update to "{bill_status}".')
+        bill.status = bill_status
+        bill.save()
 
     @classmethod
     def buy_item(
