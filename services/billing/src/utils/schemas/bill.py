@@ -1,6 +1,5 @@
 from utils.schemas import FastJsonModel
 
-
 __all__ = ('BillSchema', 'BillBaseSchema')
 
 

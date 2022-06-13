@@ -13,7 +13,7 @@ __all__ = ('BillRepository',)
 
 from billing.repositories.user_autopay import UserAutoPayRepository
 from config.payment_service import payment_system
-from utils.schemas import PaymentParams, BillBaseSchema
+from utils.schemas import BillBaseSchema, PaymentParams
 
 logger = logging.getLogger('billing')
 
