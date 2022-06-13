@@ -1,0 +1,71 @@
+services:
+  film_api:
+    build:
+      context: .
+      target: development
+    command: ["python", "main.py"]
+    volumes:
+      - ./src:/home/app/src
+      - film_api_logs:/home/app/logs
+    environment:
+      PROJECT_NAME: movies
+      REDIS_HOST: film_api_redis
+      REDIS_PORT: 6379
+      ELASTIC_HOST: http://film_api_elastic
+      ELASTIC_PORT: 9200
+    depends_on:
+      film_api_redis:
+        condition: service_healthy
+      film_api_elastic:
+        condition: service_healthy
+    expose:
+      - 8000
+    networks:
+      - external_movie_network
+
+  film_api_elastic:
+    image: elasticsearch:7.7.0
+    environment:
+      - cluster.name=movies-elasticsearch-cluster
+      - network.host=0.0.0.0
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+    healthcheck:
+      test: curl -s http://elastic_logging:9200/_cat/health >/dev/null || exit 1
+      interval: 5s
+      timeout: 20s
+      retries: 100
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - movie_api_elasticsearch_data:/usr/share/elasticsearch/data
+    expose:
+      - 9200
+    networks:
+     - external_movie_network
+
+  film_api_redis:
+    image: redis:6.2.6-alpine
+    healthcheck:
+          test: [ "CMD", "redis-cli", "ping" ]
+          interval: 5s
+          timeout: 20s
+          retries: 100
+    expose:
+        - 6379
+    networks:
+      - external_movie_network
+
+volumes:
+  movie_api_elasticsearch_data:
+        external: true
+  film_api_logs:
+        external: true
+
+
+networks:
+  external_movie_network:
+    name: movie_network
+

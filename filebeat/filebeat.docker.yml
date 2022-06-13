@@ -97,6 +97,17 @@ filebeat.inputs:
     json.add_error_key: true
     json.expand_keys: true
 
+  - type: log
+    paths:
+      - /var/harvested_logs/nginx/film_api.json
+    fields:
+      log_type: "film_api-log"
+    fields_under_root: true
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+
 
 processors:
   - drop_fields:
@@ -119,6 +130,11 @@ processors:
 
   - drop_fields:
       when.contains.log_type: access-log-auth_api-log
+      fields: [ "log", "process" ]
+      ignore_missing: true
+
+  - drop_fields:
+      when.contains.log_type: film_api-log
       fields: [ "log", "process" ]
       ignore_missing: true
 

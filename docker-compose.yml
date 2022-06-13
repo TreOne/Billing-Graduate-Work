@@ -10,8 +10,9 @@ services:
     ports:
       - "5010:5010"  # auth_api
       - "5020:5020"  # billing_app
-      - "5555:5555"  # billing_flower
       - "5030:5030"  # notification_api
+      - "5040:5040"  # film_api
+      - "5555:5555"  # billing_flower
       - "5601:5601"  # kibana_logging
     networks:
       - movie_network
@@ -62,6 +63,7 @@ services:
       - event_to_notification_logs:/var/harvested_logs/event_to_notification:ro
       - notification_api_logs:/var/harvested_logs/notification_api:ro
       - notification_sender_logs:/var/harvested_logs/notification_sender:ro
+      - film_api_logs:/var/harvested_logs/film_api.yml:ro
     entrypoint: filebeat -e -strict.perms=false
     networks:
       - movie_network
@@ -126,6 +128,8 @@ volumes:
     name: notification_api_logs
   notification_sender_logs:
     name: notification_sender_logs
+  film_api_logs:
+    name: film_api_logs
 
 
 networks:
