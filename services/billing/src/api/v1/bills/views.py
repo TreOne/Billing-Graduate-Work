@@ -44,7 +44,8 @@ class BillViewSet(viewsets.ViewSet):
                 payment_id=payment_id, user_uuid=bill_instance.user_uuid,
             )
         BillRepository.update_bill_status(bill_uuid=bill_uuid, bill_status=bill_status)
-        return Response(status=status.HTTP_200_OK)
+        response: dict = {"msg": "ok"}
+        return Response(data=response, status=status.HTTP_200_OK)
 
     @extend_schema(
         request=BillCreateRequestSerializer,
