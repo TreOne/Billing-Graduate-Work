@@ -28,53 +28,37 @@ class YooKassaNotificationSerializer(serializers.Serializer):
     event = serializers.CharField(default='payment.succeeded')
     object = serializers.JSONField(
         default={
-            "id": "2a386ba4-000f-5000-8000-16ffa705ce61",
-            "status": "succeeded",
-            "amount": {
-                "value": "400.00",
-                "currency": "RUB"
+            'id': '2a386ba4-000f-5000-8000-16ffa705ce61',
+            'status': 'succeeded',
+            'amount': {'value': '400.00', 'currency': 'RUB'},
+            'income_amount': {'value': '386.00', 'currency': 'RUB'},
+            'description': "Оплата подписки 'Practix.Стандарт'.",
+            'recipient': {'account_id': '912730', 'gateway_id': '1973714'},
+            'payment_method': {
+                'type': 'bank_card',
+                'id': '2a386960-000f-5000-a000-18ac5f2e05fa',
+                'saved': True,
+                'title': 'Bank card *1111',
+                'card': {
+                    'first6': '411111',
+                    'last4': '1111',
+                    'expiry_year': '2027',
+                    'expiry_month': '11',
+                    'card_type': 'Visa',
+                    'issuer_country': 'US',
+                },
             },
-            "income_amount": {
-                "value": "386.00",
-                "currency": "RUB"
-            },
-            "description": "Оплата подписки 'Practix.Стандарт'.",
-            "recipient": {
-                "account_id": "912730",
-                "gateway_id": "1973714"
-            },
-            "payment_method": {
-                "type": "bank_card",
-                "id": "2a386960-000f-5000-a000-18ac5f2e05fa",
-                "saved": True,
-                "title": "Bank card *1111",
-                "card": {
-                    "first6": "411111",
-                    "last4": "1111",
-                    "expiry_year": "2027",
-                    "expiry_month": "11",
-                    "card_type": "Visa",
-                    "issuer_country": "US"
-                }
-            },
-            "captured_at": "2022-06-12T21:17:25.998Z",
-            "created_at": "2022-06-12T21:17:25.003Z",
-            "test": True,
-            "refunded_amount": {
-                "value": "0.00",
-                "currency": "RUB"
-            },
-            "paid": True,
-            "refundable": True,
-            "metadata": {
-                "bill_uuid": "db2d00cf-b6b4-4d90-86e3-4712bc13e969"
-            },
-            "authorization_details": {
-                "rrn": "348471162165653",
-                "auth_code": "145150",
-                "three_d_secure": {
-                    "applied": False
-                }
+            'captured_at': '2022-06-12T21:17:25.998Z',
+            'created_at': '2022-06-12T21:17:25.003Z',
+            'test': True,
+            'refunded_amount': {'value': '0.00', 'currency': 'RUB'},
+            'paid': True,
+            'refundable': True,
+            'metadata': {'bill_uuid': 'db2d00cf-b6b4-4d90-86e3-4712bc13e969'},
+            'authorization_details': {
+                'rrn': '348471162165653',
+                'auth_code': '145150',
+                'three_d_secure': {'applied': False},
             },
         },
     )

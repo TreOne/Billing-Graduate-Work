@@ -45,7 +45,7 @@ class Bill(UUIDMixin, UpdateTimeMixin):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__old_status: str = f"{self.pk} - {self.status}"
+        self.__old_status: str = f'{self.pk} - {self.status}'
 
     def __str__(self) -> str:
         return f'{self.pk}: {self.status} - {self.type}'
@@ -57,7 +57,7 @@ class Bill(UUIDMixin, UpdateTimeMixin):
         # before save
         super().save(*args, **kwargs)
         # after save
-        current_status: str = f"{self.pk} - {self.status}"
+        current_status: str = f'{self.pk} - {self.status}'
         if current_status != self.__old_status:
             key: str = f'bill.{self.status}'
             data = BillSchema(

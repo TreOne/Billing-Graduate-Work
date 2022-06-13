@@ -2,7 +2,7 @@ from typing import Optional
 
 from utils.schemas import FastJsonModel
 
-__all__ = ('PaymentParams', )
+__all__ = ('PaymentParams',)
 
 
 class PaymentParams(FastJsonModel):

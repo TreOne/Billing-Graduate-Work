@@ -1,6 +1,6 @@
 from utils.schemas import FastJsonModel
 
-__all__ = ('UserSubscribeSchema', )
+__all__ = ('UserSubscribeSchema',)
 
 
 class UserSubscribeSchema(FastJsonModel):

@@ -5,10 +5,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from api.v1.bills.serializers import (BillAutoPaySerializer,
-                                      BillConfirmUrlSerializer,
-                                      BillCreateRequestSerializer,
-                                      YooKassaNotificationSerializer)
+from api.v1.bills.serializers import (
+    BillAutoPaySerializer,
+    BillConfirmUrlSerializer,
+    BillCreateRequestSerializer,
+    YooKassaNotificationSerializer,
+)
 from billing.models.enums import BillStatus
 from billing.repositories.bill import BillRepository
 from billing.repositories.user_autopay import UserAutoPayRepository
@@ -45,7 +47,7 @@ class BillViewSet(viewsets.ViewSet):
                 payment_id=payment_id, user_uuid=bill_instance.user_uuid,
             )
         BillRepository.update_bill_status(bill_uuid=bill_uuid, bill_status=bill_status)
-        response: dict = {"msg": "ok"}
+        response: dict = {'msg': 'ok'}
         return Response(data=response, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -68,7 +70,7 @@ class BillViewSet(viewsets.ViewSet):
         bill_type: str = request_serializer.get('type')
 
         bill_schema: BillBaseSchema = BillBaseSchema(
-            **{'user_uuid': user_uuid, 'type': bill_type, 'item_uuid': item_uuid, }
+            **{'user_uuid': user_uuid, 'type': bill_type, 'item_uuid': item_uuid,}
         )
         result, is_auto_paid = BillRepository.buy_item(bill_schema=bill_schema)
 

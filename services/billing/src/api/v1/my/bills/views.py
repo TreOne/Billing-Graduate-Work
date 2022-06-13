@@ -18,6 +18,5 @@ class MyBillViewSet(viewsets.ViewSet):
         user_uuid: str = request.user.id
         bills = BillRepository.get_user_bills(user_uuid=user_uuid)
         return Response(
-            {"bills": BillListSerializer(bills, many=True).data},
-            status=status.HTTP_200_OK
+            {'bills': BillListSerializer(bills, many=True).data}, status=status.HTTP_200_OK
         )

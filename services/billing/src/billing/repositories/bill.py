@@ -67,7 +67,9 @@ class BillRepository(BaseRepository):
             bill.update(status=bill_status)
 
     @classmethod
-    def buy_item(cls, bill_schema: BillBaseSchema) -> tuple[Union[AutoPayResult, NotAutoPayResult], bool]:
+    def buy_item(
+        cls, bill_schema: BillBaseSchema
+    ) -> tuple[Union[AutoPayResult, NotAutoPayResult], bool]:
         """Оплата Подписки или фильма."""
         user_uuid: str = bill_schema.user_uuid
         autopay = UserAutoPayRepository.get_users_auto_pay(user_uuid=user_uuid)
@@ -80,9 +82,7 @@ class BillRepository(BaseRepository):
             return result, is_auto_paid
         else:
             is_auto_paid: bool = False
-            logger.info(
-                'The user paid through a link to Yookassa.', extra=bill_schema.dict()
-            )
+            logger.info('The user paid through a link to Yookassa.', extra=bill_schema.dict())
             confirmation_url: str = cls.buy_item_without_autopay(bill_schema)
             result = NotAutoPayResult(**{'confirmation_url': confirmation_url})
             return result, is_auto_paid
@@ -147,14 +147,12 @@ class BillRepository(BaseRepository):
     def _create_bill(cls, bill_schema: BillBaseSchema, amount: float) -> str:
         """Создаем в БД объект оплаты"""
         data: dict = bill_schema.dict()
-        if cls.MODEL_CLASS.objects.filter(**data).exists() and bill_schema.type == BillType.movie:
+        if (
+            cls.MODEL_CLASS.objects.filter(**data).exists()
+            and bill_schema.type == BillType.movie
+        ):
             logger.info('The user tries to re-purchase the movie.', extra=data)
             raise ValidationError({'detail': 'You have already bought this movie.'})
-        new_bill = cls.MODEL_CLASS.objects.create(
-            **{
-                "amount": amount,
-                **data
-            }
-        )
+        new_bill = cls.MODEL_CLASS.objects.create(**{'amount': amount, **data})
         bill_uuid: str = str(new_bill.id)
         return bill_uuid
