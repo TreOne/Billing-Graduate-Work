@@ -22,7 +22,7 @@ class RoleRepository:
         try:
             role: dict = [role for role in cls.MODEL_CLASS if role.get('uuid') == item_uuid][0]
             return role
-        except Exception as e:
+        except IndexError as e:
             logger.error(
                 e,
                 exc_info=True,
