@@ -21,6 +21,11 @@ services:
         condition: service_healthy
     networks:
       - external_movie_network
+    healthcheck:
+      test: ["CMD" ,"nc", "-vz", "-w1", "localhost", "8000" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
 
   billing_celery_worker:
     container_name: billing_celery_worker
@@ -35,7 +40,7 @@ services:
       - billing_logs:/home/app/billing/logs
     depends_on:
       billing_app:
-        condition: service_started
+        condition: service_healthy
       billing_postgres_db:
         condition: service_healthy
       billing_redis:
@@ -86,7 +91,7 @@ services:
       - example.env
     depends_on:
       billing_app:
-        condition: service_started
+        condition: service_healthy
       billing_postgres_db:
         condition: service_healthy
       billing_redis:
@@ -101,7 +106,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       billing_app:
-        condition: service_started
+        condition: service_healthy
     command: >
       sh -c "celery -A config flower"
     expose:

@@ -5,6 +5,7 @@ from typing import Any, NamedTuple
 
 import requests
 from django.conf import settings
+from requests import JSONDecodeError
 from rest_framework.exceptions import ValidationError
 
 from billing.models.enums import BillType
@@ -40,7 +41,7 @@ class MovieRepository:
             url: str = f'{settings.MOVIE_SERVICE_URL}{settings.MOVIE_SERVICE_GET_MOVIE}/{item_uuid}'
             response: requests.Response = requests.get(url=url)
             return response.json()
-        except requests.exceptions.HTTPError as e:
+        except (requests.exceptions.HTTPError, JSONDecodeError) as e:
             message: str = 'Movie service unavailable.'
             logger.error(
                 e,
