@@ -11,13 +11,11 @@ from api.v1.bills.serializers import (
     BillAutoPaySerializer,
     BillConfirmUrlSerializer,
     BillCreateRequestSerializer,
-    YooKassaNotificationSerializer,
-)
-from billing.models.enums import BillStatus
+    YooKassaNotificationSerializer, )
+from billing.models.enums import BillStatus, YooKassaPaymentStatus
 from billing.repositories.bill import BillRepository
 from billing.repositories.user_autopay import UserAutoPayRepository
 from utils.schemas.bill import BillBaseSchema
-
 
 logger = logging.getLogger('billing')
 
@@ -34,25 +32,56 @@ class BillViewSet(viewsets.ViewSet):
     @action(methods=['POST'], permission_classes=[AllowAny], detail=False)
     def yookassa_notification_url(self, request: Request) -> Response:
         """Обработка уведомления об изменениях статуса Оплаты из сервиса Yookassa."""
-        logger.info('Notice from YooKassa.', extra=request.data)
-        yookassa_object: dict = request.data['object']
-        payment_id: str = yookassa_object['payment_method']['id']
-        bill_uuid: str = yookassa_object['metadata']['bill_uuid']
-        is_token_saved: bool = yookassa_object['payment_method']['saved']
-        bill_status: str = BillRepository.determine_bill_status(
-            bill_status=yookassa_object['status']
-        )
-        three_d_secure: bool = yookassa_object['authorization_details']['three_d_secure'][
-            'applied'
-        ]
-
-        if all((is_token_saved, bill_status == BillStatus.paid, three_d_secure is False)):
-            # save User's auto pay
-            bill_instance = BillRepository.get_by_id(item_uuid=bill_uuid)
-            UserAutoPayRepository.save_users_auto_pay(
-                payment_id=payment_id, user_uuid=bill_instance.user_uuid,
+        event_type: str = request.data['event']
+        if event_type == YooKassaPaymentStatus.refund_succeeded:
+            logger.info('Notice from YooKassa as "refund".', extra=request.data)
+            yookassa_object: dict = request.data['object']
+            refund_payment_id: str = yookassa_object['id']
+            bill_payment_id: str = yookassa_object['payment_id']
+            bill_status: BillStatus = BillStatus.refunded
+            BillRepository.resave_refund(
+                bill_payment_id=bill_payment_id,
+                refund_payment_id=refund_payment_id,
+                bill_status=bill_status,
             )
-        BillRepository.update_bill_status(bill_uuid=bill_uuid, bill_status=bill_status)
+        elif event_type in (YooKassaPaymentStatus.payment_succeeded, YooKassaPaymentStatus.payment_canceled):
+            logger.info('Notice from YooKassa as "succeeded" or "canceled".', extra=request.data)
+            yookassa_object: dict = request.data['object']
+            bill_payment_id: str = yookassa_object['id']
+            payment_id: str = yookassa_object['payment_method']['id']
+            bill_uuid: str = yookassa_object['metadata']['bill_uuid']
+            is_token_saved: bool = yookassa_object['payment_method']['saved']
+            bill_status: str = BillRepository.determine_bill_status(
+                bill_status=yookassa_object['status']
+            )
+            three_d_secure: bool = yookassa_object['authorization_details']['three_d_secure'][
+                'applied'
+            ]
+            if all((is_token_saved, bill_status == BillStatus.paid, three_d_secure is False)):
+                # save User's auto pay
+                bill_instance = BillRepository.get_by_id(item_uuid=bill_uuid)
+                UserAutoPayRepository.save_users_auto_pay(
+                    payment_id=payment_id, user_uuid=bill_instance.user_uuid,
+                )
+            BillRepository.update_bill_status(
+                bill_uuid=bill_uuid,
+                bill_payment_id=bill_payment_id,
+                bill_status=bill_status,
+            )
+        response: dict = {'msg': 'ok'}
+        return Response(data=response, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        # parameters=[
+        #     OpenApiParameter("bill_uuid", OpenApiTypes.UUID, OpenApiParameter.QUERY),
+        # ],
+        description='Метод для отмены оплаты',
+        tags=['bills'],
+    )
+    def destroy(self, request: Request, pk) -> Response:
+        """Метод для отмены оплаты."""
+        bill_uuid: str = pk
+        BillRepository.refund_bill(bill_uuid=bill_uuid)
         response: dict = {'msg': 'ok'}
         return Response(data=response, status=status.HTTP_200_OK)
 

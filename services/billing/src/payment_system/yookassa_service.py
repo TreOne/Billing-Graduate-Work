@@ -1,4 +1,4 @@
-from yookassa import Configuration, Payment
+from yookassa import Configuration, Payment, Refund
 from yookassa.domain.common import ConfirmationType
 from yookassa.domain.models import Currency
 from yookassa.domain.request import PaymentRequestBuilder
@@ -44,6 +44,15 @@ class YooKassaPaymentSystem(AbstractPaymentSystem):
         payment: PaymentResponse = Payment.find_one(payment_id)
         payment_status = self._get_status_from_payment(payment)
         return payment_status
+
+    def refund_payment(self, payment_id: str, amount: float) -> None:
+        Refund.create({
+            "amount": {
+                "value": str(amount),
+                "currency": "RUB"
+            },
+            "payment_id": payment_id
+        })
 
     def _create_payment(self, params: PaymentParams) -> PaymentResponse:
         """Создает платеж."""
