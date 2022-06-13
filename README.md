@@ -16,7 +16,7 @@ docker-compose -f services/auth_api/docker-compose.yml up --detach
 docker-compose -f services/billing/docker-compose.yml up --detach
 docker-compose -f services/event_to_notification/docker-compose.yml up --detach
 docker-compose -f services/notification_api/docker-compose.yml up --detach
-docker-compose -f services/film_api.yml/docker-compose.yml up --detach
+docker-compose -f services/film_api/docker-compose.yml up --detach
 ```
 
 ### Что потыкать
