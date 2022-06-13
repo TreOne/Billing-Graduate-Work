@@ -10,10 +10,10 @@ services:
     ports:
       - "5010:5010"  # auth_api
       - "5020:5020"  # billing_app
-      - "5555:5555"  # billing_flower
       - "5030:5030"  # notification_api
+      - "5040:5040"  # film_api
+      - "5555:5555"  # billing_flower
       - "5601:5601"  # kibana_logging
-      - "5088:5088"  # film_api
     networks:
       - movie_network
 
@@ -128,8 +128,6 @@ volumes:
     name: notification_api_logs
   notification_sender_logs:
     name: notification_sender_logs
-  movie_api_elasticsearch_data:
-    name: movie_api_elasticsearch_data
   film_api_logs:
     name: film_api_logs
 

@@ -12,5 +12,3 @@ uvloop==0.16.0
 sentry-sdk==1.5.10
 aiofiles~=0.8.0
 ecs-logging==1.1.0
-
-
