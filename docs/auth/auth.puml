@@ -19,22 +19,15 @@ node "Auth consumer" {
 }
 
 node "Service layer" {
-  [role_service]
-  [auth_service]
-  [oauth_service]
-  [handler add or extend] --> [user_service]
-  [handler delete] --> [user_service]
-  [views] --> [user_service]
-  [views] --> [role_service]
-  [views] --> [auth_service]
-  [views] --> [oauth_service]
+  [service]
+  [handler add or extend] --> [service]
+  [handler delete] --> [service]
+  [views] --> [service]
 }
 
 database "Postgres" {
-    [user_service] --> [User]
-    [role_service] --> [Role]
-    [auth_service] --> [User]
-    [oauth_service] --> [User]
+    [service] --> [User]
+    [service] --> [Role]
 }
 
 @enduml
