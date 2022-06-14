@@ -13,11 +13,10 @@ else
   -->[соответствует] "назначение хендлера"
 endif
 if "" then
-    -->[bill.paid] "отправляем чек юзеру"
+    -->[bill.paid] "добавляем/продлеваем роль "
     --> (*)
 else
-    -right->[bill.refunded] "сообщение администратору"
-    -down->[bill.refunded] "чек об отмене юзеру"
+    -down->[bill.refunded] "удаляем роль"
     -down-> (*)
 endif
 
