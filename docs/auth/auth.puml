@@ -37,7 +37,4 @@ database "Postgres" {
     [oauth_service] --> [User]
 }
 
-
-
-
 @enduml
