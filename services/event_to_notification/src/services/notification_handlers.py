@@ -86,7 +86,7 @@ def send_refund_notification_to_admin(
         template_name='refund_template_admin', data=template_schema,
     )
     notification = Notification(
-        recipient=settings.admin.email,
+        recipient=settings.project.admin_email,
         subject='Bill_refund',
         body=notification_body,
         immediately=True,
