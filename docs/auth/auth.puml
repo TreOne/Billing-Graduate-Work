@@ -1,0 +1,33 @@
+@startuml
+
+package " " {
+[client]
+}
+
+node "Auth api" {
+[views]
+[client] --> [views]
+}
+package "Kafka" {
+  [Bill]
+}
+
+node "Auth consumer" {
+  Bill --> [consumer]
+  [consumer] --> [handler add or extend] :bill.paid
+  [consumer] --> [handler delete] :bill.refunded
+}
+
+node "Service layer" {
+  [service]
+  [handler add or extend] --> [service]
+  [handler delete] --> [service]
+  [views] --> [service]
+}
+
+database "Postgres" {
+    [service] --> [User]
+    [service] --> [Role]
+}
+
+@enduml
